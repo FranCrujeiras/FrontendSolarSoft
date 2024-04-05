@@ -1,0 +1,95 @@
+﻿@page "/nuevaInstalacion"
+@using FrontBlazor.Components.Models
+@using FrontBlazor.Components.Services
+<PageTitle>Nueva instalación</PageTitle>
+@if (Enviado)
+{
+    <div class="alert alert-success">Se han realizado los cálculos y guardado correctamente</div>
+}
+<EditForm Model="Instalacion" FormName="Terreno" OnSubmit="Calcular">
+    <div class="mb-3">
+
+        <InputSelect class="form-select" @bind-Value="Instalacion.ModeloPanel">
+            <option value="Modelo de Panel">Modelo de Panel</option>
+            <option value="Canadian Solar - HiKu7">Canadian Solar - HiKu7</option>
+            <option value="JA Solar - Deep Blue 3.0">JA Solar - Deep Blue 3.0</option>
+            <option value="Jinko Solar - Tiger NEO">Jinko Solar - Tiger NEO</option>
+            <option value="Trina Solar - Vertex S">Trina Solar - Vertex S</option>
+            <option value="Trina Solar - Vertex">Trina Solar - Vertex</option>
+        </InputSelect>
+    </div>
+    <div class="mb-2">
+        <InputNumber class="form-control" placeholder="Potencia" id="Potencia" min="0" @bind-Value="Instalacion.Potencia" />
+        <br>
+    </div>
+    <div class="mb-2">
+        <InputNumber class="form-control" placeholder="Voltaje" id="Voltaje" min="0" @bind-Value="Instalacion.Voltaje" />
+        <br>
+    </div>
+    <h4>Parámetros de la ubicación</h4>
+    <div class="mb-2">
+        <InputNumber class="form-control" placeholder="Latitud" id="Latitud" @bind-Value="Instalacion.Latitud" />
+        <br>
+    </div>
+
+    <InputNumber class="form-control" placeholder="Longitud" id="Longitud" @bind-Value="Instalacion.Longitud" />
+    <br>
+    <h4>Parámetros del terreno</h4>
+    <div class="mb-2">
+        <InputNumber class="form-control" placeholder="Largo del terreno" id="LargoTerreno" @bind-Value="Instalacion.LargoTerreno" />
+        <br>
+    </div>
+    <div class="mb-2">
+        <InputNumber class="form-control" id="AnchoTerreno" @bind-Value="Instalacion.AnchoTerreno" />
+        <br>
+    </div>
+    <h4>Parámetros de la posición</h4>
+    <div class="mb-2" id="InclinacionSelect" name="InclinacionDos">
+        <InputSelect class="form-select" id="Inclinación" @bind-Value="Instalacion.AnguloEstructura">
+            <option value="0">Inclinación</option>
+            <option value="15">15º</option>
+            <br>
+            <option value="30">30º</option>
+        </InputSelect>
+        <br>
+    </div>  
+    <div class="mb-2">
+        <InputNumber class="form-control" placeholder="Azimuth" id="Azimuth" min="0" max="359" @bind-Value="Instalacion.Azimuth" />
+        <br>
+    </div>
+    <div class="mb-2">
+        <InputCheckbox id="Estructura" name="Montaje" class="form-checkbox" @bind-Value="Instalacion.InstalacionEstructura" />
+        <label class="custom-control-label" for="Estructura">Montaje sobre estructura</label>
+    </div>  
+    <div class="mt-3">
+        <button type="submit" class="btn btn-dark btn-outline-warning">Calcular</button>
+    </div>
+
+</EditForm>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Terreno? Instalacion { get; set; }
+
+    [Inject]
+    private ITerrenoService? TerrenoService { get; set; }
+
+    private bool Enviado { get; set; }
+
+    protected override void OnInitialized() => Instalacion ??= new() { Id = 0, Potencia = 0, Voltaje = 0 };
+    //Creo que sobra el campo Potencia, no se obtiene en el cálculo? y Voltaje igual?
+
+    private void Calcular()
+    {
+        if (TerrenoService.PostTerreno(Instalacion))
+        {
+            Enviado = true;
+        }
+        else
+        {
+            Enviado = false;
+        }
+    }
+
+}

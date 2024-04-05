@@ -1,0 +1,26 @@
+﻿@inject ITerrenoService TerrenoService
+@page "/weather"
+@using FrontBlazor.Components.Services
+@attribute [StreamRendering]
+
+<PageTitle>Paneles</PageTitle>
+<table class="table table-responsive-sm">
+    <tr>
+        <th>Modelo</th>
+        <th>Largo</th>
+        <th>Ancho</th>
+    </tr>
+    @try
+    {
+        @foreach (var terreno in TerrenoService.GetTerrenos().Result)
+        {
+            <tr>
+                <td>@terreno.ModeloPanel</td>
+                <td>@terreno.LargoTerreno</td>
+                <td>@terreno.AnchoTerreno</td>
+            </tr>
+        }
+    }
+    catch { }
+
+</table>
