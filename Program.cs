@@ -11,6 +11,7 @@ builder.Services.AddHttpClient<ITerrenoService, TerrenoService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:32778/api/Terreno/");
 });
+builder.Services.AddBlazorBootstrap();
 
 var app = builder.Build();
 
