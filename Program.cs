@@ -1,4 +1,5 @@
 using FrontBlazor.Components;
+using FrontBlazor.Components.Extensions;
 using FrontBlazor.Components.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,10 +10,10 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddHttpClient<ITerrenoService, TerrenoService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:32778/api/Terreno/");
+    client.BaseAddress = new Uri("https://localhost:32784/api/Terreno/");
 });
 builder.Services.AddBlazorBootstrap();
-
+builder.Services.AddSingleton<ObjectTransporter>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

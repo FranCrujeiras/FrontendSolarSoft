@@ -1,0 +1,26 @@
+﻿@page "/graficoEnergia/{Key:int}"
+@using FrontBlazor.Components.Extensions
+@using FrontBlazor.Components.Models
+@rendermode InteractiveServer
+
+<h3>Resultados de la simulación</h3>
+@* <BarChart>
+
+</BarChart> *@
+
+@code {
+
+    [Parameter]
+    public int Key { get; set; }
+
+    [Inject]
+    public ObjectTransporter ObjectTransporter { get; set; }
+
+    private Terreno Instalacion { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Instalacion = (Terreno)ObjectTransporter.RetrieveData(Key, true);
+    }
+
+}

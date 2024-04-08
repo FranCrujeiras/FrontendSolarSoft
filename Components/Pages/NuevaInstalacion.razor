@@ -1,17 +1,20 @@
 ﻿@page "/"
 @using FrontBlazor.Components.Models
 @using FrontBlazor.Components.Services
+@using FrontBlazor.Components.Extensions
+@rendermode InteractiveServer
+
 <PageTitle>Nueva instalación</PageTitle>
 @if (Enviado)
 {
     <div class="alert alert-success">Se han realizado los cálculos y guardado correctamente</div>
 }
 <EditForm Model="Instalacion" FormName="Terreno" OnSubmit="Calcular">
-    <DataAnnotationsValidator/>
+    <DataAnnotationsValidator />
     <div class="mb-4">
         <h2>Nueva Instalacion</h2>
     </div>
-    
+
     <div class="mb-3">
         <InputSelect class="form-select" @bind-Value="Instalacion.ModeloPanel">
             <option value="Modelo de Panel">Modelo de Panel</option>
@@ -21,13 +24,13 @@
             <option value="Trina Solar - Vertex S">Trina Solar - Vertex S</option>
             <option value="Trina Solar - Vertex">Trina Solar - Vertex</option>
         </InputSelect>
-        @* <ValidationMessage For="()=> Instalacion.ModeloPanel"/> *@
+        <ValidationMessage For="()=> Instalacion.ModeloPanel" />
     </div>
     <div class="mb-2">
         <label>Potencia</label>
     </div>
     <div class="mb-2">
-        <label><InputNumber class="form-control" placeholder="Potencia" id="Potencia" @bind-Value="Instalacion.Potencia" /></label>
+        <InputNumber class="form-control" placeholder="Potencia" id="Potencia" @bind-Value="Instalacion.Potencia" />
         <br>
         <ValidationMessage For="(()=> Instalacion.Potencia)" />
     </div>
@@ -35,47 +38,44 @@
         <label>Voltaje</label>
     </div>
     <div class="mb-2">
-        <label><InputNumber class="form-control" placeholder="Voltaje" id="Voltaje" @bind-Value="Instalacion.Voltaje" /></label>
+        <InputNumber class="form-control" placeholder="Voltaje" id="Voltaje" @bind-Value="Instalacion.Voltaje" />
         <ValidationMessage For="(()=> Instalacion.Voltaje)" />
         <br>
-        
+
     </div>
     <h4>Parámetros de la ubicación</h4>
     <div class="mb-2">
         <label>Latitud</label>
     </div>
     <div class="mb-2">
-        <label> 
         <InputNumber class="form-control" placeholder="Latitud" id="Latitud" @bind-Value="Instalacion.Latitud" />
-        </label>
         <ValidationMessage For="()=> Instalacion.Latitud" />
         <br>
-       
     </div>
     <div class="mb-2">
         <label>Longitud</label>
     </div>
     <InputNumber class="form-control" placeholder="Longitud" id="Longitud" @bind-Value="Instalacion.Longitud" />
     <br>
-    @* <ValidationMessage For="()=> Instalacion.Longitud" /> *@
+    <ValidationMessage For="()=> Instalacion.Longitud" />
     <h4>Parámetros del terreno</h4>
     <div class="mb-2">
         <label>Largo del terreno</label>
     </div>
     <div class="mb-2">
-        <InputNumber class="form-control" placeholder="Largo del terreno" id="LargoTerreno"  @bind-Value="Instalacion.LargoTerreno" />
+        <InputNumber class="form-control" placeholder="Largo del terreno" id="LargoTerreno" @bind-Value="Instalacion.LargoTerreno" />
         <br>
-        @* <ValidationMessage For="(()=> Instalacion.LargoTerreno)" /> *@
+        <ValidationMessage For="(()=> Instalacion.LargoTerreno)" />
     </div>
     <div class="mb-2">
         <label>Ancho del terreno</label>
     </div>
     <div class="mb-2">
-        <InputNumber class="form-control" id="AnchoTerreno"  @bind-Value="Instalacion.AnchoTerreno" />
+        <InputNumber class="form-control" id="AnchoTerreno" @bind-Value="Instalacion.AnchoTerreno" />
         <br>
-        @* <ValidationMessage For="(()=> Instalacion.AnchoTerreno)" /> *@
+        <ValidationMessage For="(()=> Instalacion.AnchoTerreno)" />
     </div>
-    <h4>Parámetros de la posición</h4>    
+    <h4>Parámetros de la posición</h4>
     <div class="mb-2" id="InclinacionSelect" name="InclinacionDos">
         <InputSelect class="form-select" id="Inclinación" @bind-Value="Instalacion.AnguloEstructura">
             <option value="0">Inclinación</option>
@@ -84,20 +84,20 @@
             <option value="30">30º</option>
         </InputSelect>
         <br>
-        @* <ValidationMessage For="(()=> Instalacion.AnguloEstructura)" /> *@
-    </div>  
+        <ValidationMessage For="(()=> Instalacion.AnguloEstructura)" />
+    </div>
     <div class="mb-2">
         <label>Ángulo de Azimuth</label>
     </div>
     <div class="mb-2">
         <InputNumber class="form-control" placeholder="Azimuth" id="Azimuth" @bind-Value="Instalacion.Azimuth" />
         <br>
-        @* <ValidationMessage For="(()=> Instalacion.Azimuth)" /> *@
+        <ValidationMessage For="(()=> Instalacion.Azimuth)" />
     </div>
     <div class="mb-2">
         <InputCheckbox id="Estructura" name="Montaje" class="form-checkbox" @bind-Value="Instalacion.InstalacionEstructura" />
         <label class="custom-control-label" for="Estructura">Montaje sobre estructura</label>
-    </div>  
+    </div>
     <div class="mt-3">
         <button type="submit" class="btn btn-dark btn-outline-warning">Calcular</button>
     </div>
@@ -112,16 +112,27 @@
     [Inject]
     private ITerrenoService? TerrenoService { get; set; }
 
+    [Inject]
+    private ObjectTransporter? ObjectTransporter { get; set; }
+
+    [Inject]
+    private NavigationManager? Redireccionador { get; set; }
+
     private bool Enviado { get; set; }
 
-    protected override void OnInitialized() => Instalacion ??= new() { Id = 0, Potencia = 0, Voltaje = 0 };
-    //Creo que sobra el campo Potencia, no se obtiene en el cálculo? y Voltaje igual?
+    protected override void OnInitialized()
+    {
+        Instalacion ??= new() { Id = 0, Potencia = 0, Voltaje = 0 };
+        
+    } 
 
     private void Calcular()
     {
         if (TerrenoService.PostTerreno(Instalacion))
         {
             Enviado = true;
+            ObjectTransporter.AddData(Instalacion);
+            Redireccionador.NavigateTo($"/graficoEnergia/{Instalacion.GetHashCode()}");
         }
         else
         {

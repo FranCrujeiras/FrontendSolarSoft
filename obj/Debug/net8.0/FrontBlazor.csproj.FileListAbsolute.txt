@@ -38,6 +38,7 @@ C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\F
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\FrontBlazor.runtimeconfig.json
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\FrontBlazor.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\FrontBlazor.pdb
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\BlazorBootstrap.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.csproj.AssemblyReference.cache
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.GeneratedMSBuildEditorConfig.editorconfig
