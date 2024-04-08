@@ -9,7 +9,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddHttpClient<ITerrenoService, TerrenoService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:32774/api/Terreno/");
+    client.BaseAddress = new Uri("https://localhost:32778/api/Terreno/");
 });
 
 var app = builder.Build();
