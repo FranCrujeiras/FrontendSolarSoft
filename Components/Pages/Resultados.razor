@@ -6,7 +6,9 @@
 @rendermode InteractiveServer
 @if (Error)
 {
-    <div class="alert alert-danger mt-4">Los datos introducidos no han podido ser validados por PVGIS</div>
+    <div class="row">
+        <div class="alert alert-danger mt-4">Los datos introducidos son erróneos. Revise de nuevo la ubicación e inténtelo otra vez.</div>
+    </div>
 }
 @if (!Error)
 {
