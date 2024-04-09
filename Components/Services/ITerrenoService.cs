@@ -7,9 +7,10 @@ namespace FrontBlazor.Components.Services
         #region GETs
         Task<Models.Terreno[]> GetTerrenos();
         Task<Models.Terreno> GetTerreno(int Id);
+        string GetDataPVGIS(Terreno terreno);
         #endregion
         #region POSTs
-        bool PostTerreno(Terreno terreno);
+        Terreno PostTerreno(Terreno terreno);
         #endregion
         #region PUTs
         Task<bool> PutLatitud(int Id, double Latitud);

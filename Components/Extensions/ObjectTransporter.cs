@@ -2,7 +2,7 @@
 {
     public class ObjectTransporter
     {
-        private Dictionary<int, object> StoredData = new();
+        public Dictionary<int, object> StoredData = new();
 
         public void AddData(object target)
         {

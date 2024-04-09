@@ -122,17 +122,18 @@
 
     protected override void OnInitialized()
     {
-        Instalacion ??= new() { Id = 0, Potencia = 0, Voltaje = 0 };
-        
-    } 
+        Instalacion ??= new() { Id = 0, Potencia = 40, Voltaje = 20 };
+
+    }
 
     private void Calcular()
     {
-        if (TerrenoService.PostTerreno(Instalacion))
+        var resultado = TerrenoService.PostTerreno(Instalacion);
+        if (resultado != null)
         {
             Enviado = true;
-            ObjectTransporter.AddData(Instalacion);
-            Redireccionador.NavigateTo($"/graficoEnergia/{Instalacion.GetHashCode()}");
+            ObjectTransporter.AddData(resultado);
+            Redireccionador.NavigateTo($"/graficoEnergia/{resultado.GetHashCode()}");
         }
         else
         {

@@ -1,6 +1,9 @@
 ﻿using FrontBlazor.Components.Models;
 using Newtonsoft.Json;
+using System.Diagnostics.Eventing.Reader;
 using System.Net.Http.Headers;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 
 namespace FrontBlazor.Components.Services
 {
@@ -20,6 +23,20 @@ namespace FrontBlazor.Components.Services
             throw new NotImplementedException();
         }
 
+        public string GetDataPVGIS(Terreno terreno)
+        {
+            HttpClient cliente = new HttpClient()
+            {
+                BaseAddress = new Uri("Https://re.jrc.ec.europa.eu/api/")
+            };
+            var mounting = terreno.InstalacionEstructura ? "building" : "free";
+            var response = cliente.GetAsync($"PVcalc?lat={terreno.Latitud}&lon={terreno.Longitud}&peakpower={terreno.PotenciaTotal}&mountingplace={mounting}&loss=14&angle={terreno.AnguloEstructura}&aspect={terreno.Azimuth}&outputformat=json").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return response.Content.ReadAsStringAsync().Result;
+            }
+            return null;         
+        }       
         public Task<Terreno> GetTerreno(int Id)
         {
             throw new NotImplementedException();
@@ -37,16 +54,17 @@ namespace FrontBlazor.Components.Services
             return null;
         }
 
-        public bool PostTerreno(Terreno terreno)
+        public Terreno PostTerreno(Terreno terreno)
         {
             var response = HttpClient.PostAsJsonAsync("PostTerreno", terreno).Result;
             if (response.IsSuccessStatusCode)
             {
-                return true;
+                var content = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<Terreno>(content);
             }
             else
             {
-                return false;
+                return null;
             }
         }
 

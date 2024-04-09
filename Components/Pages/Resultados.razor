@@ -1,7 +1,30 @@
 ﻿@page "/graficoEnergia/{Key:int}"
 @using FrontBlazor.Components.Extensions
 @using FrontBlazor.Components.Models
+@using FrontBlazor.Components.Services
+@using Newtonsoft.Json.Linq
 @rendermode InteractiveServer
+@if (Error)
+{
+    <div class="alert alert-danger mt-4">Los datos introducidos no han podido ser validados por PVGIS</div>
+}
+@if (!Error)
+{
+    <div class="row">
+        <div class="col-sm-2">&nbsp;</div>
+        <div class="col-sm-8">
+            <BarChart @ref="chartEnergia" Class="mt-2" />
+        </div>
+        <div class="col-sm-2">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">&nbsp;</div>
+        <div class="col-sm-8">
+            <BarChart @ref="chartIrradiacion" Class="mt-2 mb-2" />
+        </div>
+        <div class="col-sm-2">&nbsp;</div>
+    </div>
+}
 
 <h3>Resultados de la simulación</h3>
 @* <BarChart>
@@ -16,11 +39,145 @@
     [Inject]
     public ObjectTransporter ObjectTransporter { get; set; }
 
-    private Terreno Instalacion { get; set; }
+    [Inject]
+    private ITerrenoService? TerrenoService { get; set; }
+
+    private Terreno? Instalacion { get; set; }
+
+    private string? DatosPVGIS { get; set; }
+
+    private bool Error { get; set; } = false;
+
+    private BarChart chartEnergia = default!;
+
+    private BarChart chartIrradiacion = default!;
 
     protected override void OnInitialized()
     {
-        Instalacion = (Terreno)ObjectTransporter.RetrieveData(Key, true);
+        Instalacion = (Terreno)ObjectTransporter.RetrieveData(Key, false);
+        DatosPVGIS = TerrenoService.GetDataPVGIS(Instalacion);
     }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await RenderizarGraficaEnergia();
+            await RenderizarGraficaIrradiacion();
+        }
 
+        await base.OnAfterRenderAsync(firstRender);
+    }
+    private async Task RenderizarGraficaEnergia()
+    {
+        List<double> energia = new List<double>();
+        if (DatosPVGIS != null)
+        {
+            var json = JObject.Parse(DatosPVGIS);
+            var valores = json.SelectToken("outputs").SelectToken("monthly").SelectTokens("fixed").Cast<JArray>();
+            foreach (var valor in valores)
+            {
+                foreach (var parametro in valor)
+                {
+                    energia.Add(double.Parse(parametro.SelectToken("E_m").ToString()));
+                }
+            }
+
+            var data = new ChartData
+                {
+                    Labels = new List<string> { "Mes 1", "Mes 2", "Mes 3", "Mes 4", "Mes 5", "Mes 6", "Mes 7",
+             "Mes 8", "Mes 9", "Mes 10", "Mes 11", "Mes 12" },
+                    Datasets = new List<IChartDataset>()
+         {
+             new BarChartDataset()
+             {
+                 Label = "Energía (kWh)",
+                 Data = energia,
+                 BackgroundColor = new List<string>{ "rgb(107, 26, 64)" },
+                 CategoryPercentage = 0.8,
+                 BarPercentage = 1,
+             }
+         }
+                };
+
+            var options = new BarChartOptions();
+
+            options.Interaction.Mode = InteractionMode.Index;
+
+            options.Plugins.Title!.Text = "Energía mensual estimada";
+            options.Plugins.Title.Display = true;
+            options.Plugins.Title.Font!.Size = 20;
+
+            options.Responsive = true;
+
+            options.Scales.X!.Title!.Text = "Mes";
+            options.Scales.X.Title.Display = true;
+
+            options.Scales.Y!.Title!.Text = "Total";
+            options.Scales.Y.Title.Display = true;
+
+            await chartEnergia.InitializeAsync(data, options);
+
+        }
+        else
+        {
+            Error = true;
+        }
+    }
+    private async Task RenderizarGraficaIrradiacion()
+    {
+        List<double> irradiacion = new List<double>();
+        if (DatosPVGIS != null)
+        {
+            var datos = DatosPVGIS.Replace("H(i)_m", "Him");
+            var json = JObject.Parse(datos);
+            var valores = json.SelectToken("outputs").SelectToken("monthly").SelectTokens("fixed").Cast<JArray>();
+            foreach (var valor in valores)
+            {
+                foreach (var parametro in valor)
+                {
+                    irradiacion.Add(double.Parse(parametro.SelectToken("Him").ToString()));
+                }
+            }
+
+            var data = new ChartData
+                {
+                    Labels = new List<string> { "Mes 1", "Mes 2", "Mes 3", "Mes 4", "Mes 5", "Mes 6", "Mes 7", "Mes 8",
+            "Mes 9", "Mes 10", "Mes 11", "Mes 12" },
+                    Datasets = new List<IChartDataset>()
+        {
+            new BarChartDataset()
+            {
+                Label = "Irradiación (W/m^2)",
+                Data = irradiacion,
+                BackgroundColor = new List<string>{ "rgb(179, 14, 212)" },
+                CategoryPercentage = 0.8,
+                BarPercentage = 1,
+            }
+        }
+                };
+
+            var options = new BarChartOptions();
+
+            options.Interaction.Mode = InteractionMode.Index;
+
+            options.Plugins.Title!.Text = "Irradiación mensual estimada";
+            options.Plugins.Title.Display = true;
+            options.Plugins.Title.Font!.Size = 20;
+
+            options.Responsive = true;
+
+            options.Scales.X!.Title!.Text = "Mes";
+            options.Scales.X.Title.Display = true;
+
+            options.Scales.Y!.Title!.Text = "Total";
+            options.Scales.Y.Title.Display = true;
+
+            await chartIrradiacion.InitializeAsync(data, options);
+
+        }
+        else
+        {
+            Error = true;
+        }
+    }
 }
