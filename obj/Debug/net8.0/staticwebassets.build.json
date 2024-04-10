@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "EdbYjtllNCsrlz/DKaRmAIkNcB2MnCq+OajAcNqMH1Y=",
+  "Hash": "/t3a7nq5LWYd25rC9qevWUvdQ9N01nggvMI7Ncpc+ak=",
   "Source": "FrontBlazor",
   "BasePath": "_content/FrontBlazor",
   "Mode": "Default",
@@ -262,6 +262,44 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.png"
+    },
+    {
+      "Identity": "C:\\Users\\Bubi\\Desktop\\SolarSoft\\FrontBlazor\\FrontendSolarSoft\\wwwroot\\fondo.jpg",
+      "SourceId": "FrontBlazor",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Bubi\\Desktop\\SolarSoft\\FrontBlazor\\FrontendSolarSoft\\wwwroot\\",
+      "BasePath": "_content/FrontBlazor",
+      "RelativePath": "fondo.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\fondo.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Bubi\\Desktop\\SolarSoft\\FrontBlazor\\FrontendSolarSoft\\wwwroot\\gradiente.png",
+      "SourceId": "FrontBlazor",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Bubi\\Desktop\\SolarSoft\\FrontBlazor\\FrontendSolarSoft\\wwwroot\\",
+      "BasePath": "_content/FrontBlazor",
+      "RelativePath": "gradiente.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\gradiente.png"
     }
   ]
 }

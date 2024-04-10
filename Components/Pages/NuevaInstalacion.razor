@@ -14,113 +14,114 @@
 {
     <div class="alert alert-danger">Las coordenadas indicadas no son válidas. Se encuentran en una zona de mar</div>
 }
- 
-@* <div class="p-3 mb-2 bg-light text-black"> *@
-        <div class="container-fluid">
-    <div class="row" style="background-image:url('https://unblast.com/wp-content/uploads/2020/05/Gradient-Abstract-Textures-2.jpg')">
 
-        <div class="col-1"></div>
-            <div class="col-4" bg-light> 
-                <h2>SolarSoft</h2>
-                <br />
-                <p>Solarsoft es un software de asistencia al diseño de instalaciones fotovoltaicas. </p>
-                <br />
-                <p>SolarSoft realiza una estimación de la energía producida por una instalación de paneles fotovoltaicos a partir de los parámetros del terreno y la localización de ésta.</p>
-                <br />
-                <p>Las estimaciones obtenidas mediante esta herramienta no son definitivas, y están sujetas a posibles cambios luego de la realización de un estudio local in situ</p>
-                <br />
-                <p>Si desea obtener más información sobre el uso de Solarsoft, o tiene dudas sobre su instalación, puede contactarnos a través de nuestra dirección de correo electrónico:</p>
-                <br />
-                <p>soporte@solutions30.com</p>
-            </div>        
-            <div class="col-2"></div>
-            <div class="col-4">
-                <EditForm Model="Instalacion" FormName="Terreno" OnSubmit="Calcular">
-                    <DataAnnotationsValidator />
+<div class="row text-black" style="z-index:1; background:linear-gradient(310deg, rgba(64,249,251,1) 0%, rgba(252,245,75,1) 100%); background-size:cover">
+    <div class="col-1"></div>
+    <div class="col-4 mt-5">
+        <h2 style="text-align: center">SolarSoft</h2>
+        <br />
+        <p style="text-align:center">Solarsoft es un software de asistencia al diseño de instalaciones fotovoltaicas. </p>
+        <br />
+        <p style="text-align:center">SolarSoft realiza una estimación de la energía producida por una instalación de paneles fotovoltaicos a partir de los parámetros del terreno y la localización de ésta.</p>
+        <br />
+        <p style="text-align: center">Las estimaciones obtenidas mediante esta herramienta no son definitivas, y están sujetas a posibles cambios luego de la realización de un estudio local in situ</p>
+        <br />
+        <p style="text-align: center">Si desea obtener más información sobre el uso de Solarsoft, o tiene dudas sobre su instalación, puede contactarnos a través de nuestra dirección de correo electrónico:</p>
+        <br />
+        <p style="text-align:center">soporte@solutions30.com</p>
+    </div>
+    <div class="col-2"></div>
+    <div class="col-4 text-secondary mt-5">
+        <EditForm Model="Instalacion" FormName="Terreno" OnSubmit="Calcular">
+            <DataAnnotationsValidator />
 
-                    <div class="mb-4">
-                        <h2>Nueva Instalacion</h2>
-                    </div>
+            <div class="mb-4 text-black">
+                <h2 style="text-align:center">Nueva Instalación</h2>
+            </div>
 
-                    <div class="mb-3">
-                        <InputSelect class="form-select" @bind-Value="Instalacion.ModeloPanel">
-                            <option value="Modelo de Panel">Modelo de Panel</option>
-                            <option value="Canadian Solar - HiKu7">Canadian Solar - HiKu7</option>
-                            <option value="JA Solar - Deep Blue 3.0">JA Solar - Deep Blue 3.0</option>
-                            <option value="Jinko Solar - Tiger NEO">Jinko Solar - Tiger NEO</option>
-                            <option value="Trina Solar - Vertex S">Trina Solar - Vertex S</option>
-                            <option value="Trina Solar - Vertex">Trina Solar - Vertex</option>
-                        </InputSelect>
-                        <ValidationMessage For="()=> Instalacion.ModeloPanel" />
-                    </div>
-                    <h4>Parámetros de la ubicación</h4>
-                    <div class="mb-2">
-                        <label>Latitud</label>
-                    </div>
-                    <div class="mb-2">
-                        <InputNumber class="form-control" placeholder="Latitud" id="Latitud" @bind-Value="Instalacion.Latitud" />
-                        <ValidationMessage For="()=> Instalacion.Latitud" />
-                        <br>
-                    </div>
-                    <div class="mb-2">
-                        <label>Longitud</label>
-                    </div>
-                    <InputNumber class="form-control" placeholder="Longitud" id="Longitud" @bind-Value="Instalacion.Longitud" />
+            <div class="mb-3">
+                <InputSelect class="form-select form-control" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" @bind-Value="Instalacion.ModeloPanel">
+                    <option value="Modelo de Panel">Modelo de Panel</option>
+                    <option value="Canadian Solar - HiKu7">Canadian Solar - HiKu7</option>
+                    <option value="JA Solar - Deep Blue 3.0">JA Solar - Deep Blue 3.0</option>
+                    <option value="Jinko Solar - Tiger NEO">Jinko Solar - Tiger NEO</option>
+                    <option value="Trina Solar - Vertex S">Trina Solar - Vertex S</option>
+                    <option value="Trina Solar - Vertex">Trina Solar - Vertex</option>
+                </InputSelect>
+                <ValidationMessage style="z-index:99;" For="()=> Instalacion.ModeloPanel" />
+            </div>
+            <div class="mb-3 text-black">
+                <h4 style="text-align:center">Parámetros de la ubicación</h4>
+            </div>
+
+            <div class="mb-2 text-black">
+                <label>Latitud</label>
+            </div>
+            <div class="mb-2">
+                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5);z-index:auto; !important" placeholder="Latitud" id="Latitud" @bind-Value="Instalacion.Latitud" />
+                <ValidationMessage style="z-index:auto; !important" For="()=> Instalacion.Latitud" />
+                <br>
+            </div>
+            <div class="mb-2 text-black">
+                <label>Longitud</label>
+            </div>
+            <InputNumber class="form-control " style="z-index:auto; background-color:rgba(255, 255, 255, 0.5); z-index:99" placeholder="Longitud" id="Longitud" @bind-Value="Instalacion.Longitud" />
+            <br>
+            <ValidationMessage For="()=> Instalacion.Longitud" style="z-index:auto;" />
+                <div class="mb-3 text-black">
+                <h4 style="text-align:center">Parámetros del terreno</h4>
+            </div>
+            <div class="mb-2 text-black">
+                <label>Largo del terreno</label>
+            </div>
+            <div class="mb-2">
+                <InputNumber class="form-control  " style="background-color:rgba(255, 255, 255, 0.5)" placeholder="Largo del terreno" id="LargoTerreno" @bind-Value="Instalacion.LargoTerreno" />
+                <br>
+                <ValidationMessage For="(()=> Instalacion.LargoTerreno)" />
+            </div>
+            <div class="mb-2 text-black">
+                <label>Ancho del terreno</label>
+            </div>
+            <div class="mb-2 text-black">
+                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="AnchoTerreno" @bind-Value="Instalacion.AnchoTerreno" />
+                <br>
+                <ValidationMessage For="(()=> Instalacion.AnchoTerreno)" />
+            </div>
+            <div class="mb-3 text-black">
+                <h4 style="text-align:center">Parámetros de la posición</h4>
+            </div>
+            <div class="mb-2 text-black">
+                <label>Ángulo de inclinación</label>
+            </div>
+            <div class="mb-2" id="InclinacionSelect" name="InclinacionDos">
+                <InputSelect class="form-select form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="Inclinación" @bind-Value="Instalacion.AnguloEstructura">
+                    <option value="0">0º</option>
+                    <option value="15">15º</option>
                     <br>
-                    <ValidationMessage For="()=> Instalacion.Longitud" />
-                    <h4>Parámetros del terreno</h4>
-                    <div class="mb-2">
-                        <label>Largo del terreno</label>
-                    </div>
-                    <div class="mb-2">
-                        <InputNumber class="form-control" placeholder="Largo del terreno" id="LargoTerreno" @bind-Value="Instalacion.LargoTerreno" />
-                        <br>
-                        <ValidationMessage For="(()=> Instalacion.LargoTerreno)" />
-                    </div>
-                    <div class="mb-2">
-                        <label>Ancho del terreno</label>
-                    </div>
-                    <div class="mb-2">
-                        <InputNumber class="form-control" id="AnchoTerreno" @bind-Value="Instalacion.AnchoTerreno" />
-                        <br>
-                        <ValidationMessage For="(()=> Instalacion.AnchoTerreno)" />
-                    </div>
-                    <h4>Parámetros de la posición</h4>
-                    <div class="mb-2">
-                    <label>Ángulo de inclinación</label>
-                    </div>
-                    <div class="mb-2" id="InclinacionSelect" name="InclinacionDos">
-                        <InputSelect class="form-select" id="Inclinación" @bind-Value="Instalacion.AnguloEstructura">
-                            <option value="0">0º</option>
-                            <option value="15">15º</option>
-                            <br>
-                            <option value="30">30º</option>
-                        </InputSelect>
-                        <br>
-                        <ValidationMessage For="(()=> Instalacion.AnguloEstructura)" />
-                    </div>
-                    <div class="mb-2">
-                        <label>Ángulo de Azimuth</label>
-                    </div>
-                    <div class="mb-2">
-                        <InputNumber class="form-control" placeholder="Azimuth" id="Azimuth" @bind-Value="Instalacion.Azimuth" />
-                        <br>
-                        <ValidationMessage For="(()=> Instalacion.Azimuth)" />
-                    </div>
-                    <div class="mb-2">
-                        <InputCheckbox id="Estructura" name="Montaje" class="form-checkbox" @bind-Value="Instalacion.InstalacionEstructura" />
-                        <label class="custom-control-label" for="Estructura">Montaje sobre estructura</label>
-                    </div>
-                    <div class="mt-3">
-                        <button type="submit" class="btn btn-dark btn-outline-warning">Calcular</button>
-                    </div>
+                    <option value="30">30º</option>
+                </InputSelect>
+                <br>
+                <ValidationMessage For="(()=> Instalacion.AnguloEstructura)" />
+            </div>
+            <div class="mb-2 text-black">
+                <label>Ángulo de Azimuth</label>
+            </div>
+            <div class="mb-2">
+                <InputNumber class="form-control  " style="background-color:rgba(255, 255, 255, 0.5)" placeholder="Azimuth" id="Azimuth" @bind-Value="Instalacion.Azimuth" />
+                <br>
+                <ValidationMessage For="(()=> Instalacion.Azimuth)" />
+            </div>
+            <div class="mb-2">
+                <InputCheckbox id="Estructura" name="Montaje" class="form-checkbox" @bind-Value="Instalacion.InstalacionEstructura" />
+                <label class="custom-control-label" for="Estructura">Montaje sobre estructura</label>
+            </div>
+            <div class="mt-5">
+                <button type="submit" class="btn btn-dark btn-outline-warning">Calcular</button>
+            </div>
 
-                </EditForm>
-            </div>          
-        
+        </EditForm>
     </div>
 </div>
-@* </div> *@
 
 @code {
 

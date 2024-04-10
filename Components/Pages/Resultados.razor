@@ -12,14 +12,15 @@
 }
 @if (!Error)
 {
-    <div class="row">
+    <h3 style="text-align:center">Resultados de la simulación</h3>
+    <div class="row" style=" z-index:1; background:linear-gradient(310deg, rgba(64,249,251,1) 0%, rgba(252,245,75,1) 100%); background-size:cover">
         <div class="col-sm-2">&nbsp;</div>
         <div class="col-sm-8">
             <BarChart @ref="chartEnergia" Class="mt-2" />
         </div>
         <div class="col-sm-2">&nbsp;</div>
     </div>
-    <div class="row">
+    <div class="row" style=" z-index:1; background:linear-gradient(310deg, rgba(64,249,251,1) 0%, rgba(252,245,75,1) 100%); background-size:cover">
         <div class="col-sm-2">&nbsp;</div>
         <div class="col-sm-8">
             <BarChart @ref="chartIrradiacion" Class="mt-2 mb-2" />
@@ -28,7 +29,7 @@
     </div>
 }
 
-<h3>Resultados de la simulación</h3>
+
 @* <BarChart>
 
 </BarChart> *@
