@@ -30,7 +30,7 @@ namespace FrontBlazor.Components.Services
                 BaseAddress = new Uri("Https://re.jrc.ec.europa.eu/api/")
             };
             var mounting = terreno.InstalacionEstructura ? "building" : "free";
-            var response = cliente.GetAsync($"PVcalc?lat={terreno.Latitud.ToString().Replace(",", ".")}&lon={terreno.Longitud.ToString().Replace(",", ".")}&peakpower={terreno.PotenciaTotal}&mountingplace={mounting}&loss=14&angle={terreno.AnguloEstructura}&aspect={terreno.Azimuth}&outputformat=json").Result;
+            var response = cliente.GetAsync($"PVcalc?lat={terreno.Latitud.ToString().Replace(",", ".")}&lon={terreno.Longitud.ToString().Replace(",", ".")}&peakpower={terreno.PotenciaTotal.ToString().Replace(",", ".")}&mountingplace={mounting}&loss=14&angle={terreno.AnguloEstructura}&aspect={terreno.Azimuth}&outputformat=json").Result;
             if (response.IsSuccessStatusCode)
             {
                 return response.Content.ReadAsStringAsync().Result;

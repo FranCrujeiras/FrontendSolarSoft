@@ -12,21 +12,27 @@
 }
 @if (!Error)
 {
-    <h3 style="text-align:center">Resultados de la simulación</h3>
-    <div class="row" style=" z-index:1; background:linear-gradient(310deg, rgba(64,249,251,1) 0%, rgba(252,245,75,1) 100%); background-size:cover">
+    <div class="row" style=" z-index:1; background-color:#f3f3f3; background-size:cover">
+        <h3 style="text-align:center;background-color:#f3f3f3">Resultados de la simulación</h3>
+    </div>
+
+
+    <div class="row" style=" z-index:1; background-color:#f3f3f3; background-size:cover">
         <div class="col-sm-2">&nbsp;</div>
         <div class="col-sm-8">
-            <BarChart @ref="chartEnergia" Class="mt-2" />
+            <BarChart @ref="chartEnergia" Class="mt-4 mb-3" />
         </div>
         <div class="col-sm-2">&nbsp;</div>
     </div>
-    <div class="row" style=" z-index:1; background:linear-gradient(310deg, rgba(64,249,251,1) 0%, rgba(252,245,75,1) 100%); background-size:cover">
+    <div class="row" style=" z-index:1; background-color:#f3f3f3; background-size:cover">
         <div class="col-sm-2">&nbsp;</div>
         <div class="col-sm-8">
-            <BarChart @ref="chartIrradiacion" Class="mt-2 mb-2" />
+            <BarChart @ref="chartIrradiacion" Class="mt-4 mb-4" />
         </div>
         <div class="col-sm-2">&nbsp;</div>
     </div>
+}
+
 }
 
 
@@ -87,15 +93,15 @@
 
             var data = new ChartData
                 {
-                    Labels = new List<string> { "Mes 1", "Mes 2", "Mes 3", "Mes 4", "Mes 5", "Mes 6", "Mes 7",
-             "Mes 8", "Mes 9", "Mes 10", "Mes 11", "Mes 12" },
+                    Labels = new List<string> { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+             "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" },
                     Datasets = new List<IChartDataset>()
          {
              new BarChartDataset()
              {
                  Label = "Energía (kWh)",
                  Data = energia,
-                 BackgroundColor = new List<string>{ "rgb(107, 26, 64)" },
+                 BackgroundColor = new List<string>{ "rgb(0, 120, 0)" },
                  CategoryPercentage = 0.8,
                  BarPercentage = 1,
              }
@@ -144,15 +150,15 @@
 
             var data = new ChartData
                 {
-                    Labels = new List<string> { "Mes 1", "Mes 2", "Mes 3", "Mes 4", "Mes 5", "Mes 6", "Mes 7", "Mes 8",
-            "Mes 9", "Mes 10", "Mes 11", "Mes 12" },
+                    Labels = new List<string> {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+             "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" },
                     Datasets = new List<IChartDataset>()
         {
             new BarChartDataset()
             {
                 Label = "Irradiación (W/m^2)",
                 Data = irradiacion,
-                BackgroundColor = new List<string>{ "rgb(179, 14, 212)" },
+                BackgroundColor = new List<string>{ "rgb(235, 193, 0)" },
                 CategoryPercentage = 0.8,
                 BarPercentage = 1,
             }

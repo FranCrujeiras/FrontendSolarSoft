@@ -42,7 +42,7 @@ namespace FrontBlazor.Components.Models
 
         public double? Separacion { get; set; }
 
-        public int? PotenciaTotal { get; set; }
+        public double? PotenciaTotal { get; set; }
 
         public int? TotalPaneles { get; set; }
 
