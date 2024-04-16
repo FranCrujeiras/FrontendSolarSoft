@@ -92,20 +92,5 @@ namespace FrontBlazor.Components.Services
         {
             throw new NotImplementedException();
         }
-
-        public Task<bool> PutModeloPanel(int Id, string ModeloPanel)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> PutPotenciaPanel(int Id, int PotenciaPanel)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> PutVoltajePanel(int Id, double VoltajePanel)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

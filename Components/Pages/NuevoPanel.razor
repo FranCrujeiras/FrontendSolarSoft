@@ -1,0 +1,88 @@
+﻿@page "/nuevoPanel"
+@using FrontBlazor.Components.Models
+@using FrontBlazor.Components.Services
+@using FrontBlazor.Components.Extensions
+@rendermode InteractiveServer
+
+<h3>Introducir Nuevo Panel</h3>
+
+<div class="row text-black" style="z-index:1; background:linear-gradient(310deg, rgba(255,255,255,1) 0%, rgba(120,249,255,1) 100%); background-size:cover">
+    <div class="col-1"></div>
+    <div class="col-4 mt-5">
+        <h2 style="text-align: center">SolarSoft</h2>
+        <br />
+        <p style="text-align:center">Este es el menú de creación de un nuevo panel. </p>
+        <br />
+        <p style="text-align:center">La tecnología de los paneles fotovoltaicos avanza muy rápidamente, por lo que los modelos fácilmente pueden quedar obsoletos en cuestión de meses.</p>
+        <br />
+        <p style="text-align: center">En este menú podrá añadir los parámetros de un nuevo modelo de panel para añadirlo a sus instalaciones.</p>
+        <br />
+        <p style="text-align: center">Si desea obtener más información sobre el uso de Solarsoft o los paneles fotovoltaicos que usamos, puede contactarnos a través de nuestra dirección de correo electrónico:</p>
+        <br />
+        <p style="text-align:center">soporte@solutions30.com</p>
+    </div>
+    <div class="col-2"></div>
+    <div class="col-4 text-secondary mt-5">
+        <EditForm Model="Instalacion" FormName="Terreno" OnSubmit="Calcular">
+            <DataAnnotationsValidator />
+
+            <div class="mb-4 text-black">
+                <h2 style="text-align:center">Nueva Instalación</h2>
+            </div>
+
+            <div class="mb-3 text-black">
+                <h4 style="text-align:center">Parámetros de la ubicación</h4>
+            </div>
+
+            <div class="mb-2 text-black">
+                <label>Nombre del modelo</label>
+            </div>
+            <div class="mb-2">
+                <Input class="form-control" style="background-color:rgba(255, 255, 255, 0.5);z-index:auto; !important" placeholder="Nombre del modelo" id="Nombre" @bind-Value="Panel.NombreModelo" />
+                <ValidationMessage style="z-index:auto; !important" For="()=> Panel.NombreModelo" />
+                <br>
+            </div>
+            <div class="mb-2 text-black">
+                <label>Largo del panel</label>
+            </div>
+            <InputNumber class="form-control " style="z-index:auto; background-color:rgba(255, 255, 255, 0.5); z-index:99" placeholder="Largo del panel" id="Largo" @bind-Value="Panel.Largo" />
+            <br>
+            <ValidationMessage For="()=> Panel.Largo" style="z-index:auto;" />
+            <div class="mb-3 text-black">
+            </div>
+            <div class="mb-2 text-black">
+                <label>Ancho del panel</label>
+            </div>
+            <div class="mb-2">
+                <InputNumber class="form-control  " style="background-color:rgba(255, 255, 255, 0.5)" placeholder="Ancho del panel" id="Ancho" @bind-Value="Panel.Ancho" />
+                <br>
+                <ValidationMessage For="(()=> Panel.Ancho)" />
+            </div>
+            <div class="mb-2 text-black">
+                <label>Potencia</label>
+            </div>
+            <div class="mb-2 text-black">
+                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="Potencia" @bind-Value="Panel.Potencia" />
+                <br>
+                <ValidationMessage For="(()=> Panel.Potencia)" />
+            </div>
+            <div class="mb-2 text-black">
+                <label>Voltaje</label>
+            </div>
+            <div class="mb-2 text-black">
+                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="Voltaje" @bind-Value="Panel.Voltaje" />
+                <br>
+                <ValidationMessage For="(()=> Panel.Voltaje)" />
+            </div>
+            <div class="mb-3">
+                <InputSelect class="form-select form-control" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" @bind-Value="Panel.Material">
+                    <option value="Material"></option>
+                    <option value="Silicio cristalino">Silicio cristalino</option>
+                    <option value="CIS">CIS</option>
+                    <option value="CdTe">CdTe</option>
+                </InputSelect>
+                <ValidationMessage style="z-index:99;" For="()=> Panel.Material" />
+            </div>
+        </EditForm>
+    </div>
+</div>
