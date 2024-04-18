@@ -68,6 +68,7 @@ namespace FrontBlazor.Components.Services
             }
         }
 
+
         public Task<bool> PutAnchoTerreno(int Id, double AnchoTerreno)
         {
             throw new NotImplementedException();

@@ -1,12 +1,28 @@
 ﻿@page "/nuevoPanel"
 @using FrontBlazor.Components.Models
 @using FrontBlazor.Components.Services
-@using FrontBlazor.Components.Extensions
 @rendermode InteractiveServer
 
-<h3>Introducir Nuevo Panel</h3>
 
-<div class="row text-black" style="z-index:1; background:linear-gradient(310deg, rgba(255,255,255,1) 0%, rgba(120,249,255,1) 100%); background-size:cover">
+<PageTitle>Nuevo panel</PageTitle>
+<nav class="navbar navbar-expand-lg" style="z-index:1; background:linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(120,249,255,1) 100%); background-size:cover">
+    <a class="navbar-brand" href="/">SolarSoft</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/">Nueva Instalación</a>
+            <a class="nav-item nav-link" href="/nuevoPanel">Nuevo Panel</a>
+        </div>
+    </div>
+</nav>
+@if (Enviado)
+{
+    <div class="alert alert-success">El panel se ha guardado correctamente</div>
+}
+
+<div class="row text-black" style="z-index:1; background:linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(120,249,255,1) 100%); background-size:cover">
     <div class="col-1"></div>
     <div class="col-4 mt-5">
         <h2 style="text-align: center">SolarSoft</h2>
@@ -23,66 +39,96 @@
     </div>
     <div class="col-2"></div>
     <div class="col-4 text-secondary mt-5">
-        <EditForm Model="Instalacion" FormName="Terreno" OnSubmit="Calcular">
+        <EditForm Model="Instalacion" FormName="FormPaneles" OnSubmit="Añadir">
             <DataAnnotationsValidator />
 
             <div class="mb-4 text-black">
-                <h2 style="text-align:center">Nueva Instalación</h2>
-            </div>
-
-            <div class="mb-3 text-black">
-                <h4 style="text-align:center">Parámetros de la ubicación</h4>
+                <h2 style="text-align:center">Nuevo Panel</h2>
             </div>
 
             <div class="mb-2 text-black">
                 <label>Nombre del modelo</label>
             </div>
             <div class="mb-2">
-                <Input class="form-control" style="background-color:rgba(255, 255, 255, 0.5);z-index:auto; !important" placeholder="Nombre del modelo" id="Nombre" @bind-Value="Panel.NombreModelo" />
-                <ValidationMessage style="z-index:auto; !important" For="()=> Panel.NombreModelo" />
+                <InputText class="form-control" style="background-color:rgba(255, 255, 255, 0.5);z-index:auto; !important" placeholder="Nombre del modelo" id="Nombre" @bind-Value="Instalacion.NombreModelo" />
+                <ValidationMessage style="z-index:auto; !important" For="()=> Instalacion.NombreModelo" />
                 <br>
             </div>
             <div class="mb-2 text-black">
                 <label>Largo del panel</label>
             </div>
-            <InputNumber class="form-control " style="z-index:auto; background-color:rgba(255, 255, 255, 0.5); z-index:99" placeholder="Largo del panel" id="Largo" @bind-Value="Panel.Largo" />
+            <InputNumber class="form-control " style="z-index:auto; background-color:rgba(255, 255, 255, 0.5); z-index:99" placeholder="Largo del panel" id="Largo" @bind-Value="Instalacion.Largo" />
             <br>
-            <ValidationMessage For="()=> Panel.Largo" style="z-index:auto;" />
+            <ValidationMessage For="()=> Instalacion.Largo" style="z-index:auto;" />
             <div class="mb-3 text-black">
             </div>
             <div class="mb-2 text-black">
                 <label>Ancho del panel</label>
             </div>
             <div class="mb-2">
-                <InputNumber class="form-control  " style="background-color:rgba(255, 255, 255, 0.5)" placeholder="Ancho del panel" id="Ancho" @bind-Value="Panel.Ancho" />
+                <InputNumber class="form-control  " style="background-color:rgba(255, 255, 255, 0.5)" placeholder="Ancho del panel" id="Ancho" @bind-Value="Instalacion.Ancho" />
                 <br>
-                <ValidationMessage For="(()=> Panel.Ancho)" />
+                <ValidationMessage For="(()=> Instalacion.Ancho)" />
             </div>
             <div class="mb-2 text-black">
                 <label>Potencia</label>
             </div>
             <div class="mb-2 text-black">
-                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="Potencia" @bind-Value="Panel.Potencia" />
+                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="Potencia" @bind-Value="Instalacion.Potencia" />
                 <br>
-                <ValidationMessage For="(()=> Panel.Potencia)" />
+                <ValidationMessage For="(()=> Instalacion.Potencia)" />
             </div>
             <div class="mb-2 text-black">
                 <label>Voltaje</label>
             </div>
             <div class="mb-2 text-black">
-                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="Voltaje" @bind-Value="Panel.Voltaje" />
+                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="Voltaje" @bind-Value="Instalacion.Voltaje" />
                 <br>
-                <ValidationMessage For="(()=> Panel.Voltaje)" />
+                <ValidationMessage For="(()=> Instalacion.Voltaje)" />
             </div>
             <div class="mb-3">
-                <InputSelect class="form-select form-control" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" @bind-Value="Panel.Material">
-                    <option value="Material"></option>
+                <InputSelect class="form-select form-control" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" @bind-Value="Instalacion.Material">
+                    <option value="Material">Material</option>
                     <option value="Silicio cristalino">Silicio cristalino</option>
                     <option value="CIS">CIS</option>
                     <option value="CdTe">CdTe</option>
                 </InputSelect>
-                <ValidationMessage style="z-index:99;" For="()=> Panel.Material" />
+                <ValidationMessage style="z-index:99;" For="()=> Instalacion.Material" />
             </div>
+            <div class="mt-5">
+                <button type="submit" id="Añadir" class="btn btn-dark btn-outline-warning">Añadir</button>
+            </div>
+
         </EditForm>
     </div>
 </div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Panel? Instalacion { get; set; }
+
+    [Inject]
+    public IPanelService PanelService{ get; set; }
+
+    private bool Enviado { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Instalacion ??= new() { Id = 0};
+    }
+
+    public async void Añadir()
+    {
+        var resultado = await PanelService.PostPanel(Instalacion);
+        if (resultado)
+        {
+            Enviado = true;
+        }
+        else
+        {
+            Enviado = false;
+        }
+    }
+}

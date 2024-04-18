@@ -7,24 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Components\Pages\NuevoPanel.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Blazor.Bootstrap" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Components\Pages\NuevoPanel.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Components\Pages\NuevoPanel.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Components\Pages\NuevoPanel.razor" />
   </ItemGroup>
 
 </Project>
