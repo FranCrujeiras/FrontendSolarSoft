@@ -4,8 +4,8 @@ namespace FrontBlazor.Components.Services
 {
     public interface IPanelService
     {
-        Task<Models.Panel[]> GetPanels();
-        Task<Models.Panel> GetPanel(int Id);
+        List<Panel> GetPaneles();
+        Panel GetPanel(int Id);
         Task<bool> PostPanel(Panel panel);
         Task<bool> PutLargo(int Id, int Largo);
         Task<bool> PutAncho(int Id, int Ancho);

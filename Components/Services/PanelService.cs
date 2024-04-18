@@ -8,7 +8,7 @@ namespace FrontBlazor.Components.Services
 
     {
         private HttpClient HttpClient { get; set; }
-        public PanelService(HttpClient httpClient) 
+        public PanelService(HttpClient httpClient)
         {
             HttpClient = httpClient;
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -18,14 +18,38 @@ namespace FrontBlazor.Components.Services
             throw new NotImplementedException();
         }
 
-        public Task<Panel> GetPanel(int Id)
+        public Panel GetPanel(int Id)
         {
-            throw new NotImplementedException();
+            var response = HttpClient.GetAsync($"GetPaneles/{Id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string json = response.Content.ReadAsStringAsync().Result;
+                var panel = JsonConvert.DeserializeObject<Panel>(json);
+
+                return panel;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public Task<Panel[]> GetPanels()
+
+        public List<Panel> GetPaneles()
         {
-            throw new NotImplementedException();
+            var response = HttpClient.GetAsync("GetPaneles").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string json = response.Content.ReadAsStringAsync().Result;
+                var ListaPaneles = JsonConvert.DeserializeObject<List<Panel>>(json);
+
+                return ListaPaneles;
+            }
+            else
+            {
+                return null;
+            }
+
         }
 
         //Casi lo tienes!! Cambia la URL del POST en la API a Paneles/PostPanel, en vez de /Paneles, la funcionalidad va como debería!
@@ -64,5 +88,11 @@ namespace FrontBlazor.Components.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<Panel[]> GetPanels()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

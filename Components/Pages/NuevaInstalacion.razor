@@ -52,13 +52,17 @@
             </div>
 
             <div class="mb-3">
-                <InputSelect class="form-select form-control" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" @bind-Value="Instalacion.ModeloPanel">
+                <InputSelect class="form-select form-control" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" @bind-Value="Instalacion.ModeloPanelId">
                     <option value="Modelo de Panel">Modelo de Panel</option>
-                    <option value="Canadian Solar - HiKu6">Canadian Solar - HiKu6</option>
-                    <option value="JA Solar - Deep Blue 3.0">JA Solar - Deep Blue 3.0</option>
+                    @foreach (Panel panel in PanelService.GetPaneles())
+                    {
+                        <option value="@panel.Id">@panel.NombreModelo</option>
+                    }
+
+                    @*                     <option value="JA Solar - Deep Blue 3.0">JA Solar - Deep Blue 3.0</option>
                     <option value="Jinko Solar - Tiger NEO">Jinko Solar - Tiger NEO</option>
                     <option value="Trina Solar - Vertex S">Trina Solar - Vertex S</option>
-                    <option value="Trina Solar - Vertex">Trina Solar - Vertex</option>
+                    <option value="Trina Solar - Vertex">Trina Solar - Vertex</option> *@
                 </InputSelect>
                 <ValidationMessage style="z-index:99;" For="()=> Instalacion.ModeloPanel" />
             </div>
@@ -80,7 +84,7 @@
             <InputNumber class="form-control " style="z-index:auto; background-color:rgba(255, 255, 255, 0.5); z-index:99" placeholder="Longitud" id="Longitud" @bind-Value="Instalacion.Longitud" />
             <br>
             <ValidationMessage For="()=> Instalacion.Longitud" style="z-index:auto;" />
-                <div class="mb-3 text-black">
+            <div class="mb-3 text-black">
                 <h4 style="text-align:center">Parámetros del terreno</h4>
             </div>
             <div class="mb-2 text-black">
@@ -101,19 +105,6 @@
             </div>
             <div class="mb-3 text-black">
                 <h4 style="text-align:center">Parámetros de la posición</h4>
-            </div>
-            <div class="mb-2 text-black">
-                <label>Ángulo de inclinación</label>
-            </div>
-            <div class="mb-2" id="InclinacionSelect" name="InclinacionDos">
-                <InputSelect class="form-select form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="Inclinación" @bind-Value="Instalacion.AnguloEstructura">
-                    <option value="0">0º</option>
-                    <option value="15">15º</option>
-                    <br>
-                    <option value="30">30º</option>
-                </InputSelect>
-                <br>
-                <ValidationMessage For="(()=> Instalacion.AnguloEstructura)" />
             </div>
             <div class="mb-2 text-black">
                 <label>Ángulo de Azimuth</label>
@@ -144,6 +135,9 @@
     private ITerrenoService? TerrenoService { get; set; }
 
     [Inject]
+    public IPanelService? PanelService { get; set; }
+
+    [Inject]
     private ObjectTransporter? ObjectTransporter { get; set; }
 
     [Inject]
@@ -155,7 +149,7 @@
 
     protected override void OnInitialized()
     {
-        Instalacion ??= new() { Id = 0, Potencia = 40, Voltaje = 20 };
+        Instalacion ??= new() { Id = 0,};
 
     }
 
@@ -165,6 +159,7 @@
         var response = pvgis.GetAsync($"https://re.jrc.ec.europa.eu/api/PVcalc?lat={Instalacion.Latitud.ToString().Replace(",", ".")}&lon={Instalacion.Longitud.ToString().Replace(",", ".")}&peakpower=1&loss=14").Result;
         if (response.IsSuccessStatusCode)
         {
+            Instalacion.ModeloPanel = PanelService.GetPanel(Instalacion.ModeloPanelId);
             var resultado = TerrenoService.PostTerreno(Instalacion);
             if (resultado != null)
             {
