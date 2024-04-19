@@ -1,6 +1,7 @@
 ﻿using FrontBlazor.Components.Models;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics.Eventing.Reader;
 using System.Net.Http.Headers;
 using System.Reflection.Metadata.Ecma335;
@@ -68,27 +69,7 @@ namespace FrontBlazor.Components.Services
 
         public Terreno PostTerreno(Terreno terreno)
         {
-            JsonObject panelJson = new JsonObject();
-            panelJson.Add("id", terreno.ModeloPanel.Id);
-            panelJson.Add("nombreModelo", terreno.ModeloPanel.NombreModelo);
-            panelJson.Add("largo", terreno.ModeloPanel.Largo);
-            panelJson.Add("ancho", terreno.ModeloPanel.Ancho);
-            panelJson.Add("potencia", terreno.ModeloPanel.Potencia);
-            panelJson.Add("voltaje", terreno.ModeloPanel.Voltaje);
-            panelJson.Add("material", terreno.ModeloPanel.Material);
-
-            JsonObject jsonTerreno = new JsonObject();
-            jsonTerreno.Add("id", terreno.Id);
-            jsonTerreno.Add("modeloPanel", panelJson);
-            jsonTerreno.Add("latitud", terreno.Latitud);
-            jsonTerreno.Add("longitud", terreno.Longitud);
-            jsonTerreno.Add("largoTerreno", terreno.LargoTerreno);
-            jsonTerreno.Add("anchoTerreno", terreno.AnchoTerreno);
-            jsonTerreno.Add("anguloEstructura", terreno.AnguloEstructura);
-            jsonTerreno.Add("azimuth", terreno.Azimuth);
-            jsonTerreno.Add("instalacionEstructura", terreno.InstalacionEstructura);
-
-            var response = HttpClient.PostAsJsonAsync("PostTerreno", jsonTerreno).Result;
+            var response = HttpClient.PostAsJsonAsync("PostTerreno", terreno).Result;
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content.ReadAsStringAsync().Result;

@@ -6,10 +6,7 @@ namespace FrontBlazor.Components.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Es obligatorio escoger un modelo de panel")]
-        public Panel ModeloPanel { get; set; }
-
-        public int ModeloPanelId { get; set; }
+        public int ModeloPanel { get; set; }
         //[Required(ErrorMessage = "Es obligatorio escoger un modelo de panel")]
         //[Range(0, 2000, ErrorMessage = "Es necesario especificar la potencia")]
         //public int Potencia { get; set; }

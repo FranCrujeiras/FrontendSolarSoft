@@ -15,7 +15,7 @@
         @foreach (var terreno in TerrenoService.GetTerrenos().Result)
         {
             <tr>
-                <td>@terreno.ModeloPanel</td>
+                @* <td>@terreno.ModeloPanel</td> *@
                 <td>@terreno.LargoTerreno</td>
                 <td>@terreno.AnchoTerreno</td>
             </tr>
