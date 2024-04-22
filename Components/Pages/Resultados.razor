@@ -12,25 +12,179 @@
 }
 @if (!Error)
 {
-    <div class="row" style=" z-index:1; background-color:#f3f3f3; background-size:cover">
-        <h3 style="text-align:center;background-color:#f3f3f3">Resultados de la simulación</h3>
+    <div class="row" style=" z-index:1;background:linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(206,255,197,1) 100%); background-size:cover">
+        <h3 class="mb-4" style="font-weight:bold;text-align:center;background:linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(206,255,197,1) 100%); background-size:cover">Resultados de la simulación</h3>
     </div>
 
 
-    <div class="row" style=" z-index:1; background-color:#f3f3f3; background-size:cover">
+    <div class="row" style=" z-index:1;background: linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(206,255,197,1) 100%); background-size:cover">
         <div class="col-sm-4">
+            @*  <div class="row">
+        <div class="col-1"></div>
+        <div class="col-5" >
+
+        <div class="row-mb-3">
+        <h4 style="font-weight: bold;text-align:center;color:rgb(80,22,0)"><i class="bi bi-cloud-check-fill"></i></h4>
+        <h5 style="font-weight: bold;text-align:center;color:rgb(80,22,0)">1,73 Tm CO2</h5>
+        </div>
+        <div class="row mb-3">
+        <h4 style="font-weight: bold;text-align:center;color:rgb(0,80,30)"><i class="bi bi-tree-fill"></i></h4>
+        <h5 style="font-weight: bold;text-align:center;color:rgb(0,80,30)">49 Árboles/año</h5>
+        </div>
+        </div>
+        <div class="col-5">
+        <div class="row-mb-3">
+        <h4 style="font-weight: bold;text-align:center;color:rgb(80,90,0)"><i class="bi bi-lightning-charge"></i></h4>
+        <h5 style="font-weight: bold;text-align:center;color:rgb(80,90,0)">343,51 kWh/mes</h5>
+        </div>
+        <div class="row-mb-3">
+        <h4 style="font-weight: bold;text-align:center;color:rgb(0,50,120)"><i class="bi bi-lightning-charge-fill"></i></h4>
+        <h5 style="font-weight: bold;text-align:center;color:rgb(0,50,120)">3,78 MWh/año</h5>
+        </div>
+        </div>
+
+        </div> *@
             <BarChart @ref="chartEnergia0" Class="mt-4 mb-3" />
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-5">
+
+                    <div class="row-mb-3">
+                        <h4 style="font-weight: bold;text-align:center;color:rgb(80,22,0)"><i class="bi bi-cloud-check-fill"></i></h4>
+                        <h5 style="font-weight: bold;text-align:center;color:rgb(80,22,0)">@co2_0 Tm CO2</h5>
+                    </div>
+                    <div class="row mb-3">
+                        <h4 style="font-weight: bold;text-align:center;color:rgb(0,80,30)"><i class="bi bi-tree-fill"></i></h4>
+                        <h5 style="font-weight: bold;text-align:center;color:rgb(0,80,30)">@arboles0 Árboles/año</h5>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="row-mb-3">
+                        <h4 style="font-weight: bold;text-align:center;color:rgb(80,90,0)"><i class="bi bi-lightning-charge"></i></h4>
+                        <h5 style="font-weight: bold;text-align:center;color:rgb(80,90,0)">@media0 kWh/mes</h5>
+                    </div>
+                    <div class="row-mb-3">
+                        <h4 style="font-weight: bold;text-align:center;color:rgb(0,50,120)"><i class="bi bi-lightning-charge-fill"></i></h4>
+                        <h5 style="font-weight: bold;text-align:center;color:rgb(0,50,120)">@anual0 MWh/año</h5>
+                    </div>
+                </div>
+
+            </div>
         </div>
         <div class="col-sm-4">
+            @*             <div class="row">
+        <div class="col-1"></div>
+        <div class="col-5">
+
+        <div class="row-mb-3">
+        <h4 style="font-weight: bold;text-align:center;color:rgb(80,22,0)"><i class="bi bi-cloud-check-fill"></i></h4>
+        <h5 style="font-weight: bold;text-align:center;color:rgb(80,22,0)">1,73 Tm CO2</h5>
+        </div>
+        <div class="row mb-3">
+        <h4 style="font-weight: bold;text-align:center;color:rgb(0,80,30)"><i class="bi bi-tree-fill"></i></h4>
+        <h5 style="font-weight: bold;text-align:center;color:rgb(0,80,30)">49 Árboles/año</h5>
+        </div>
+        </div>
+        <div class="col-5">
+        <div class="row-mb-3">
+        <h4 style="font-weight: bold;text-align:center;color:rgb(80,90,0)"><i class="bi bi-lightning-charge"></i></h4>
+        <h5 style="font-weight: bold;text-align:center;color:rgb(80,90,0)">343,51 kWh/mes</h5>
+        </div>
+        <div class="row-mb-3">
+        <h4 style="font-weight: bold;text-align:center;color:rgb(0,50,120)"><i class="bi bi-lightning-charge-fill"></i></h4>
+        <h5 style="font-weight: bold;text-align:center;color:rgb(0,50,120)">3,78 MWh/año</h5>
+        </div>
+        </div>
+
+        </div> *@
             <BarChart @ref="chartEnergia15" Class="mt-4 mb-3" />
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-5">
+
+                    <div class="row-mb-3">
+                        <h4 style="font-weight: bold;text-align:center;color:rgb(80,22,0)"><i class="bi bi-cloud-check-fill"></i></h4>
+                        <h5 style="font-weight: bold;text-align:center;color:rgb(80,22,0)">@co2_15 Tm CO2</h5>
+                    </div>
+                    <div class="row mb-3">
+                        <h4 style="font-weight: bold;text-align:center;color:rgb(0,80,30)"><i class="bi bi-tree-fill"></i></h4>
+                        <h5 style="font-weight: bold;text-align:center;color:rgb(0,80,30)">@arboles15 Árboles/año</h5>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="row-mb-3">
+                        <h4 style="font-weight: bold;text-align:center;color:rgb(80,90,0)"><i class="bi bi-lightning-charge"></i></h4>
+                        <h5 style="font-weight: bold;text-align:center;color:rgb(80,90,0)">@media15 kWh/mes</h5>
+                    </div>
+                    <div class="row-mb-3">
+                        <h4 style="font-weight: bold;text-align:center;color:rgb(0,50,120)"><i class="bi bi-lightning-charge-fill"></i></h4>
+                        <h5 style="font-weight: bold;text-align:center;color:rgb(0,50,120)">@anual15 MWh/año</h5>
+                    </div>
+                </div>
+
+            </div>
         </div>
+
         <div class="col-sm-4">
+            @*             <div class="row">
+        <div class="col-1"></div>
+        <div class="col-5">
+
+        <div class="row-mb-3">
+        <h4 style="font-weight: bold;text-align:center;color:rgb(80,22,0)"><i class="bi bi-cloud-check-fill"></i></h4>
+        <h5 style="font-weight: bold;text-align:center;color:rgb(80,22,0)">1,73 Tm CO2</h5>
+        </div>
+        <div class="row mb-3">
+        <h4 style="font-weight: bold;text-align:center;color:rgb(0,80,30)"><i class="bi bi-tree-fill"></i></h4>
+        <h5 style="font-weight: bold;text-align:center;color:rgb(0,80,30)">49 Árboles/año</h5>
+        </div>
+        </div>
+        <div class="col-5">
+        <div class="row-mb-3">
+        <h4 style="font-weight: bold;text-align:center;color:rgb(80,90,0)"><i class="bi bi-lightning-charge"></i></h4>
+        <h5 style="font-weight: bold;text-align:center;color:rgb(80,90,0)">343,51 kWh/mes</h5>
+        </div>
+        <div class="row-mb-3">
+        <h4 style="font-weight: bold;text-align:center;color:rgb(0,50,120)"><i class="bi bi-lightning-charge-fill"></i></h4>
+        <h5 style="font-weight: bold;text-align:center;color:rgb(0,50,120)">3,78 MWh/año</h5>
+        </div>
+        </div>
+
+        </div> *@
             <BarChart @ref="chartEnergia30" Class="mt-4 mb-3" />
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-5">
+
+                    <div class="row-mb-3">
+                        <h4 style="font-weight: bold;text-align:center;color:rgb(80,22,0)"><i class="bi bi-cloud-check-fill"></i></h4>
+                        <h5 style="font-weight: bold;text-align:center;color:rgb(80,22,0)">@co2_30 Tm CO2</h5>
+                    </div>
+                    <div class="row mb-3">
+                        <h4 style="font-weight: bold;text-align:center;color:rgb(0,80,30)"><i class="bi bi-tree-fill"></i></h4>
+                        <h5 style="font-weight: bold;text-align:center;color:rgb(0,80,30)">@arboles30 Árboles/año</h5>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="row-mb-3">
+                        <h4 style="font-weight: bold;text-align:center;color:rgb(80,90,0)"><i class="bi bi-lightning-charge"></i></h4>
+                        <h5 style="font-weight: bold;text-align:center;color:rgb(80,90,0)">@media30 kWh/mes</h5>
+                    </div>
+                    <div class="row-mb-3">
+                        <h4 style="font-weight: bold;text-align:center;color:rgb(0,50,120)"><i class="bi bi-lightning-charge-fill"></i></h4>
+                        <h5 style="font-weight: bold;text-align:center;color:rgb(0,50,120)">@anual30 MWh/año</h5>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-    <div class="row" style=" z-index:1; background-color:#f3f3f3; background-size:cover">
+    <div class="row" style=" z-index:1;background:linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(206,255,197,1) 100%); background-size:cover%">
         <div class="col-sm-4">
-            <BarChart @ref="chartIrradiacion0" Class="mt-4 mb-4" />
+            <div class="row">
+                <BarChart @ref="chartIrradiacion0" Class="mt-4 mb-4" />
+            </div>
+
         </div>
         <div class="col-sm-4">
             <BarChart @ref="chartIrradiacion15" Class="mt-4 mb-4" />
@@ -75,6 +229,19 @@
 
     private BarChart chartIrradiacion30 = default!;
 
+    private double media0 { get; set; } = default!;
+    private double media15 { get; set; } = default!;
+    private double media30 { get; set; } = default!;
+    private double anual0 { get; set; } = default!;
+    private double anual15 { get; set; } = default!;
+    private double anual30 { get; set; } = default!;
+    private double co2_0 { get; set; } = default!;
+    private double co2_15 { get; set; } = default!;
+    private double co2_30 { get; set; } = default!;
+    private double arboles0 { get; set; } = default!;
+    private double arboles15 { get; set; } = default!;
+    private double arboles30 { get; set; } = default!;
+
     protected override void OnInitialized()
     {
         Instalacion = (Terreno)ObjectTransporter.RetrieveData(Key, false);
@@ -82,46 +249,43 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        HttpClient client = new HttpClient()
+            {
+                BaseAddress = new Uri("https://localhost:7060/api/Terreno/")
+            };
+        Instalacion.AnguloEstructura = 0;
+        var response0 = client.GetAsync($"getPotenciaTotal/{Instalacion.Id}/{Instalacion.ModeloPanel}").Result;
+        if (response0.IsSuccessStatusCode)
         {
-            HttpClient client = new HttpClient()
-                {
-                    BaseAddress = new Uri("https://localhost:7060/api/Terreno/")
-                };
-            Instalacion.AnguloEstructura = 0;
-            var response0 = client.GetAsync($"getPotenciaTotal/{Instalacion.Id}/{Instalacion.ModeloPanel}").Result;
-            if (response0.IsSuccessStatusCode)
-            {
-                var potencia0 = response0.Content.ReadAsStringAsync().Result;
-                Instalacion.PotenciaTotal = double.Parse(potencia0.Replace(".", ","));
-            }
-            var datos0 = TerrenoService.GetDataPVGIS(Instalacion);
-            await RenderizarGraficaEnergia(chartEnergia0, datos0,200,0);
-            await RenderizarGraficaIrradiacion(chartIrradiacion0, datos0,255);
-            Instalacion.AnguloEstructura = 15;
-            var response15 = client.GetAsync($"getPotenciaTotal/{Instalacion.Id}/{Instalacion.ModeloPanel}").Result;
-            if (response15.IsSuccessStatusCode)
-            {
-                var potencia15 = response15.Content.ReadAsStringAsync().Result;
-                Instalacion.PotenciaTotal = double.Parse(potencia15.Replace(".", ","));
-            }
-            var datos15 = TerrenoService.GetDataPVGIS(Instalacion);
-            await RenderizarGraficaEnergia(chartEnergia15, datos15,122,15);
-            await RenderizarGraficaIrradiacion(chartIrradiacion15, datos15,125);
-            Instalacion.AnguloEstructura = 30;
-            var response30 = client.GetAsync($"getPotenciaTotal/{Instalacion.Id}/{Instalacion.ModeloPanel}").Result;
-            if (response30.IsSuccessStatusCode)
-            {
-                var potencia30 = response30.Content.ReadAsStringAsync().Result;
-                Instalacion.PotenciaTotal = double.Parse(potencia30.Replace(".", ","));
-            }
-            var datos30 = TerrenoService.GetDataPVGIS(Instalacion);
-            await RenderizarGraficaEnergia(chartEnergia30, datos30,60,30);
-            await RenderizarGraficaIrradiacion(chartIrradiacion30, datos30,80);
-
-            //Dejo el resto en tus manos! Modifica lo RenderizarGrafica estos de arriba, para que reciban como valor también el color, para asignar un color por ángulo
-            //Añade también a cada gráfica lo de las emisiones, árboles, y los títulos de qué es cada cosa
+            var potencia0 = response0.Content.ReadAsStringAsync().Result;
+            Instalacion.PotenciaTotal = double.Parse(potencia0.Replace(".", ","));
         }
+        var datos0 = TerrenoService.GetDataPVGIS(Instalacion);
+        await RenderizarGraficaEnergia(chartEnergia0, datos0, 175, 0);
+        await RenderizarGraficaIrradiacion(chartIrradiacion0, datos0, 255);
+        Instalacion.AnguloEstructura = 15;
+        var response15 = client.GetAsync($"getPotenciaTotal/{Instalacion.Id}/{Instalacion.ModeloPanel}").Result;
+        if (response15.IsSuccessStatusCode)
+        {
+            var potencia15 = response15.Content.ReadAsStringAsync().Result;
+            Instalacion.PotenciaTotal = double.Parse(potencia15.Replace(".", ","));
+        }
+        var datos15 = TerrenoService.GetDataPVGIS(Instalacion);
+        await RenderizarGraficaEnergia(chartEnergia15, datos15, 122, 15);
+        await RenderizarGraficaIrradiacion(chartIrradiacion15, datos15, 125);
+        Instalacion.AnguloEstructura = 30;
+        var response30 = client.GetAsync($"getPotenciaTotal/{Instalacion.Id}/{Instalacion.ModeloPanel}").Result;
+        if (response30.IsSuccessStatusCode)
+        {
+            var potencia30 = response30.Content.ReadAsStringAsync().Result;
+            Instalacion.PotenciaTotal = double.Parse(potencia30.Replace(".", ","));
+        }
+        var datos30 = TerrenoService.GetDataPVGIS(Instalacion);
+        await RenderizarGraficaEnergia(chartEnergia30, datos30, 90, 30);
+        await RenderizarGraficaIrradiacion(chartIrradiacion30, datos30, 80);
+
+        //Dejo el resto en tus manos! Modifica lo RenderizarGrafica estos de arriba, para que reciban como valor también el color, para asignar un color por ángulo
+        //Añade también a cada gráfica lo de las emisiones, árboles, y los títulos de qué es cada cosa
 
         await base.OnAfterRenderAsync(firstRender);
     }
@@ -135,11 +299,32 @@
             //Con esto la obtendrías, necesitas algún valor más de PVGIS?
             //mmm pues la media mensual, para poner al lado de la gráfica
             //Márcamela en el texto
-            var mediaEnergia = json.SelectToken("outputs").SelectToken("totals").SelectToken("fixed").SelectToken("E_y");
-            var CO2Evitado = Math.Round(Convert.ToDouble(mediaEnergia) * 0.4);
+            switch (angulo)
+            {
+                case 0:
+                    media0 = (double)json.SelectToken("outputs").SelectToken("totals").SelectToken("fixed").SelectToken("E_m");
+                    anual0 = Math.Round(((double)json.SelectToken("outputs").SelectToken("totals").SelectToken("fixed").SelectToken("E_y")) / 1000, 2);
+                    co2_0 = Math.Round(Convert.ToDouble(anual0) * 0.4, 2);
+                    arboles0 = Math.Round(co2_0 * 45, 0);
+                    break;
+                case 15:
+                    media15 = (double)json.SelectToken("outputs").SelectToken("totals").SelectToken("fixed").SelectToken("E_m");
+                    anual15 = Math.Round(((double)json.SelectToken("outputs").SelectToken("totals").SelectToken("fixed").SelectToken("E_y")) / 1000, 2);
+                    co2_15 = Math.Round(Convert.ToDouble(anual15) * 0.4, 2);
+                    arboles15 = Math.Round(co2_15 * 45, 0);
+                    break;
+                case 30:
+                    media30 = (double)json.SelectToken("outputs").SelectToken("totals").SelectToken("fixed").SelectToken("E_m");
+                    anual30 = Math.Round(((double)json.SelectToken("outputs").SelectToken("totals").SelectToken("fixed").SelectToken("E_y")) / 1000, 2);
+                    co2_30 = Math.Round(Convert.ToDouble(anual30) * 0.4, 2);
+                    arboles30 = Math.Round(co2_30 * 45, 0);
+                    break;
+            }
+            var mediaEnergia = Convert.ToDouble(json.SelectToken("outputs").SelectToken("totals").SelectToken("fixed").SelectToken("E_y"));
+            var CO2Evitado = Math.Round(Convert.ToDouble(mediaEnergia) * 0.4, 2);
+            var arbolesPlantados = CO2Evitado * 45;
             var mediaMensual = json.SelectToken("outputs").SelectToken("totals").SelectToken("fixed").SelectToken("E_m");
-            //Algún campo más? Nope, con esto ya tengo lo que necesito ;)
-            //Genial, prueba a mostrar esto en el front entonces!
+
             foreach (var valor in valores)
             {
                 foreach (var parametro in valor)
@@ -170,7 +355,7 @@
 
             options.Interaction.Mode = InteractionMode.Index;
 
-            options.Plugins.Title!.Text = "Energía mensual estimada "+angulo+"º";
+            options.Plugins.Title!.Text = "Estimación mensual " + angulo + "º";
             options.Plugins.Title.Display = true;
             options.Plugins.Title.Font!.Size = 20;
             options.Plugins.Legend.Display = true;
@@ -180,9 +365,10 @@
             options.Scales.X!.Title!.Text = "Mes";
             options.Scales.X.Title.Display = true;
 
-            options.Scales.Y!.Title!.Text = CO2Evitado+ "kg de CO2 ahorrados";
+            options.Scales.Y!.Title!.Text = "Energía generada";
             options.Scales.Y.Title.Display = true;
 
+            await InvokeAsync(StateHasChanged);
             await graficaObjetivo.InitializeAsync(data, options);
 
         }
@@ -217,7 +403,7 @@
             {
                 Label = "Irradiación (W/m^2)",
                 Data = irradiacion,
-                BackgroundColor = new List<string>{ "rgb("+yColor+","+ yColor+", 0)" },
+                BackgroundColor = new List<string>{ "rgb(0,0,"+yColor+")" },
                 CategoryPercentage = 0.8,
                 BarPercentage = 1,
             }
