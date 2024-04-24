@@ -52,7 +52,7 @@
             </div>
 
             <div class="mb-3">
-                <InputSelect class="form-select form-control" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" @bind-Value="Instalacion.ModeloPanel">
+                <InputSelect class="form-select form-control" placeholder="Seleccione un panel" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" @bind-Value="Instalacion.ModeloPanel">
                     <option value="Modelo de Panel">Modelo de Panel</option>
                     @foreach (Panel panel in PanelService.GetPaneles())
                     {
