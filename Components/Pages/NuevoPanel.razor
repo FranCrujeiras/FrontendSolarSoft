@@ -5,7 +5,8 @@
 
 
 <PageTitle>Nuevo panel</PageTitle>
-<nav class="navbar navbar-expand-lg" style="z-index:1; background:linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(120,249,255,1) 100%); background-size:cover">
+
+@* <nav class="navbar navbar-expand-lg" style="z-index:1; background:linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(120,249,255,1) 100%); background-size:cover">
     <a class="navbar-brand" href="/">SolarSoft</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -14,17 +15,24 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="/">Nueva Instalación</a>
             <a class="nav-item nav-link" href="/nuevoPanel">Nuevo Panel</a>
+            <a class="nav-item nav-link" href="/mapa">Mapa</a>
         </div>
     </div>
-</nav>
+</nav> *@
 @if (Enviado)
 {
     <div class="alert alert-success">El panel se ha guardado correctamente</div>
 }
 
-<div class="row text-black" style="z-index:1; background:linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(120,249,255,1) 100%); background-size:cover">
-    <div class="col-1"></div>
-    <div class="col-4 mt-5">
+<div class="row text-black" style="z-index:1; background-color:rgba(240,240,240,1); background-size:cover">
+    <div class="col-3">
+    <Sidebar @ref="sidebar"
+             IconName="IconName.SunFill"
+             Title="SolarSoft"
+             DataProvider="SidebarDataProvider"
+             Style="font-weight:bolder; background-color: rgba(30,30,30,0.5)" />
+    </div>
+    <div class="col-3 mt-5">
         <h2 style="text-align: center">SolarSoft</h2>
         <br />
         <p style="text-align:center">Este es el menú de creación de un nuevo panel. </p>
@@ -37,7 +45,7 @@
         <br />
         <p style="text-align:center">soporte@solutions30.com</p>
     </div>
-    <div class="col-2"></div>
+    <div class="col-1"></div>
     <div class="col-4 text-secondary mt-5">
         <EditForm Model="Instalacion" FormName="FormPaneles" OnSubmit="Añadir">
             <DataAnnotationsValidator />
@@ -101,8 +109,7 @@
 
         </EditForm>
     </div>
-</div>
-
+    </div>
 @code {
 
     [SupplyParameterFromForm]
@@ -132,3 +139,61 @@
         }
     }
 }
+    @code {
+    Sidebar sidebar = default!;
+    IEnumerable<NavItem>? navItems;
+
+    private async Task<SidebarDataProviderResult> SidebarDataProvider(SidebarDataProviderRequest request)
+    {
+        if (navItems is null)
+            navItems = GetNavItems();
+
+        return await Task.FromResult(request.ApplyTo(navItems));
+    }
+
+    private IEnumerable<NavItem> GetNavItems()
+    {
+        navItems = new List<NavItem>
+        {
+            new NavItem { Id = "1", Href = "/Home", IconName = IconName.HouseDoorFill, Text = "Inicio"},
+
+            new NavItem { Id = "2", Href="/", IconName = IconName.HouseAddFill, Text = "Nueva Instalación" },
+
+            new NavItem { Id = "4", IconName = IconName.DatabaseFillAdd, Text = "Nuevo Componente" },
+            new NavItem { Id = "5", Href = "/NuevoPanel", IconName = IconName.SunFill, Text = "Nuevo Panel", ParentId="4"},
+            new NavItem { Id = "6", Href = "/NuevaBateria", IconName = IconName.BatteryCharging, Text = "Nueva Batería", ParentId="4"},
+            new NavItem { Id = "7", Href = "/mapa", IconName = IconName.MapFill, Text= "Mapa"},
+             
+        };
+
+        return navItems;
+    }
+    private void ToggleSidebar() => sidebar.ToggleSidebar();
+    }
+}
+
+<style>
+    :root {
+        --bb-sidebar-width: 270px;
+        --bb-sidebar-collapsed-width: 50px;
+        --bb-sidebar-background-color: rgba(234, 234, 234, 1);
+        --bb-sidebar-top-row-background-color: rgba(240,240,240,0.2);
+        --bb-sidebar-top-row-border-color: rgba(240,240,240,0.6);
+        --bb-sidebar-title-text-color: rgb(0,0,0);
+        --bb-sidebar-brand-icon-color: #000000;
+        --bb-sidebar-brand-image-width: 24px;
+        --bb-sidebar-brand-image-height: 24px;
+        --bb-sidebar-title-badge-text-color: rgb(255,255,255);
+        --bb-sidebar-title-badge-background-color: rgba(25,135,84,var(--bs-bg-opacity,1));
+        --bb-sidebar-navbar-toggler-icon-color: rgb(0,0,0);
+        --bb-sidebar-navbar-toggler-background-color: rgba(0,0,0,0.08);
+        --bb-sidebar-content-border-color: rgb(194,192,192);
+        --bb-sidebar-nav-item-text-color: rgba(255,255,255,0.9);
+        --bb-sidebar-nav-item-text-active-color-rgb: 255,255,255;
+        --bb-sidebar-nav-item-text-hover-color: rgba(var(--bb-sidebar-nav-item-text-active-color-rgb),0.7);
+        --bb-sidebar-nav-item-text-active-color: rgba(var(--bb-sidebar-nav-item-text-active-color-rgb),0.9);
+        --bb-sidebar-nav-item-background-hover-color: rgba(var(--bb-sidebar-nav-item-text-active-color-rgb),0.08);
+        --bb-sidebar-nav-item-group-background-color: rgba(var(--bb-sidebar-nav-item-text-active-color-rgb),0.08);
+    }
+</style>
+
