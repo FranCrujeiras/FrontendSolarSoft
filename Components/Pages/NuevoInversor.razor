@@ -1,0 +1,192 @@
+﻿
+@page "/NuevoInversor"
+@using FrontBlazor.Components.Models
+@using FrontBlazor.Components.Services
+@using FrontBlazor.Components.Layout
+@rendermode InteractiveServer
+
+@if (Enviado)
+{
+    <div class="alert alert-success">El panel se ha guardado correctamente</div>
+}
+
+<div class="row text-black" style="z-index:1; background-color:rgba(240,240,240,1); background-size:cover">
+    <div class="col-3">
+        <!--
+            El SideBar se debería añadir como <SideBar></SideBar> simplemente, con la lógica del code en la propia razor de la sideBar, si no, tienes
+            que hacer esta declaración y copiar el código en todas las razor
+        -->
+                <Menu></Menu>
+
+    </div>
+    <div class="col-3 mt-5">
+        <h2 style="text-align: center">SolarSoft</h2>
+        <br />
+        <p style="text-align:center">Este es el menú de creación de un nuevo inversor. </p>
+        <br />
+        <p style="text-align: center">En este menú podrá añadir los parámetros de un nuevo modelo de inversor para añadirlo a sus instalaciones.</p>
+        <br />
+        <p style="text-align: center">Si desea obtener más información sobre el uso de Solarsoft o los inversores que usamos, puede contactarnos a través de nuestra dirección de correo electrónico:</p>
+        <br />
+        <p style="text-align:center">soporte@solutions30.com</p>
+    </div>
+    <div class="col-1"></div>
+    <div class="col-4 text-secondary mt-5">
+        <EditForm Model="Instalacion" FormName="FormInversor" OnSubmit="Añadir">
+            <DataAnnotationsValidator />
+            <div class="mb-4 text-black">
+                <h2 style="text-align:center">Nuevo Inversor</h2>
+            </div>
+
+            <div class="mb-2 text-black">
+                <label>Nombre del modelo</label>
+            </div>
+            <div class="mb-2">
+                <InputText class="form-control" style="background-color:rgba(255, 255, 255, 0.5);z-index:auto; !important" id="ModeloInversor" @bind-Value="Instalacion.ModeloInversor" />
+                <ValidationMessage style="z-index:auto; !important" For="()=> Instalacion.ModeloInversor" />
+                <br>
+            </div>
+            <div class="mb-2 text-black">
+                <label>Potencia de entrada</label>
+            </div>
+            <InputNumber class="form-control " style="z-index:auto; background-color:rgba(255, 255, 255, 0.5); z-index:99" id="PotenciaEntradaInversor" @bind-Value="Instalacion.PotenciaEntrada" />
+            <br>
+            <ValidationMessage For="()=> Instalacion.PotenciaEntrada" style="z-index:auto;" />
+            <div class="mb-3 text-black">
+            </div>
+            <div class="mb-2 text-black">
+                <label>Potencia de salida</label>
+            </div>
+            <div class="mb-2">
+                <InputNumber class="form-control  " style="background-color:rgba(255, 255, 255, 0.5)" id="PotenciaSalidaInversor" @bind-Value="Instalacion.PotenciaSalida" />
+                <br>
+                <ValidationMessage For="(()=> Instalacion.PotenciaSalida)" />
+            </div>
+            <div class="mb-2 text-black">
+                <label>Eficiencia europea</label>
+            </div>
+            <div class="mb-2 text-black">
+                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="EficienciaEuropa" @bind-Value="Instalacion.EficienciaEuropea" />
+                <br>
+                <ValidationMessage For="(()=> Instalacion.EficienciaEuropea)" />
+            </div>
+            <div class="mb-2 text-black">
+                <label>Voltaje minimo MPPT</label>
+            </div>
+            <div class="mb-2 text-black">
+                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="VoltajeMinimoMPPT" @bind-Value="Instalacion.VoltajeMinimoMPPT" />
+                <br>
+                <ValidationMessage For="(()=> Instalacion.VoltajeMinimoMPPT)" />
+            </div>
+            <div class="mb-2 text-black">
+                <label>Voltaje máximo MPPT</label>
+            </div>
+            <div class="mb-2 text-black">
+                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="VoltajeMaximoMPPT" @bind-Value="Instalacion.VoltajeMaximoMPPT" />
+                <br>
+                <ValidationMessage For="(()=> Instalacion.VoltajeMaximoMPPT)" />
+            </div>
+            <div class="mb-2 text-black">
+                <label>Número MPPT</label>
+            </div>
+            <div class="mb-2 text-black">
+                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="NumeroMPPT" @bind-Value="Instalacion.NumeroMPPT" />
+                <br>
+                <ValidationMessage For="(()=> Instalacion.NumeroMPPT)" />
+            </div>
+            <div class="mt-5">
+                <button type="submit" id="Añadir" class="btn btn-dark btn-outline-warning">Añadir</button>
+            </div>
+
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    //Cuidado con copiar los modelos de la API y no quitar los required, en la API son necesarios para procesar bien las request y que den error si falta algún campo necesario
+        //Pero desde la web, realmente nosotros vamos 'guiando' al usuario por lo que le hace falta a través de los formularios, y los campos de los formularios ya llevan las validaciones en sí
+    [SupplyParameterFromForm]
+    public Inversor? Instalacion { get; set; }
+
+    [Inject]
+    public I_InversorService InversorService { get; set; }
+
+    private bool Enviado { get; set; } = false;
+
+    protected override void OnInitialized()
+    {
+        Instalacion = new() { Id = 0 };
+        base.OnInitialized();
+    }
+
+    public async void Añadir()
+    {
+        var resultado = await InversorService.PostInversor(Instalacion);
+        if (resultado)
+        {
+            Enviado = true;
+        }
+        else
+        {
+            Enviado = false;
+        }
+    }
+}
+
+@* //Este code no iría aquí, iría en el Sidebar
+    @code {
+    Sidebar sidebar = default!;
+    IEnumerable<NavItem>? navItems;
+
+    private async Task<SidebarDataProviderResult> SidebarDataProvider(SidebarDataProviderRequest request)
+    {
+        if (navItems is null)
+            navItems = GetNavItems();
+
+        return await Task.FromResult(request.ApplyTo(navItems));
+    }
+
+    private IEnumerable<NavItem> GetNavItems()
+    {
+        navItems = new List<NavItem>
+        {
+            new NavItem { Id = "1", Href = "/Home", IconName = IconName.HouseDoorFill, Text = "Inicio"},
+            new NavItem { Id = "2", Href="/", IconName = IconName.HouseAddFill, Text = "Nueva Instalación" },
+            new NavItem { Id = "4", IconName = IconName.DatabaseFillAdd, Text = "Nuevo Componente" },
+            new NavItem { Id = "5", Href = "/NuevoPanel", IconName = IconName.SunFill, Text = "Nuevo Panel", ParentId="4"},
+            new NavItem { Id = "6", Href = "/NuevaBateria", IconName = IconName.BatteryCharging, Text = "Nueva Batería", ParentId="4"},
+            new NavItem { Id = "7", Href = "/mapa", IconName = IconName.MapFill, Text= "Mapa"},
+        };
+
+        return navItems;
+    }
+    private void ToggleSidebar() => sidebar.ToggleSidebar();
+    }
+} *@
+
+@* <style>
+    :root {
+        --bb-sidebar-width: 270px;
+        --bb-sidebar-collapsed-width: 50px;
+        --bb-sidebar-background-color: rgba(234, 234, 234, 1);
+        --bb-sidebar-top-row-background-color: rgba(240,240,240,0.2);
+        --bb-sidebar-top-row-border-color: rgba(240,240,240,0.6);
+        --bb-sidebar-title-text-color: rgb(0,0,0);
+        --bb-sidebar-brand-icon-color: #000000;
+        --bb-sidebar-brand-image-width: 24px;
+        --bb-sidebar-brand-image-height: 24px;
+        --bb-sidebar-title-badge-text-color: rgb(255,255,255);
+        --bb-sidebar-title-badge-background-color: rgba(25,135,84,var(--bs-bg-opacity,1));
+        --bb-sidebar-navbar-toggler-icon-color: rgb(0,0,0);
+        --bb-sidebar-navbar-toggler-background-color: rgba(0,0,0,0.08);
+        --bb-sidebar-content-border-color: rgb(194,192,192);
+        --bb-sidebar-nav-item-text-color: rgba(255,255,255,0.9);
+        --bb-sidebar-nav-item-text-active-color-rgb: 255,255,255;
+        --bb-sidebar-nav-item-text-hover-color: rgba(var(--bb-sidebar-nav-item-text-active-color-rgb),0.7);
+        --bb-sidebar-nav-item-text-active-color: rgba(var(--bb-sidebar-nav-item-text-active-color-rgb),0.9);
+        --bb-sidebar-nav-item-background-hover-color: rgba(var(--bb-sidebar-nav-item-text-active-color-rgb),0.08);
+        --bb-sidebar-nav-item-group-background-color: rgba(var(--bb-sidebar-nav-item-text-active-color-rgb),0.08);
+    }
+</style>
+ *@
+@* } *@

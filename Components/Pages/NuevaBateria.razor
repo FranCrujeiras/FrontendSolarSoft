@@ -1,0 +1,111 @@
+﻿
+@page "/NuevaBateria"
+@using FrontBlazor.Components.Models
+@using FrontBlazor.Components.Services
+@using FrontBlazor.Components.Layout
+@rendermode InteractiveServer
+
+<div class="row text-black" style="z-index:1; background-color:rgba(240,240,240,1); background-size:cover">
+    <div class="col-3">
+        <!--
+            El SideBar se debería añadir como <SideBar></SideBar> simplemente, con la lógica del code en la propia razor de la sideBar, si no, tienes
+            que hacer esta declaración y copiar el código en todas las razor
+        -->
+                <Menu></Menu>
+
+    </div>
+    <div class="col-3 mt-5">
+        <h2 style="text-align: center">SolarSoft</h2>
+        <br />
+        <p style="text-align:center">Este es el menú de creación de una nueva batería. </p>
+        <br />
+        <p style="text-align: center">En este menú podrá añadir los parámetros de un nuevo modelo de batería para añadirlo a sus instalaciones.</p>
+        <br />
+        <p style="text-align: center">Si desea obtener más información sobre el uso de Solarsoft o los inversores que usamos, puede contactarnos a través de nuestra dirección de correo electrónico:</p>
+        <br />
+        <p style="text-align:center">soporte@solutions30.com</p>
+    </div>
+    <div class="col-1"></div>
+    <div class="col-4 text-secondary mt-5">
+        <EditForm Model="Instalacion" FormName="FormBateria" OnSubmit="Añadir">
+            <DataAnnotationsValidator />
+            <div class="mb-4 text-black">
+                <h2 style="text-align:center">Nueva batería</h2>
+            </div>
+
+            <div class="mb-2 text-black">
+                <label>Nombre del modelo</label>
+            </div>
+            <div class="mb-2">
+                <InputText class="form-control" style="background-color:rgba(255, 255, 255, 0.5);z-index:auto; !important" id="ModeloBateria" @bind-Value="Instalacion.ModeloBateria" />
+                <ValidationMessage style="z-index:auto; !important" For="()=> Instalacion.ModeloBateria" />
+                <br>
+            </div>
+            <div class="mb-2 text-black">
+                <label>Capacidad</label>
+            </div>
+            <InputNumber class="form-control " style="z-index:auto; background-color:rgba(255, 255, 255, 0.5); z-index:99" id="Capacidad" @bind-Value="Instalacion.Capacidad" />
+            <br>
+            <ValidationMessage For="()=> Instalacion.Capacidad" style="z-index:auto;" />
+            <div class="mb-3 text-black">
+            </div>
+            <div class="mb-2 text-black">
+                <label>Potencia de salida</label>
+            </div>
+            <div class="mb-2">
+                <InputNumber class="form-control  " style="background-color:rgba(255, 255, 255, 0.5)" id="PotenciaSalidaBateria" @bind-Value="Instalacion.PotenciaSalida" />
+                <br>
+                <ValidationMessage For="(()=> Instalacion.PotenciaSalida)" />
+            </div>
+            <div class="mb-2 text-black">
+                <label>Número de módulos</label>
+            </div>
+            <div class="mb-2 text-black">
+                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="NumeroModulos" @bind-Value="Instalacion.Modulos" />
+                <br>
+                <ValidationMessage For="(()=> Instalacion.Modulos)" />
+            </div>
+            <div class="mb-2 text-black">
+                <label>Voltaje nominal</label>
+            </div>
+            <div class="mb-2 text-black">
+                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="VoltajeNominal" @bind-Value="Instalacion.VoltajeNominal" />
+                <br>
+                <ValidationMessage For="(()=> Instalacion.VoltajeNominal)" />
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Bateria? Instalacion { get; set; }
+
+    [Inject]
+    public IBateriaService BateriaService { get; set; }
+
+    private bool Enviado { get; set; } = false;
+
+    protected override void OnInitialized()
+    {
+        Instalacion = new() { Id = 0 };
+        base.OnInitialized();
+    }
+
+    public async void Añadir()
+    {
+        var resultado = await BateriaService.PostBateria(Instalacion);
+        if (resultado)
+        {
+            Enviado = true;
+        }
+        else
+        {
+            Enviado = false;
+        }
+    }
+
+}

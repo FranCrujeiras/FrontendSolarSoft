@@ -1,11 +1,34 @@
 {
   "Version": 1,
-  "Hash": "/t3a7nq5LWYd25rC9qevWUvdQ9N01nggvMI7Ncpc+ak=",
+  "Hash": "8ihbbJJ2L/KQE1aF4x2MV8YWbb1sBwPuTE5mF2Gh/V4=",
   "Source": "FrontBlazor",
   "BasePath": "_content/FrontBlazor",
   "Mode": "Default",
   "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\Bubi\\Desktop\\SolarSoft\\SolarSoft\\SolarSoft 1.0.csproj",
+      "Version": 2,
+      "Source": "SolarSoft 1.0",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile"
+    },
+    {
+      "Identity": "C:\\Users\\Bubi\\Desktop\\SolarSoft\\SolarSoft\\SolarSoft 1.0.csproj",
+      "Version": 2,
+      "Source": "SolarSoft 1.0",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile"
+    }
+  ],
   "DiscoveryPatterns": [
     {
       "Name": "FrontBlazor\\wwwroot",

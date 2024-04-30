@@ -19,6 +19,16 @@ builder.Services.AddHttpClient<IPanelService, PanelService>(client =>
     client.BaseAddress = new Uri("https://localhost:7060/api/Paneles/");
 });
 
+builder.Services.AddHttpClient<I_InversorService, InversorService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7060/api/Inversor/");
+});
+
+builder.Services.AddHttpClient<IBateriaService, BateriaService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7060/api/Bateria/");
+});
+
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddSingleton<ObjectTransporter>();
 //Los HttpClient, van siempre antes de esto

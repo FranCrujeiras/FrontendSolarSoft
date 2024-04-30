@@ -1,89 +1,114 @@
 ﻿@page "/mapa"
+@using FrontBlazor.Components.Models
+@using FrontBlazor.Components.Services
+@using FrontBlazor.Components.Extensions
 @rendermode InteractiveServer
 
 <PageTitle>Mapa</PageTitle>
-<nav class="navbar navbar-expand-lg" style="z-index:1;background-color:rgba(240,240,240,1); background-size:cover">
-    <a class="navbar-brand" href="/">SolarSoft</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link" href="/">Nueva Instalación</a>
-            <a class="nav-item nav-link" href="/nuevoPanel">Nuevo Panel</a>
-            <a class="nav-item nav-link" href="/mapa">Mapa</a>
-        </div>
-    </div>
-</nav>
+
 @if (HaCargado)
 {
-    <script type='text/javascript'>
-        function GetMap() {
-            var map = new Microsoft.Maps.Map('#myMap');
+    <div class="row d-flex align-items-center">
+        <div class="col-sm-2">
+            <Sidebar @ref="sidebar"
+                     IconName="IconName.SunFill"
+                     Title="SolarSoft"
+                     DataProvider="SidebarDataProvider"
+                     Style="font-weight:bolder; background-color: rgba(30,30,30,0.5)" />
 
-            //Create a random 5 sided polyogn that fills a decent portion of the map.
-            var polygon = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds(), 1,1);
+        </div>
+        <div class="col-sm-2">
+            <center>
+                <div style="width:85%">
+                    <label class="form-label mt-5">Seleccionar panel</label>
+                    <input class="form-select form-control mt-1" placeholder="Seleccione un panel" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" />
+                    @*                 @foreach (Panel panel in PanelService.GetPaneles())
+                {
+                <option value="@panel.Id">@panel.NombreModelo</option>
+                } *@
+                    <label class="form-label mt-3">Latitud</label>
+                    <input readonly Id="LatitudMapa" class="form-control mt-1" style="align-items:center" placeholder="Latitud" />
+                    <label class="form-label mt-3">Longitud</label>
+                    <input readonly Id="LongitudMapa" class="form-control mt-1" placeholder="Longitud" />
+                    <label class="form-label mt-3">Azimuth</label>
+                    <input readonly Id="AzimuthMapa" class="form-control mt-1" placeholder="Azimuth" />
+                    <label class="form-label mt-3">Área de la instalación</label>
+                    <input readonly Id="AreaMapa" class="form-control mt-1" placeholder="Área de la instalación" />
+                    <label class="form-label mt-3">Número de paneles</label>
+                    <input readonly Id="NumeroMapa" class="form-control mt-1" placeholder="Número de paneles" />
+                </div>
+            </center>
+        </div>
+        <div class="col-sm-8" style="padding:0;margin:0,0,0,0">
+            <script type='text/javascript'>
+                function GetMap() {
+                    var map = new Microsoft.Maps.Map('#myMap');
 
-            //Add some metadata to the shape.
-            polygon.metadata = {
-                value: 'hello world'
-            };
+                    //Create a random 5 sided polyogn that fills a decent portion of the map.
+                    var polygon = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds(), 1, 1);
+
+                    //Add some metadata to the shape.
+                    polygon.metadata = {
+                        value: 'hello world'
+                    };
 
 
-            //Load the DrawingTools module
-            Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
-                //Create an instance of the DrawingTools class and bind it to the map.
-                var tools = new Microsoft.Maps.DrawingTools(map);
-                 
-                //Show the drawing toolbar and enable editting on the map.
-                tools.showDrawingManager(function (manager) {
-                    //Store a reference to the drawing manager as it will be useful later.
-                    drawingManager = manager;
+                    //Load the DrawingTools module
+                    Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+                        //Create an instance of the DrawingTools class and bind it to the map.
+                        var tools = new Microsoft.Maps.DrawingTools(map);
 
-                    //Add polygon to drawing canvas.
-                    drawingManager.add(polygon);
-                })
-            });
-@*             Microsoft.Maps.loadModule("Microsoft.Maps.SpatialMath", function () {
-                var bounds = map.getBounds();
+                        //Show the drawing toolbar and enable editting on the map.
+                        tools.showDrawingManager(function (manager) {
+                            //Store a reference to the drawing manager as it will be useful later.
+                            drawingManager = manager;
 
-                var northWest = bounds.getNorthwest();
-                var southEast = bounds.getSoutheast();
-            } *@
-        }
-        function getShapes() {
-            var shapes = drawingManager.getPrimitives();
+                            //Add polygon to drawing canvas.
+                            drawingManager.add(polygon);
+                        })
+                    });
+                @*             Microsoft.Maps.loadModule("Microsoft.Maps.SpatialMath", function () {
+                    var bounds = map.getBounds();
 
-            if (shapes && shapes.length > 0) {
-                alert('Retrieved ' + shapes.length + ' from the drawing manager.');
-                Microsoft.Maps.SpatialMath.Geometry.centroid()
-@*                 fromShapes(shapes: shapes); *@
-            } else {
-                alert('No shapes in the drawing manager.');
-            }
-        }
-        function getMetadata() {
-            var shapes = drawingManager.getPrimitives();
+                    var northWest = bounds.getNorthwest();
+                    var southEast = bounds.getSoutheast();
+                    } *@
+                                                                                                                            }
+                function getShapes() {
+                    var shapes = drawingManager.getPrimitives();
 
-            if (shapes && shapes.length > 0) {
-                if (shapes[0].metadata) {
-                    alert('Shapes metadata: ' + shapes[0].metadata.value);
-                } else {
-                    alert('No metadata in shape.');
+                    if (shapes && shapes.length > 0) {
+                        alert('Retrieved ' + shapes.length + ' from the drawing manager.');
+                        Microsoft.Maps.SpatialMath.Geometry.centroid()
+                @*                 fromShapes(shapes: shapes); *@
+                                                                                                                            } else {
+                        alert('No shapes in the drawing manager.');
+                    }
                 }
-            } else {
-                alert('No shapes in the drawing manager.');
-            }
-        }
-    </script>
-}
-<div class="row" style="height:100vh">
-    <div class="col-sm-12">
-        <div id="myMap" style="width:auto"></div>
-        <input type="button" value="Get Metadata" onclick="getMetadata()" />
+                function getMetadata() {
+                    var shapes = drawingManager.getPrimitives();
+
+                    if (shapes && shapes.length > 0) {
+                        if (shapes[0].metadata) {
+                            alert('Shapes metadata: ' + shapes[0].metadata.value);
+                        } else {
+                            alert('No metadata in shape.');
+                        }
+                    } else {
+                        alert('No shapes in the drawing manager.');
+                    }
+                }
+            </script>
+
+            <div class="row" style="height:100vh">
+                <div class="col-12">
+                    <div id="myMap" style="width:auto"></div>
+                    <input type="button" value="Get Metadata" onclick="getMetadata()" />
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-@code {
+    @code {
     private bool HaCargado { get; set; } = false;
 
     protected override Task OnAfterRenderAsync(bool firstRender)
@@ -97,3 +122,61 @@
     }
 
 }
+}
+@code {
+    Sidebar sidebar = default!;
+    IEnumerable<NavItem>? navItems;
+
+    private async Task<SidebarDataProviderResult> SidebarDataProvider(SidebarDataProviderRequest request)
+    {
+        if (navItems is null)
+            navItems = GetNavItems();
+
+        return await Task.FromResult(request.ApplyTo(navItems));
+    }
+
+    private IEnumerable<NavItem> GetNavItems()
+    {
+        navItems = new List<NavItem>
+        {
+            new NavItem { Id = "1", Href = "/Home", IconName = IconName.HouseDoorFill, Text = "Inicio"},
+
+            new NavItem { Id = "2", Href="/", IconName = IconName.HouseAddFill, Text = "Nueva Instalación" },
+
+            new NavItem { Id = "4", IconName = IconName.DatabaseFillAdd, Text = "Nuevo Componente" },
+            new NavItem { Id = "5", Href = "/NuevoPanel", IconName = IconName.SunFill, Text = "Nuevo Panel", ParentId="4"},
+            new NavItem { Id = "6", Href = "/NuevaBateria", IconName = IconName.BatteryCharging, Text = "Nueva Batería", ParentId="4"},
+            new NavItem { Id = "7", Href = "/mapa", IconName = IconName.MapFill, Text= "Mapa"},
+
+        };
+
+        return navItems;
+    }
+    private void ToggleSidebar() => sidebar.ToggleSidebar();
+}
+}
+
+<style>
+    :root {
+        --bb-sidebar-width: 270px;
+        --bb-sidebar-collapsed-width: 50px;
+        --bb-sidebar-background-color: rgba(234, 234, 234, 1);
+        --bb-sidebar-top-row-background-color: rgba(240,240,240,0.2);
+        --bb-sidebar-top-row-border-color: rgba(240,240,240,0.6);
+        --bb-sidebar-title-text-color: rgb(0,0,0);
+        --bb-sidebar-brand-icon-color: #000000;
+        --bb-sidebar-brand-image-width: 24px;
+        --bb-sidebar-brand-image-height: 24px;
+        --bb-sidebar-title-badge-text-color: rgb(255,255,255);
+        --bb-sidebar-title-badge-background-color: rgba(25,135,84,var(--bs-bg-opacity,1));
+        --bb-sidebar-navbar-toggler-icon-color: rgb(0,0,0);
+        --bb-sidebar-navbar-toggler-background-color: rgba(0,0,0,0.08);
+        --bb-sidebar-content-border-color: rgb(194,192,192);
+        --bb-sidebar-nav-item-text-color: rgba(255,255,255,0.9);
+        --bb-sidebar-nav-item-text-active-color-rgb: 255,255,255;
+        --bb-sidebar-nav-item-text-hover-color: rgba(var(--bb-sidebar-nav-item-text-active-color-rgb),0.7);
+        --bb-sidebar-nav-item-text-active-color: rgba(var(--bb-sidebar-nav-item-text-active-color-rgb),0.9);
+        --bb-sidebar-nav-item-background-hover-color: rgba(var(--bb-sidebar-nav-item-text-active-color-rgb),0.08);
+        --bb-sidebar-nav-item-group-background-color: rgba(var(--bb-sidebar-nav-item-text-active-color-rgb),0.08);
+    }
+</style>

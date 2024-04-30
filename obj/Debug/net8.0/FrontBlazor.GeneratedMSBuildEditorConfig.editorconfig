@@ -1,11 +1,19 @@
 is_global = true
 build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = FrontBlazor
 build_property.RootNamespace = FrontBlazor
@@ -34,8 +42,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xNYXBhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Bubi/Desktop/SolarSoft/FrontBlazor/FrontendSolarSoft/Components/Pages/NuevaBateria.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xOdWV2YUJhdGVyaWEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Bubi/Desktop/SolarSoft/FrontBlazor/FrontendSolarSoft/Components/Pages/NuevaInstalacion.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xOdWV2YUluc3RhbGFjaW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Bubi/Desktop/SolarSoft/FrontBlazor/FrontendSolarSoft/Components/Pages/NuevoInversor.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xOdWV2b0ludmVyc29yLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Bubi/Desktop/SolarSoft/FrontBlazor/FrontendSolarSoft/Components/Pages/NuevoPanel.razor]
