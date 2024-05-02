@@ -20,6 +20,15 @@
         <div class="col-sm-2">
             <center>
                 <div style="width:85%">
+                    <div class="row d-flex align-items-baseline">
+                        <div id="searchBoxContainer"class="col-4">
+                            <input id="searchBox" type="text" />
+                            </div>
+                            <div class="col2">
+                            <input type="button" value="Buscar" onclick="Search()" />
+                        </div>
+                    </div>
+                    
                     <label class="form-label mt-5">Seleccionar panel</label>
                     <input class="form-select form-control mt-1" placeholder="Seleccione un panel" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" />
                     @*                 @foreach (Panel panel in PanelService.GetPaneles())
@@ -36,74 +45,99 @@
                     <input readonly Id="AreaMapa" class="form-control mt-1" placeholder="Área de la instalación" />
                     <label class="form-label mt-3">Número de paneles</label>
                     <input readonly Id="NumeroMapa" class="form-control mt-1" placeholder="Número de paneles" />
+                    <input type="button" value="Obtener formas" onclick="getShapes()" />
                 </div>
             </center>
         </div>
         <div class="col-sm-8" style="padding:0;margin:0,0,0,0">
             <script type='text/javascript'>
+                var map, searchManager;
+
                 function GetMap() {
-                    var map = new Microsoft.Maps.Map('#myMap');
+                    map = new Microsoft.Maps.Map('#myMap', {});
 
-                    //Create a random 5 sided polyogn that fills a decent portion of the map.
-                    var polygon = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds(), 1, 1);
+                    Microsoft.Maps.loadModule(['Microsoft.Maps.AutoSuggest', 'Microsoft.Maps.Search'], function () {
+                        var manager = new Microsoft.Maps.AutosuggestManager({ map: map });
+                        manager.attachAutosuggest('#searchBox', '#searchBoxContainer', suggestionSelected);
 
-                    //Add some metadata to the shape.
-                    polygon.metadata = {
-                        value: 'hello world'
+                        searchManager = new Microsoft.Maps.Search.SearchManager(map);
+                    });
+                }
+
+                function suggestionSelected(result) {
+                    //Remove previously results from the map.
+                    map.entities.clear();
+
+                    //Show the suggestion as a pushpin and center map over it.
+                    var pin = new Microsoft.Maps.Pushpin(result.location);
+                    map.entities.push(pin);
+
+                    map.setView({ bounds: result.bestView });
+
+                    document.getElementById('output').innerHTML = 'Selection:<br/>' + result.name;
+                }
+
+                function geocode() {
+                    //Remove previously results from the map.
+                    map.entities.clear();
+
+                    //Get the users query and geocode it.
+                    var query = document.getElementById('searchBox').value;
+
+                    var searchRequest = {
+                        where: query,
+                        callback: function (r) {
+                            if (r && r.results && r.results.length > 0) {
+                                var pin, pins = [], locs = [], output = 'Results:<br/>';
+
+                                //Add a pushpin for each result to the map and create a list to display.
+                                for (var i = 0; i < r.results.length; i++) {
+                                    //Create a pushpin for each result.
+                                    pin = new Microsoft.Maps.Pushpin(r.results[i].location, {
+
+                                        text: i + ''
+
+                                    });
+
+                                    pins.push(pin);
+                                    locs.push(r.results[i].location);
+
+                                    output += i + ') ' + r.results[i].name + '<br/>';
+                                }
+
+                                //Add the pins to the map
+                                map.entities.push(pins);
+
+                                //Display list of results
+                                document.getElementById('output').innerHTML = output;
+
+                                //Determine a bounding box to best view the results.
+                                var bounds;
+
+                                if (r.results.length == 1) {
+                                    bounds = r.results[0].bestView;
+                                } else {
+                                    //Use the locations from the results to calculate a bounding box.
+                                    bounds = Microsoft.Maps.LocationRect.fromLocations(locs);
+                                }
+
+                                map.setView({ bounds: bounds, padding: 30 });
+                            }
+                        },
+                        errorCallback: function (e) {
+                            document.getElementById('output').innerHTML = "No results found.";
+                        }
                     };
 
-
-                    //Load the DrawingTools module
-                    Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
-                        //Create an instance of the DrawingTools class and bind it to the map.
-                        var tools = new Microsoft.Maps.DrawingTools(map);
-
-                        //Show the drawing toolbar and enable editting on the map.
-                        tools.showDrawingManager(function (manager) {
-                            //Store a reference to the drawing manager as it will be useful later.
-                            drawingManager = manager;
-
-                            //Add polygon to drawing canvas.
-                            drawingManager.add(polygon);
-                        })
-                    });
-                @*             Microsoft.Maps.loadModule("Microsoft.Maps.SpatialMath", function () {
-                    var bounds = map.getBounds();
-
-                    var northWest = bounds.getNorthwest();
-                    var southEast = bounds.getSoutheast();
-                    } *@
-                                                                                                                            }
-                function getShapes() {
-                    var shapes = drawingManager.getPrimitives();
-
-                    if (shapes && shapes.length > 0) {
-                        alert('Retrieved ' + shapes.length + ' from the drawing manager.');
-                        Microsoft.Maps.SpatialMath.Geometry.centroid()
-                @*                 fromShapes(shapes: shapes); *@
-                                                                                                                            } else {
-                        alert('No shapes in the drawing manager.');
-                    }
-                }
-                function getMetadata() {
-                    var shapes = drawingManager.getPrimitives();
-
-                    if (shapes && shapes.length > 0) {
-                        if (shapes[0].metadata) {
-                            alert('Shapes metadata: ' + shapes[0].metadata.value);
-                        } else {
-                            alert('No metadata in shape.');
-                        }
-                    } else {
-                        alert('No shapes in the drawing manager.');
-                    }
+                    //Make the geocode request.
+                    searchManager.geocode(searchRequest);
                 }
             </script>
 
             <div class="row" style="height:100vh">
                 <div class="col-12">
                     <div id="myMap" style="width:auto"></div>
-                    <input type="button" value="Get Metadata" onclick="getMetadata()" />
+
                 </div>
             </div>
         </div>
