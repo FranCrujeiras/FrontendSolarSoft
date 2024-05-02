@@ -5,6 +5,12 @@
 @using FrontBlazor.Components.Layout
 @rendermode InteractiveServer
 
+
+@if (Enviado)
+{
+    <div class="alert alert-success">La batería se ha guardado correctamente</div>
+}
+
 <div class="row text-black" style="z-index:1; background-color:rgba(240,240,240,1); background-size:cover">
     <div class="col-3">
         <!--
@@ -72,6 +78,9 @@
                 <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" id="VoltajeNominal" @bind-Value="Instalacion.VoltajeNominal" />
                 <br>
                 <ValidationMessage For="(()=> Instalacion.VoltajeNominal)" />
+            </div>
+            <div class="mt-5">
+                <button type="submit" id="Añadir" class="btn btn-dark btn-outline-warning">Añadir</button>
             </div>
         </EditForm>
     </div>

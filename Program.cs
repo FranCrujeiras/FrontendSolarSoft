@@ -21,12 +21,12 @@ builder.Services.AddHttpClient<IPanelService, PanelService>(client =>
 
 builder.Services.AddHttpClient<I_InversorService, InversorService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7060/api/Inversor/");
+    client.BaseAddress = new Uri("https://localhost:7060/api/Inversores/");
 });
 
 builder.Services.AddHttpClient<IBateriaService, BateriaService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7060/api/Bateria/");
+    client.BaseAddress = new Uri("https://localhost:7060/api/Baterias/");
 });
 
 builder.Services.AddBlazorBootstrap();
