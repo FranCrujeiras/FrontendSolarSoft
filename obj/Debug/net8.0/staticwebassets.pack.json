@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\FrontBlazor.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\Bubi\\Desktop\\SolarSoft\\FrontBlazor\\FrontendSolarSoft\\wwwroot\\DraggableShapesModule.js",
+      "PackagePath": "staticwebassets\\DraggableShapesModule.js"
+    },
+    {
       "Id": "C:\\Users\\Bubi\\Desktop\\SolarSoft\\FrontBlazor\\FrontendSolarSoft\\wwwroot\\app.css",
       "PackagePath": "staticwebassets\\app.css"
     },

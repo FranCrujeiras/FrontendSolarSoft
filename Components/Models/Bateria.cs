@@ -20,6 +20,7 @@ namespace FrontBlazor.Components.Models
         //Voltaje nominal de la batería en Voltios
         [Required(ErrorMessage = "Es necesario especificar el voltaje nominal")]
         public int VoltajeNominal { get; set; }
+        public double ConsumoMensual {  get; set; }
 
     }
 }

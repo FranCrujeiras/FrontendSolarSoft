@@ -49,6 +49,7 @@
         <p style="text-align: center">Si desea obtener más información sobre el uso de Solarsoft, o tiene dudas sobre su instalación, puede contactarnos a través de nuestra dirección de correo electrónico:</p>
         <br />
         <p style="text-align:center">soporte@solutions30.com</p>
+        <p></p>
     </div>
     <div class="col-1"></div>
     <div class="col-4 text-secondary mt-5">
@@ -66,12 +67,35 @@
                     {
                         <option value="@panel.Id">@panel.NombreModelo</option>
                     }
-
-                    @*                     <option value="JA Solar - Deep Blue 3.0">JA Solar - Deep Blue 3.0</option>
-                    <option value="Jinko Solar - Tiger NEO">Jinko Solar - Tiger NEO</option>
-                    <option value="Trina Solar - Vertex S">Trina Solar - Vertex S</option>
-                    <option value="Trina Solar - Vertex">Trina Solar - Vertex</option> *@
                 </InputSelect>
+            </div>
+            <div class="mb-3">
+                <InputSelect class="form-select form-control" placeholder="Seleccione un modelo de batería" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" @bind-Value="Bateria.Id">
+                    <option value="Modelo de Bateria">Modelo de batería</option>
+                    @foreach (Bateria bateria in BateriaService.GetBaterias())
+                    {
+                        <option value="@bateria.Id">@bateria.ModeloBateria</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="mb-2 text-black">
+                <label>Patrón</label>
+            </div>
+            <div class="mb-3">
+                <InputSelect class="form-select form-control" placeholder="Seleccione un modelo de batería" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" @bind-Value="Patron">
+                    <option value="Modelo de Bateria">Modelo de patrón</option>
+                    @foreach (string patron in BateriaService.GetPatrones().Keys)
+                    {
+                        <option value="@patron">@patron</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="mb-2 text-black">
+                <label>Consumo mensual</label>
+            </div>
+            <div class="mb-2">
+                <InputNumber class="form-control  " style="background-color:rgba(255, 255, 255, 0.5)" placeholder="Consumo mensual" id="ConsumoMensual" @bind-Value="Bateria.ConsumoMensual" />
+                <br>
             </div>
             <div class="mb-3 text-black">
                 <h4 style="text-align:center">Parámetros de la ubicación</h4>
@@ -121,6 +145,7 @@
                 <br>
                 <ValidationMessage For="(()=> Instalacion.Azimuth)" />
             </div>
+
             <div class="mb-2">
                 <InputCheckbox id="Estructura" name="Montaje" class="form-checkbox" @bind-Value="Instalacion.InstalacionEstructura" />
                 <label class="custom-control-label" for="Estructura">Montaje sobre estructura</label>
@@ -135,9 +160,14 @@
 </div>
 
 @code {
+    [SupplyParameterFromForm]
+    public Bateria? Bateria { get; set; }
 
     [SupplyParameterFromForm]
     public Terreno? Instalacion { get; set; }
+
+    [SupplyParameterFromForm]
+    private string Patron { get; set; }
 
     [Inject]
     private ITerrenoService? TerrenoService { get; set; }
@@ -150,6 +180,8 @@
 
     [Inject]
     private NavigationManager? Redireccionador { get; set; }
+    [Inject]
+    private IBateriaService? BateriaService { get; set; }
 
     private bool CoordenadasInvalidas { get; set; } = false;
 
@@ -160,6 +192,7 @@
     protected override void OnInitialized()
     {
         Instalacion ??= new() { Id = 0, };
+        Bateria ??= new() { };
 
     }
 
@@ -183,8 +216,10 @@
             if (resultado != null)
             {
                 Enviado = true;
-                ObjectTransporter.AddData(resultado);
-                Redireccionador.NavigateTo($"/graficoEnergia/{resultado.GetHashCode()}");
+                ObjectTransporter.AddData("Resultado", resultado);
+                ObjectTransporter.AddData("Bateria", Bateria);
+                ObjectTransporter.AddData("Patron", Patron);
+                Redireccionador.NavigateTo($"/graficoEnergia");
             }
             else
             {

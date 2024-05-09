@@ -30,6 +30,10 @@ C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\obj\Debug\net8.0\refint\FrontBlazor.
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\obj\Debug\net8.0\FrontBlazor.pdb
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\obj\Debug\net8.0\FrontBlazor.genruntimeconfig.cache
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\obj\Debug\net8.0\ref\FrontBlazor.dll
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\SolarSoft 1.0.deps.json
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\SolarSoft 1.0.runtimeconfig.json
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\SolarSoft 1.0.staticwebassets.runtime.json
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\SolarSoft 1.0.exe
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\appsettings.json
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\FrontBlazor.staticwebassets.runtime.json
@@ -38,38 +42,9 @@ C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\F
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\FrontBlazor.runtimeconfig.json
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\FrontBlazor.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\FrontBlazor.pdb
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\BlazorBootstrap.dll
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\Newtonsoft.Json.dll
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.csproj.AssemblyReference.cache
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.AssemblyInfoInputs.cache
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.AssemblyInfo.cs
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.csproj.CoreCompileInputs.cache
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.sourcelink.json
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets.build.json
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets.development.json
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets\msbuild.FrontBlazor.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets\msbuild.build.FrontBlazor.props
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.FrontBlazor.props
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.FrontBlazor.props
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\scopedcss\bundle\FrontBlazor.styles.css
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\scopedcss\projectbundle\FrontBlazor.bundle.scp.css
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBla.FC21BEFB.Up2Date
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.dll
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\refint\FrontBlazor.dll
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.pdb
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.genruntimeconfig.cache
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\ref\FrontBlazor.dll
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\SolarSoft 1.0.deps.json
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\SolarSoft 1.0.runtimeconfig.json
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\SolarSoft 1.0.staticwebassets.runtime.json
-C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\SolarSoft 1.0.exe
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\Azure.Identity.dll
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\BlazorBootstrap.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\Humanizer.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
@@ -113,6 +88,7 @@ C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\M
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\Mono.TextTemplating.dll
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\NuGet.Common.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\NuGet.Configuration.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\NuGet.DependencyResolver.Core.dll
@@ -292,4 +268,28 @@ C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\r
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\SolarSoft 1.0.dll
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\bin\Debug\net8.0\SolarSoft 1.0.pdb
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.csproj.AssemblyReference.cache
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.AssemblyInfoInputs.cache
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.AssemblyInfo.cs
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.csproj.CoreCompileInputs.cache
 C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.sourcelink.json
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets\msbuild.FrontBlazor.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets\msbuild.build.FrontBlazor.props
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.FrontBlazor.props
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.FrontBlazor.props
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\scopedcss\bundle\FrontBlazor.styles.css
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\scopedcss\projectbundle\FrontBlazor.bundle.scp.css
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBla.FC21BEFB.Up2Date
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.dll
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\refint\FrontBlazor.dll
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.pdb
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\FrontBlazor.genruntimeconfig.cache
+C:\Users\Bubi\Desktop\SolarSoft\FrontBlazor\FrontendSolarSoft\obj\Debug\net8.0\ref\FrontBlazor.dll

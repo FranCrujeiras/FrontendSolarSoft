@@ -104,9 +104,9 @@
         base.OnInitialized();
     }
 
-    public async void Añadir()
+    public void Añadir()
     {
-        var resultado = await BateriaService.PostBateria(Instalacion);
+        var resultado = BateriaService.PostBateria(Instalacion);
         if (resultado)
         {
             Enviado = true;

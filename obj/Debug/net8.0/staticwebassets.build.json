@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "8ihbbJJ2L/KQE1aF4x2MV8YWbb1sBwPuTE5mF2Gh/V4=",
+  "Hash": "qz5Tx3tc2lPu25D5R2spaEt6OhpXJWPl+Z/20/P2u14=",
   "Source": "FrontBlazor",
   "BasePath": "_content/FrontBlazor",
   "Mode": "Default",
@@ -266,6 +266,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Identity": "C:\\Users\\Bubi\\Desktop\\SolarSoft\\FrontBlazor\\FrontendSolarSoft\\wwwroot\\DraggableShapesModule.js",
+      "SourceId": "FrontBlazor",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Bubi\\Desktop\\SolarSoft\\FrontBlazor\\FrontendSolarSoft\\wwwroot\\",
+      "BasePath": "_content/FrontBlazor",
+      "RelativePath": "DraggableShapesModule.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\DraggableShapesModule.js"
     },
     {
       "Identity": "C:\\Users\\Bubi\\Desktop\\SolarSoft\\FrontBlazor\\FrontendSolarSoft\\wwwroot\\favicon.png",

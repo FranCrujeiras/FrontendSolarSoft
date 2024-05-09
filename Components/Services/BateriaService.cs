@@ -13,53 +13,107 @@ namespace FrontBlazor.Components.Services
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public Task<bool> DeleteInversor(int Id)
+        public List<Bateria> GetBaterias()
         {
-            throw new NotImplementedException();
-        }
+            var response = HttpClient.GetAsync("GetBaterias").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string json = response.Content.ReadAsStringAsync().Result;
+                var ListaBaterias = JsonConvert.DeserializeObject<List<Bateria>>(json);
 
-        public List<Bateria> GetBateria()
-        {
-            throw new NotImplementedException();
+                return ListaBaterias;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public Bateria GetBateria(int Id)
         {
-            throw new NotImplementedException();
+            var response = HttpClient.GetAsync($"GetBateria/{Id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string json = response.Content.ReadAsStringAsync().Result;
+                var bateria = JsonConvert.DeserializeObject<Bateria>(json);
+
+                return bateria;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public Task<bool> ModeloBateria(int Id, string ModeloBateria)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Modulos(int Id, int Modulos)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> PostBateria(Bateria bateria)
+        public bool PostBateria(Bateria bateria)
         {
             var response = HttpClient.PostAsJsonAsync("PostBateria", bateria).Result;
             return response.IsSuccessStatusCode;
         }
 
-        public Task<bool> PotenciaSalida(int Id, double PotenciaSalida)
+        public bool PutCapacidad(int Id, double Capacidad)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> PutCapacidad(int Id, double Capacidad)
+        public bool PotenciaSalida(int Id, double PotenciaSalida)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> PutVoltajeNominal(int Id, double NumeroMPPT)
+        public bool Modulos(int Id, int Modulos)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> PostBateria(SolarSoft_1._0.Models.Bateria bateria)
+        public bool ModeloBateria(int Id, string ModeloBateria)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool PutVoltajeNominal(int Id, double VoltajeNominal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteInversor(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Dictionary<string, double[]> GetPatrones()
+        {
+            Dictionary<string, double[]> patrones = new Dictionary<string, double[]>();
+            var response = HttpClient.GetAsync($"GetPatrones").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string json = response.Content.ReadAsStringAsync().Result;
+                patrones = JsonConvert.DeserializeObject<Dictionary<string, double[]>>(json);
+                return patrones;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public double[] GetPatron(string Patron)
+        {
+            double[] patron = null;
+            var response = HttpClient.GetAsync($"GetPatron/{Patron}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string json = response.Content.ReadAsStringAsync().Result;
+                patron = JsonConvert.DeserializeObject<double[]>(json);
+                return patron;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public bool ConsumoMensual(int Id, double ConsumoMensual)
         {
             throw new NotImplementedException();
         }

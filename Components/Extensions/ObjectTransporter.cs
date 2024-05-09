@@ -2,20 +2,24 @@
 {
     public class ObjectTransporter
     {
-        public Dictionary<int, object> StoredData = new();
+        public Dictionary<string, object> StoredData = new();
 
-        public void AddData(object target)
+        public void AddData(string key, object target)
         {
-            StoredData.Add(target.GetHashCode(), target);
-        }
-
-        public object RetrieveData(int key, bool dispose)
-        {
-            var data = StoredData[key];
-            if (dispose)
+            if (StoredData.ContainsKey(key))
             {
                 StoredData.Remove(key);
+                StoredData.Add(key, target);
             }
+            else
+            {
+                StoredData.Add(key, target);
+            }
+        }
+
+        public object RetrieveData(string key)
+        {
+            var data = StoredData.First(x=>x.Key.Equals(key)).Value;
             return data;
         }
     }

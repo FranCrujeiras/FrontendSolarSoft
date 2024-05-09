@@ -1,0 +1,228 @@
+﻿@page "/mapaPrueba"
+@rendermode InteractiveServer
+
+<PageTitle>Mapa</PageTitle>
+<div class="row" style="height:100%">
+    <div class="col-sm-3">
+        <input class="form-control" type="text" readonly id="latitud" placeholder="Latitud" /><br /><br />
+        <input class="form-control" type="text" readonly id="longitud" placeholder="Longitud" /><br /><br />
+    </div>
+    <div class="col-sm-9">
+        @if (HaCargado)
+        {
+            <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=release&key=ApNN4MSIAG4iPTpntUVuk5AmyX8sE7jdwBGJVgpgixS02SQ36__RTZ6Aope431YN&setLang=es-ES&setMkt=es-ES' async defer></script>
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
+            <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+            <script type="text/javascript">
+                var map, searchManager, dragManager, pin, tools, currentShape, panelSeleccionado;
+                var rotacion = 0;
+                var añadido = false;
+                function GetMap() {
+                    map = new Microsoft.Maps.Map('#myMap', {
+                        center: new Microsoft.Maps.Location(42.23282, -8.72264),
+                        mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+                        zoom: 12
+                    });
+                    Microsoft.Maps.loadModule(['Microsoft.Maps.AutoSuggest', 'Microsoft.Maps.Search'], function () {
+                        //Create instances of the Autosuggest and Search managers.
+                        var autosuggestManager = new Microsoft.Maps.AutosuggestManager({ map: map });
+                        searchManager = new Microsoft.Maps.Search.SearchManager(map);
+
+                        //Create a jQuery autocomplete UI widget.
+                        $("#queryTbx").autocomplete({
+                            minLength: 3,   //Don't ask for suggestions until atleast 3 characters have been typed.
+                            source: function (request, response) {
+                                //Get suggestions from the AutosuggestManager.
+                                autosuggestManager.getSuggestions(request.term, response);
+                            },
+                            select: function (event, ui) {
+                                //When a suggestion has been selected.
+
+                                //Check to see if the suggestion has a location value.
+                                if (ui.item.location) {
+                                    suggestionSelected(ui.item);
+                                } else {
+                                    geocodeSuggestion(ui.item);
+                                }
+                            }
+                        }).autocomplete("instance")._renderItem = function (ul, item) {
+                            //Format the displayed suggestion to show the formatted suggestion string.
+                            return $("<li>")
+                                .append("<a>" + item.formattedSuggestion + "</a>")
+                                .appendTo(ul);
+                        };
+                    });
+
+                    Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+                        tools = new Microsoft.Maps.DrawingTools(map);
+                    });
+
+                    Microsoft.Maps.registerModule('DraggableShapesModule', 'DraggableShapesModule.js');
+                    Microsoft.Maps.loadModule('DraggableShapesModule', function () {
+                        dragManager = new DraggableShapesManager(map);
+                        dragManager.makeDraggable(polygon);
+                    });
+                }
+
+                function setDragMethod(elm) {
+                    if (elm.value === 'Pixel') {
+                        dragManager.setDragMethod(DragMethod.pixel);
+                    } else {
+                        dragManager.setDragMethod(DragMethod.geo);
+                    }
+                }
+                function geocodeSuggestion(suggestion) {
+                    var searchRequest = {
+                        where: suggestion.formattedSuggestion,
+                        callback: function (r) {
+                            if (r && r.results && r.results.length > 0) {
+                                suggestion.location = r.results[0].location;
+                                suggestion.bestView = r.results[0].bestView;
+
+                                suggestionSelected(suggestion);
+                            }
+                        },
+                        errorCallback: function (e) {
+                            alert("Sin resultados");
+                        }
+                    };
+                    searchManager.geocode(searchRequest);
+                }
+
+                function suggestionSelected(suggestion) {
+                    map.entities.clear();
+
+                    //Show the suggestion as a pushpin and center map over it.
+                    //pin = new Microsoft.Maps.Pushpin(suggestion.location);
+                    //map.entities.push(pin);
+
+                    $('#area').val(suggestion.location.latitude + ',' + suggestion.location.longitude);
+                    map.setView({ center: suggestion.location, zoom: 20 });
+                }
+
+                $("#generador").bind("click", function () {
+                    var coordenadas = $('#area').val();
+                    var latitud = coordenadas.split(',')[0];
+                    var longitud = coordenadas.split(',')[1];
+                    var width = $("#paneles").find(":selected").attr('w') / 111320 * 1000;
+                    var height = ($("#paneles").find(":selected").attr('h') / 10000) / (111320 * Math.cos(latitud));
+                    console.log(width);
+                    console.log(height);
+                    var polygon = new Microsoft.Maps.Polygon([
+                        [new Microsoft.Maps.Location(latitud - 0.00004, longitud),
+                        new Microsoft.Maps.Location(latitud - 0.000050, longitud),
+                        new Microsoft.Maps.Location(latitud - 0.000050, longitud - 0.000010),
+                        new Microsoft.Maps.Location(latitud - 0.00004, longitud - 0.000010)]]);
+                    Microsoft.Maps.Events.addHandler(polygon, 'mouseup', function (e) {
+                        panelSeleccionado = polygon;
+                    });
+                    var style = {
+                        fillColor: 'yellow',
+                        strokeColor: 'orange',
+                        strokeThickness: 2
+                    };
+                    polygon.setOptions(style);
+                    dragManager.makeDraggable(polygon);
+                    map.entities.push(polygon);
+                });
+
+                $("#marcaArea").bind("click", function () {
+                    if (currentShape != null) {
+                        map.entities.remove(currentShape);
+                        currentShape = null;
+                    }
+                    drawPolygon();
+                    añadido = false;
+                    $(this).text('Finalizar (ESC)');
+                    $(this).css('color', 'red');
+                });
+
+                $(document).keyup(function (e) {
+                    if (e.key === "Escape") {
+                        if (!añadido) {
+                            tools.finish(currentShape);
+                            map.entities.push(currentShape);
+                            $("#marcaArea").text('Marcar área');
+                            $("#marcaArea").css('color', 'black');
+
+                            var area = Microsoft.Maps.SpatialMath.Geometry.area(currentShape, Microsoft.Maps.SpatialMath.AreaUnits.SquareMeters);
+                            var perimetro = Microsoft.Maps.SpatialMath.Geometry.calculateLength(currentShape, Microsoft.Maps.SpatialMath.DistanceUnits.Kilometers);
+                            area = Math.round(area * 100) / 100;
+                            perimetro = Math.round(perimetro * 100) / 100;
+
+                            $('#areaTotal').val(area + ' m²');
+                            $('#perimetro').val(perimetro + ' km');
+
+                            añadido = true;
+                        }
+                    }
+                });
+
+                function drawPolygon() {
+                    var style = {
+                        fillColor: 'rgba(231,56,29,0.5)',
+                        strokeColor: 'red',
+                        strokeThickness: 1
+                    };
+                    tools.create(Microsoft.Maps.DrawingTools.ShapeType.polygon, function (s) {
+                        s.setOptions(style);
+                        currentShape = s;
+                    });
+                }
+
+                $('#rotacionPanel').on('input', function () {
+                    Microsoft.Maps.SpatialMath.Geometry.rotate(panelSeleccionado, (Math.ceil($('#rotacionPanel').val() * Math.PI) / 180));
+                });
+            </script>
+        }
+        <button id="generador">Generar forma</button            
+        <button id="marcaArea">Marcar área</button>
+        <select id="paneles">
+            <option w="20" h="20">Panel 1</option>
+            <option w="25" h="30">Panel 2</option>
+            <option w="30" h="40">Panel 3</option>
+        </select>
+
+        <div class="ui-widget">
+            <label for="queryTbx">Your query: </label>
+            <input id="queryTbx">
+        </div>
+
+        <input type="text" id="area" />
+
+        Drag Method:
+        <input type="radio" name="DragMethodRadio" value="Pixel" checked="checked" onchange="setDragMethod(this)" /> Pixel
+        <input type="radio" name="DragMethodRadio" value="Geo" onchange="setDragMethod(this)" /> Geo
+
+        Área
+        <input type="text" id="areaTotal" />
+        
+        Perímetro
+        <input type="text" id="perimetro" />
+        
+        Rotación
+        <input type="range" id="rotacionPanel" min="0" max="360"/>
+
+        <div id="myMap" style="height:85vh;width:auto">
+        </div>
+    </div>
+</div>
+    @code {
+    private bool HaCargado { get; set; } = false;
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            HaCargado = true;
+            StateHasChanged();
+        }
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+
+
+}

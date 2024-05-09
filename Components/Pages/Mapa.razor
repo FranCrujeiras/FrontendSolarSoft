@@ -6,158 +6,190 @@
 
 <PageTitle>Mapa</PageTitle>
 
-@if (HaCargado)
-{
-    <div class="row d-flex align-items-center">
-        <div class="col-sm-2">
-            <Sidebar @ref="sidebar"
-                     IconName="IconName.SunFill"
-                     Title="SolarSoft"
-                     DataProvider="SidebarDataProvider"
-                     Style="font-weight:bolder; background-color: rgba(30,30,30,0.5)" />
+<div class="row d-flex align-items-center">
+    <div class="col-sm-2">
+        <Sidebar @ref="sidebar"
+                 IconName="IconName.SunFill"
+                 Title="SolarSoft"
+                 DataProvider="SidebarDataProvider"
+                 Style="font-weight:bolder; background-color: rgba(30,30,30,0.5)" />
 
-        </div>
-        <div class="col-sm-2">
-            <center>
-                <div style="width:85%">
-                    <div class="row d-flex align-items-baseline">
-                        <div id="searchBoxContainer"class="col-4">
-                            <input id="searchBox" type="text" />
-                            </div>
-                            <div class="col2">
-                            <input type="button" value="Buscar" onclick="Search()" />
-                        </div>
-                    </div>
-                    
-                    <label class="form-label mt-5">Seleccionar panel</label>
-                    <input class="form-select form-control mt-1" placeholder="Seleccione un panel" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" />
-                    @*                 @foreach (Panel panel in PanelService.GetPaneles())
-                {
-                <option value="@panel.Id">@panel.NombreModelo</option>
-                } *@
-                    <label class="form-label mt-3">Latitud</label>
-                    <input readonly Id="LatitudMapa" class="form-control mt-1" style="align-items:center" placeholder="Latitud" />
-                    <label class="form-label mt-3">Longitud</label>
-                    <input readonly Id="LongitudMapa" class="form-control mt-1" placeholder="Longitud" />
-                    <label class="form-label mt-3">Azimuth</label>
-                    <input readonly Id="AzimuthMapa" class="form-control mt-1" placeholder="Azimuth" />
-                    <label class="form-label mt-3">Área de la instalación</label>
-                    <input readonly Id="AreaMapa" class="form-control mt-1" placeholder="Área de la instalación" />
-                    <label class="form-label mt-3">Número de paneles</label>
-                    <input readonly Id="NumeroMapa" class="form-control mt-1" placeholder="Número de paneles" />
-                    <input type="button" value="Obtener formas" onclick="getShapes()" />
+    </div>
+    <div class="col-sm-2">
+        <center>
+            <div style="width:85%">
+                <div class="row d-flex align-items-baseline">
+                    @*                         <div id="searchBoxContainer"class="col-4">
+                    <input id="searchBox" type="text" />
+                    </div> *@
+                    <div class="ui-widget">
+                        <label for="queryTbx">Your query: </label>
+                        <input id="queryTbx">
+                    </div>                    
                 </div>
-            </center>
-        </div>
-        <div class="col-sm-8" style="padding:0;margin:0,0,0,0">
-            <script type='text/javascript'>
-                var map, searchManager;
+                <div class="row d-flex">
+                    <label class="form-label mt-5">Seleccionar panel</label>
+                    <select>
+                        <input class="form-select form-control" placeholder="Seleccione un panel" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)">
+                        <option value="Modelo de Panel">Modelo de Panel</option>
+                        @foreach (Panel panel in PanelService.GetPaneles())
+                        {
+                            <option value="@panel.Id">@panel.NombreModelo</option>
+                        }
+                    </select>
+                </div>
+                <input type="button" id="generador" value="Insertar paneles" class="form-control mt-2" />
+                <input type="hidden" readonly Id="LargoPanel" class="form-control mt-1" placeholder="Largo del Panel" />
+                <input type="hidden" readonly Id="AnchoPanel" class="form-control mt-1" placeholder="Ancho del Panel" />
+                <input type="hidden" readonly Id="LongitudMapa" class="form-control mt-1" placeholder="Longitud" />
+                <label class="form-label mt-3">Azimuth</label>
+                <input readonly Id="AzimuthMapa" class="form-control mt-1" placeholder="Azimuth" />
+                <label class="form-label mt-3">Área de la instalación</label>
+                <input readonly id="area" class="form-control mt-1" placeholder="Área de la instalación" />
+                <label class="form-label mt-3">Número de paneles</label>
+                <input readonly id="NumeroMapa" class="form-control mt-1" placeholder="Número de paneles" />
+                <input type="button" id="generador" value="Obtener formas" />
+                @*  <div class="row">
+                <input type="radio" name="DragMethodRadio" value="Pixel" checked="checked" onchange="setDragMethod(this)" /> Pixel
+                <input type="radio" name="DragMethodRadio" value="Geo" onchange="setDragMethod(this)" /> Geo
+                </div> *@
 
+
+            </div>
+        </center>
+    </div>
+    <div class="col-sm-8" style="padding:0;margin:0,0,0,0">
+        @if (HaCargado)
+        {
+            //Faltaban estas tres referencias
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+            <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+            <script type="text/javascript">
+                var map, searchManager, dragManager, pin;
+                var rotacion = 0;
                 function GetMap() {
-                    map = new Microsoft.Maps.Map('#myMap', {});
-
+                    map = new Microsoft.Maps.Map('#myMap', {
+                        center: new Microsoft.Maps.Location(42.23282, -8.72264),
+                        mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+                        zoom: 12
+                    });
                     Microsoft.Maps.loadModule(['Microsoft.Maps.AutoSuggest', 'Microsoft.Maps.Search'], function () {
-                        var manager = new Microsoft.Maps.AutosuggestManager({ map: map });
-                        manager.attachAutosuggest('#searchBox', '#searchBoxContainer', suggestionSelected);
-
+                        //Create instances of the Autosuggest and Search managers.
+                        var autosuggestManager = new Microsoft.Maps.AutosuggestManager({ map: map });
                         searchManager = new Microsoft.Maps.Search.SearchManager(map);
+
+                        //Create a jQuery autocomplete UI widget.
+                        $("#queryTbx").autocomplete({
+                            minLength: 3,   //Don't ask for suggestions until atleast 3 characters have been typed.
+                            source: function (request, response) {
+                                //Get suggestions from the AutosuggestManager.
+                                autosuggestManager.getSuggestions(request.term, response);
+                            },
+                            select: function (event, ui) {
+                                //When a suggestion has been selected.
+
+                                //Check to see if the suggestion has a location value.
+                                if (ui.item.location) {
+                                    suggestionSelected(ui.item);
+                                } else {
+                                    geocodeSuggestion(ui.item);
+                                }
+                            }
+                        }).autocomplete("instance")._renderItem = function (ul, item) {
+                            //Format the displayed suggestion to show the formatted suggestion string.
+                            return $("<li>")
+                                .append("<a>" + item.formattedSuggestion + "</a>")
+                                .appendTo(ul);
+                        };
+                    });
+
+                    Microsoft.Maps.registerModule('DraggableShapesModule', 'DraggableShapesModule.js');
+                    Microsoft.Maps.loadModule('DraggableShapesModule', function () {
+                        dragManager = new DraggableShapesManager(map);
+                        dragManager.makeDraggable(polygon);
                     });
                 }
 
-                function suggestionSelected(result) {
-                    //Remove previously results from the map.
-                    map.entities.clear();
-
-                    //Show the suggestion as a pushpin and center map over it.
-                    var pin = new Microsoft.Maps.Pushpin(result.location);
-                    map.entities.push(pin);
-
-                    map.setView({ bounds: result.bestView });
-
-                    document.getElementById('output').innerHTML = 'Selection:<br/>' + result.name;
+                function setDragMethod(elm) {
+                    if (elm.value === 'Pixel') {
+                        dragManager.setDragMethod(DragMethod.pixel);
+                    } else {
+                        dragManager.setDragMethod(DragMethod.geo);
+                    }
                 }
-
-                function geocode() {
-                    //Remove previously results from the map.
-                    map.entities.clear();
-
-                    //Get the users query and geocode it.
-                    var query = document.getElementById('searchBox').value;
-
+                function geocodeSuggestion(suggestion) {
                     var searchRequest = {
-                        where: query,
+                        where: suggestion.formattedSuggestion,
                         callback: function (r) {
                             if (r && r.results && r.results.length > 0) {
-                                var pin, pins = [], locs = [], output = 'Results:<br/>';
+                                suggestion.location = r.results[0].location;
+                                suggestion.bestView = r.results[0].bestView;
 
-                                //Add a pushpin for each result to the map and create a list to display.
-                                for (var i = 0; i < r.results.length; i++) {
-                                    //Create a pushpin for each result.
-                                    pin = new Microsoft.Maps.Pushpin(r.results[i].location, {
-
-                                        text: i + ''
-
-                                    });
-
-                                    pins.push(pin);
-                                    locs.push(r.results[i].location);
-
-                                    output += i + ') ' + r.results[i].name + '<br/>';
-                                }
-
-                                //Add the pins to the map
-                                map.entities.push(pins);
-
-                                //Display list of results
-                                document.getElementById('output').innerHTML = output;
-
-                                //Determine a bounding box to best view the results.
-                                var bounds;
-
-                                if (r.results.length == 1) {
-                                    bounds = r.results[0].bestView;
-                                } else {
-                                    //Use the locations from the results to calculate a bounding box.
-                                    bounds = Microsoft.Maps.LocationRect.fromLocations(locs);
-                                }
-
-                                map.setView({ bounds: bounds, padding: 30 });
+                                suggestionSelected(suggestion);
                             }
                         },
                         errorCallback: function (e) {
-                            document.getElementById('output').innerHTML = "No results found.";
+                            alert("Sin resultados");
                         }
                     };
-
-                    //Make the geocode request.
                     searchManager.geocode(searchRequest);
+                }
+
+                function suggestionSelected(suggestion) {
+                    map.entities.clear();
+
+                    //Show the suggestion as a pushpin and center map over it.
+                    //pin = new Microsoft.Maps.Pushpin(suggestion.location);
+                    //map.entities.push(pin);
+
+                    $('#area').val(suggestion.location.latitude + ',' + suggestion.location.longitude);
+                    map.setView({ center: suggestion.location, zoom: 20 });
+                }
+
+                var interval;
+                $("#generador").bind("click", function () {
+                    var coordenadas = $('#area').val();
+                    var latitud = coordenadas.split(',')[0];
+                    var longitud = coordenadas.split(',')[1];
+                    var width = $("#paneles").find(":selected").attr('w') / 111320 * 1000;
+                    var height = ($("#paneles").find(":selected").attr('h') / 10000) / (111320 * Math.cos(latitud));
+                    console.log(width);
+                    console.log(height);
+                    var polygon = new Microsoft.Maps.Polygon([
+                        [new Microsoft.Maps.Location(latitud - 0.00004, longitud),
+                        new Microsoft.Maps.Location(latitud - 0.000050, longitud),
+                        new Microsoft.Maps.Location(latitud - 0.000050, longitud - 0.000010),
+                        new Microsoft.Maps.Location(latitud - 0.00004, longitud - 0.000010)]]);
+                    Microsoft.Maps.Events.addHandler(polygon, 'dblclick', function (e) {
+                        AumentaRotacion(polygon);
+                    });
+                    dragManager.makeDraggable(polygon);
+                    map.entities.push(polygon);
+                });
+
+                function AumentaRotacion(polygon) {
+                    Microsoft.Maps.SpatialMath.Geometry.rotate(polygon, rotacion * Math.PI / 180);
+                    rotacion++;
                 }
             </script>
 
             <div class="row" style="height:100vh">
                 <div class="col-12">
                     <div id="myMap" style="width:auto"></div>
-
                 </div>
             </div>
-        </div>
-    </div>
-    @code {
-    private bool HaCargado { get; set; } = false;
-
-    protected override Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            HaCargado = true;
-            StateHasChanged();
         }
-        return base.OnAfterRenderAsync(firstRender);
-    }
-
-}
-}
+    </div>
+</div>
 @code {
+    [SupplyParameterFromForm]
+    public Terreno? Instalacion { get; set; }
+
+    [Inject]
+    public IPanelService? PanelService { get; set; }
+
     Sidebar sidebar = default!;
     IEnumerable<NavItem>? navItems;
 
@@ -187,7 +219,24 @@
         return navItems;
     }
     private void ToggleSidebar() => sidebar.ToggleSidebar();
-}
+
+    private void ObtenerPanel()
+    {
+
+    }
+
+    private bool HaCargado { get; set; } = false;
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            HaCargado = true;
+            StateHasChanged();
+        }
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
 }
 
 <style>
