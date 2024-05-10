@@ -2,10 +2,13 @@
 @using FrontBlazor.Components.Models
 @using FrontBlazor.Components.Services
 @using FrontBlazor.Components.Extensions
+@using FrontBlazor.Components.Layout
 @rendermode InteractiveServer
 
 
 <PageTitle>Nueva instalación</PageTitle>
+
+<DropDown/>
 
 @* <nav class="navbar navbar-expand-lg" style="z-index:1; background:linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(254,249,136,1) 100%); background-size:cover">
     <a class="navbar-brand" href="#">SolarSoft</a>
@@ -37,7 +40,7 @@
             <Menu></Menu>
         }
     </div>
-    <div class="col-3 mt-5">
+    <div class="col-3 mt-2">
         <h2 style="text-align: center">SolarSoft</h2>
         <br />
         <p style="text-align:center">Solarsoft es un software de asistencia al diseño de instalaciones fotovoltaicas. </p>
@@ -52,7 +55,7 @@
         <p></p>
     </div>
     <div class="col-1"></div>
-    <div class="col-4 text-secondary mt-5">
+    <div class="col-4 text-secondary mt-2">
         <EditForm Model="Instalacion" FormName="Terreno" OnSubmit="Calcular">
             <DataAnnotationsValidator />
 
@@ -62,7 +65,7 @@
 
             <div class="mb-3">
                 <InputSelect class="form-select form-control" placeholder="Seleccione un panel" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" @bind-Value="Instalacion.ModeloPanel">
-                    <option value="Modelo de Panel">Modelo de Panel</option>
+                    <option value="Modelo de Panel" selected>Modelo de Panel</option>
                     @foreach (Panel panel in PanelService.GetPaneles())
                     {
                         <option value="@panel.Id">@panel.NombreModelo</option>
@@ -71,7 +74,7 @@
             </div>
             <div class="mb-3">
                 <InputSelect class="form-select form-control" placeholder="Seleccione un modelo de batería" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" @bind-Value="Bateria.Id">
-                    <option value="Modelo de Bateria">Modelo de batería</option>
+                    <option value="Modelo de Bateria" selected>Modelo de batería</option>
                     @foreach (Bateria bateria in BateriaService.GetBaterias())
                     {
                         <option value="@bateria.Id">@bateria.ModeloBateria</option>
@@ -83,7 +86,7 @@
             </div>
             <div class="mb-3">
                 <InputSelect class="form-select form-control" placeholder="Seleccione un modelo de batería" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)" @bind-Value="Patron">
-                    <option value="Modelo de Bateria">Modelo de patrón</option>
+                    <option value="Modelo de Patron">Modelo de patrón</option>
                     @foreach (string patron in BateriaService.GetPatrones().Keys)
                     {
                         <option value="@patron">@patron</option>

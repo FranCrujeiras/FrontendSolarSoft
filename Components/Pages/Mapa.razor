@@ -2,19 +2,21 @@
 @using FrontBlazor.Components.Models
 @using FrontBlazor.Components.Services
 @using FrontBlazor.Components.Extensions
+@using FrontBlazor.Components.Layout
 @rendermode InteractiveServer
 
 <PageTitle>Mapa</PageTitle>
+<DropDown/>
 
-<div class="row d-flex align-items-center">
-    <div class="col-sm-2">
+    <div class="row d-flex align-items-center">
+    @*@<div class="col-sm-2">
         <Sidebar @ref="sidebar"
                  IconName="IconName.SunFill"
                  Title="SolarSoft"
                  DataProvider="SidebarDataProvider"
                  Style="font-weight:bolder; background-color: rgba(30,30,30,0.5)" />
 
-    </div>
+    </div> *@
     <div class="col-sm-2">
         <center>
             <div style="width:85%">
@@ -22,43 +24,61 @@
                     @*                         <div id="searchBoxContainer"class="col-4">
                     <input id="searchBox" type="text" />
                     </div> *@
+                </div>
+                <div class="row">
                     <div class="ui-widget">
-                        <label for="queryTbx">Your query: </label>
-                        <input id="queryTbx">
+
                     </div>                    
                 </div>
                 <div class="row d-flex">
-                    <label class="form-label mt-5">Seleccionar panel</label>
+                    <label for="queryTbx" class="mt-1">Introducir dirección:</label>
+                    <br />
+                    <input id="queryTbx" class="form-control">
+@*                     <label class="form-label mt-2">Seleccionar panel</label>
                     <select>
                         <input class="form-select form-control" placeholder="Seleccione un panel" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)">
                         <option value="Modelo de Panel">Modelo de Panel</option>
                         @foreach (Panel panel in PanelService.GetPaneles())
                         {
-                            <option value="@panel.Id">@panel.NombreModelo</option>
+                            <option value="@panel.Id" style="background-color:azure; width:85%">@panel.NombreModelo</option>
                         }
-                    </select>
+                    </select> *@
                 </div>
-                <input type="button" id="generador" value="Insertar paneles" class="form-control mt-2" />
+        <button id="marcaArea" style="background-color:#04AA6D;color:white" class="form-control mt-2">Marcar área</button>
+                        <input type="button" style="background-color:#008CBA;color:white" id="generador" value="Insertar paneles" class="form-control mt-1" />
+        <select id="paneles" class="form-control mt-1">
+            <option w="20" h="20">Panel 1</option>
+            <option w="25" h="30">Panel 2</option>
+            <option w="30" h="40">Panel 3</option>
+        </select>
+                <label class="form-label mt-1">Rotación</label>
+                <input type="range" id="rotacionPanel" min="-360" max="360" />
+
+         <label class="form-label mt-1">Coordenadas</label>
+        <input type="text" class="form-control mt-1" id="area" />
+
+@*         Drag Method:
+        <input type="radio" name="DragMethodRadio" value="Pixel" checked="checked" onchange="setDragMethod(this)" /> Pixel
+        <input type="radio" name="DragMethodRadio" value="Geo" onchange="setDragMethod(this)" /> Geo *@
+
+        <label class="form-label mt-1">Área</label>
+        <input type="text" class="form-control mt-1" id="areaTotal" />
+        
+        <label class="form-label mt-1">Perímetro</label>
+        <input type="text" class="form-control mt-1" id="perimetro" />
+        
+
                 <input type="hidden" readonly Id="LargoPanel" class="form-control mt-1" placeholder="Largo del Panel" />
                 <input type="hidden" readonly Id="AnchoPanel" class="form-control mt-1" placeholder="Ancho del Panel" />
                 <input type="hidden" readonly Id="LongitudMapa" class="form-control mt-1" placeholder="Longitud" />
-                <label class="form-label mt-3">Azimuth</label>
+                <label class="form-label mt-1">Azimuth</label>
                 <input readonly Id="AzimuthMapa" class="form-control mt-1" placeholder="Azimuth" />
-                <label class="form-label mt-3">Área de la instalación</label>
-                <input readonly id="area" class="form-control mt-1" placeholder="Área de la instalación" />
-                <label class="form-label mt-3">Número de paneles</label>
+                <label class="form-label mt-1">Número de paneles</label>
                 <input readonly id="NumeroMapa" class="form-control mt-1" placeholder="Número de paneles" />
-                <input type="button" id="generador" value="Obtener formas" />
-                @*  <div class="row">
-                <input type="radio" name="DragMethodRadio" value="Pixel" checked="checked" onchange="setDragMethod(this)" /> Pixel
-                <input type="radio" name="DragMethodRadio" value="Geo" onchange="setDragMethod(this)" /> Geo
-                </div> *@
-
-
             </div>
         </center>
     </div>
-    <div class="col-sm-8" style="padding:0;margin:0,0,0,0">
+    <div class="col-sm-10" style="margin-top:20px;padding:0;margin:0,0,0,0">
         @if (HaCargado)
         {
             //Faltaban estas tres referencias
@@ -67,8 +87,9 @@
             <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
             <script type="text/javascript">
-                var map, searchManager, dragManager, pin;
+                var map, searchManager, dragManager, pin, tools, currentShape, panelSeleccionado;
                 var rotacion = 0;
+                var añadido = false;
                 function GetMap() {
                     map = new Microsoft.Maps.Map('#myMap', {
                         center: new Microsoft.Maps.Location(42.23282, -8.72264),
@@ -103,6 +124,10 @@
                                 .append("<a>" + item.formattedSuggestion + "</a>")
                                 .appendTo(ul);
                         };
+                    });
+
+                    Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+                        tools = new Microsoft.Maps.DrawingTools(map);
                     });
 
                     Microsoft.Maps.registerModule('DraggableShapesModule', 'DraggableShapesModule.js');
@@ -148,7 +173,6 @@
                     map.setView({ center: suggestion.location, zoom: 20 });
                 }
 
-                var interval;
                 $("#generador").bind("click", function () {
                     var coordenadas = $('#area').val();
                     var latitud = coordenadas.split(',')[0];
@@ -162,17 +186,66 @@
                         new Microsoft.Maps.Location(latitud - 0.000050, longitud),
                         new Microsoft.Maps.Location(latitud - 0.000050, longitud - 0.000010),
                         new Microsoft.Maps.Location(latitud - 0.00004, longitud - 0.000010)]]);
-                    Microsoft.Maps.Events.addHandler(polygon, 'dblclick', function (e) {
-                        AumentaRotacion(polygon);
+                    Microsoft.Maps.Events.addHandler(polygon, 'mouseup', function (e) {
+                        panelSeleccionado = polygon;
                     });
+                    var style = {
+                        fillColor: 'yellow',
+                        strokeColor: 'orange',
+                        strokeThickness: 2
+                    };
+                    polygon.setOptions(style);
                     dragManager.makeDraggable(polygon);
                     map.entities.push(polygon);
                 });
 
-                function AumentaRotacion(polygon) {
-                    Microsoft.Maps.SpatialMath.Geometry.rotate(polygon, rotacion * Math.PI / 180);
-                    rotacion++;
+                $("#marcaArea").bind("click", function () {
+                    if (currentShape != null) {
+                        map.entities.remove(currentShape);
+                        currentShape = null;
+                    }
+                    drawPolygon();
+                    añadido = false;
+                    $(this).text('Finalizar (ESC)');
+                    $(this).css('color', 'red');
+                });
+
+                $(document).keyup(function (e) {
+                    if (e.key === "Escape") {
+                        if (!añadido) {
+                            tools.finish(currentShape);
+                            map.entities.push(currentShape);
+                            $("#marcaArea").text('Marcar área');
+                            $("#marcaArea").css('color', 'black');
+
+                            var area = Microsoft.Maps.SpatialMath.Geometry.area(currentShape, Microsoft.Maps.SpatialMath.AreaUnits.SquareMeters);
+                            var perimetro = Microsoft.Maps.SpatialMath.Geometry.calculateLength(currentShape, Microsoft.Maps.SpatialMath.DistanceUnits.Kilometers);
+                            area = Math.round(area * 100) / 100;
+                            perimetro = Math.round(perimetro * 100) / 100;
+
+                            $('#areaTotal').val(area + ' m²');
+                            $('#perimetro').val(perimetro + ' km');
+
+                            añadido = true;
+                        }
+                    }
+                });
+
+                function drawPolygon() {
+                    var style = {
+                        fillColor: 'rgba(231,56,29,0.5)',
+                        strokeColor: 'red',
+                        strokeThickness: 1
+                    };
+                    tools.create(Microsoft.Maps.DrawingTools.ShapeType.polygon, function (s) {
+                        s.setOptions(style);
+                        currentShape = s;
+                    });
                 }
+
+                $('#rotacionPanel').on('input', function () {
+                    Microsoft.Maps.SpatialMath.Geometry.rotate(panelSeleccionado, (Math.ceil($('#rotacionPanel').val() * Math.PI) / 180));
+                });
             </script>
 
             <div class="row" style="height:100vh">
@@ -180,7 +253,11 @@
                     <div id="myMap" style="width:auto"></div>
                 </div>
             </div>
-        }
+        }        
+
+
+        <div id="myMap" style="height:85vh;width:100%">
+    </div>
     </div>
 </div>
 @code {

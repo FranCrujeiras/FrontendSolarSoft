@@ -1,11 +1,12 @@
 ﻿@page "/nuevoPanel"
 @using FrontBlazor.Components.Models
 @using FrontBlazor.Components.Services
+@using FrontBlazor.Components.Layout
 @rendermode InteractiveServer
 
 
 <PageTitle>Nuevo panel</PageTitle>
-
+<DropDown/>
 @* <nav class="navbar navbar-expand-lg" style="z-index:1; background:linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(120,249,255,1) 100%); background-size:cover">
     <a class="navbar-brand" href="/">SolarSoft</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,13 +26,14 @@
 }
 
 <div class="row text-black" style="z-index:1; background-color:rgba(240,240,240,1); background-size:cover">
-    <div class="col-3">
-    <Sidebar @ref="sidebar"
+   <div class="col-3">
+   @* <Sidebar @ref="sidebar"
              IconName="IconName.SunFill"
              Title="SolarSoft"
              DataProvider="SidebarDataProvider"
-             Style="font-weight:bolder; background-color: rgba(30,30,30,0.5)" />
+             Style="font-weight:bolder; background-color: rgba(30,30,30,0.5)" />*@
     </div>
+
     <div class="col-3 mt-5">
         <h2 style="text-align: center">SolarSoft</h2>
         <br />
@@ -108,6 +110,9 @@
             </div>
 
         </EditForm>
+        <div class="col-1">
+
+        </div>
     </div>
     </div>
 @code {
