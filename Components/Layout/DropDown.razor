@@ -24,10 +24,14 @@
     }
 </style>
 
-<div class="row d-flex align-items-start">
+<div class="row d-flex align-items-start" style="background-color:darkslategrey;text-align:center;color:white">
+    <div class="col-2 mt-2">
+        <h2> <i class="bi bi-sun-fill"></i> SolarSoft</h2>
+    </div>
     <div class="col-sm-1">
         <div class="dropdown mt-2">
-            <a class="btn btn-primary dropdown-toggle"
+            <a class="btn dropdown-toggle"
+            style="background-color:dimgrey;color:white;margin-left:-10px"
                href="#"
                role="button"
                id="dropdownNuevoComponente"
@@ -37,7 +41,7 @@
                 Nuevo componente
             </a>
 
-            <ul class="dropdown-menu" style="margin-top:36px" aria-labelledby="dropdownMenuLink">
+            <ul class="dropdown-menu" style="margin-top:36px;margin-bottom:36px" aria-labelledby="dropdownMenuLink">
                 <li><a class="dropdown-item" href="/NuevoPanel">Nuevo Panel</a></li>
                 <li><a class="dropdown-item" href="/NuevaBateria">Nueva Batería</a></li>
                 <li><a class="dropdown-item" href="/NuevoInversor">Nuevo Inversor</a></li>
@@ -45,8 +49,9 @@
         </div>
     </div>
     <div class="col-sm-2"style="align-content:flex-end">
-        <div class="dropdown mt-2" style="margin-left:5em;margin-top:8em">
-            <a class="btn btn-success dropdown-toggle"
+        <div class="dropdown mt-2" style="margin-left:5em;margin-top:8em;margin-bottom:12px">
+            <a class="btn dropdown-toggle"
+               style="background-color:dimgrey;color:white"
                href="#"
                role="button"
                id="dropdownInstalacion"
@@ -61,6 +66,8 @@
             </ul>
         </div>
     </div>
+
+
 </div>
 <script>
     $(document).ready(function () {

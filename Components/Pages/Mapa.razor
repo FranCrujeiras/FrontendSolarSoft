@@ -6,7 +6,11 @@
 @rendermode InteractiveServer
 
 <PageTitle>Mapa</PageTitle>
-<DropDown/>
+<div class="row d-flex">
+    <DropDown />
+    <br />
+</div>
+
 
     <div class="row d-flex align-items-center">
     @*@<div class="col-sm-2">
@@ -20,32 +24,13 @@
     <div class="col-sm-2">
         <center>
             <div style="width:85%">
-                <div class="row d-flex align-items-baseline">
-                    @*                         <div id="searchBoxContainer"class="col-4">
-                    <input id="searchBox" type="text" />
-                    </div> *@
-                </div>
-                <div class="row">
-                    <div class="ui-widget">
-
-                    </div>                    
-                </div>
                 <div class="row d-flex">
-                    <label for="queryTbx" class="mt-1">Introducir dirección:</label>
+                    <label for="queryTbx">Introducir dirección:</label>
                     <br />
                     <input id="queryTbx" class="form-control">
-@*                     <label class="form-label mt-2">Seleccionar panel</label>
-                    <select>
-                        <input class="form-select form-control" placeholder="Seleccione un panel" style="z-index:99;background-color:rgba(255, 255, 255, 0.5)">
-                        <option value="Modelo de Panel">Modelo de Panel</option>
-                        @foreach (Panel panel in PanelService.GetPaneles())
-                        {
-                            <option value="@panel.Id" style="background-color:azure; width:85%">@panel.NombreModelo</option>
-                        }
-                    </select> *@
                 </div>
-        <button id="marcaArea" style="background-color:#04AA6D;color:white" class="form-control mt-2">Marcar área</button>
-                        <input type="button" style="background-color:#008CBA;color:white" id="generador" value="Insertar paneles" class="form-control mt-1" />
+        <button id="marcaArea" style="background-color:dimgrey;color:white" class="form-control mt-2">Marcar área</button>
+                        <input type="button" style="background-color:dimgrey;color:white" id="generador" value="Insertar paneles" class="form-control mt-1" />
         <select id="paneles" class="form-control mt-1">
             <option w="20" h="20">Panel 1</option>
             <option w="25" h="30">Panel 2</option>
@@ -78,7 +63,7 @@
             </div>
         </center>
     </div>
-    <div class="col-sm-10" style="margin-top:20px;padding:0;margin:0,0,0,0">
+    <div class="col-sm-10" style="padding:0;margin:0,0,0,0">
         @if (HaCargado)
         {
             //Faltaban estas tres referencias
