@@ -14,13 +14,13 @@
 }
 @if (!Error)
 {
-    <div class="row" style=" z-index:1;background:linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(206,255,197,1) 100%); background-size:cover">
-        <h3 style="font-weight:bold;text-align:center;background:linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(206,255,197,1) 100%); background-size:cover">Resultados de la simulación</h3>
+    <div class="row" style=" z-index:1; background-color:rgba(240,240,240,1); background-size:cover">
+        <h3 style="font-weight:bold;text-align:center; background-color:rgba(240,240,240,1); background-size:cover">Resultados de la simulación</h3>
     </div>
 
-    <div class="row" style=" z-index:1;background: linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(206,255,197,1) 100%); background-size:cover;min-height:84vh">
+    <div class="row" style=" z-index:1; background-color:rgba(240,240,240,1); background-size:cover;min-height:84vh">
         <div class="row d-flex align-items-center">
-            <div class="col-sm-8">
+            <div class="col-sm-6 align-items-lg-start">
                 <center>
                     <select @onchange="CambiaGrafica" class="form-select" style="width:25%">
                         <option value="Seleccionar">Seleccionar inclinación</option>
@@ -30,18 +30,21 @@
                     </select>
                 </center>
             </div>
+            <div class="col-sm-2">
+
+            </div>
             <div class="col-sm-4">&nbsp;</div>
         </div>
         <div class="col-sm-4">
             <BarChart @ref="graficaEnergia"></BarChart>
             <div class="row">
                 <div class="col-sm-6">
-                    <h4 style="font-weight: bold;text-align:center;color:rgb(80,22,0)"><i class="bi bi-cloud-check-fill"></i></h4>
-                    <h5 style="font-weight: bold;text-align:center;color:rgb(80,22,0)">@co2 Tm CO2</h5>
+
                 </div>
                 <div class="col-sm-6">
-                    <h4 style="font-weight: bold;text-align:center;color:rgb(0,80,30)"><i class="bi bi-tree-fill"></i></h4>
-                    <h5 style="font-weight: bold;text-align:center;color:rgb(0,80,30)">@arboles Árboles/año</h5>
+                    <h4 style="font-weight: bold;text-align:center;color:rgb(80,22,0)"><i class="bi bi-cloud-check-fill"></i></h4>
+                    <h5 style="font-weight: bold;text-align:center;color:rgb(80,22,0)">@co2 Tm CO2</h5>
+
                 </div>
             </div>
         </div>
@@ -49,18 +52,29 @@
             <BarChart @ref="graficaIrradiacion"></BarChart>
             <div class="row">
                 <div class="col-sm-6">
-                    <h4 style="font-weight: bold;text-align:center;color:rgb(80,90,0)"><i class="bi bi-lightning-charge"></i></h4>
-                    <h5 style="font-weight: bold;text-align:center;color:rgb(80,90,0)">@media kWh/mes</h5>
+                    <h4 style="font-weight: bold;text-align:center;color:rgb(0,80,30)"><i class="bi bi-tree-fill"></i></h4>
+                    <h5 style="font-weight: bold;text-align:center;color:rgb(0,80,30)">@arboles Árboles/año</h5>
+
                 </div>
                 <div class="col-sm-6">
-                    <h4 style="font-weight: bold;text-align:center;color:rgb(0,50,120)"><i class="bi bi-lightning-charge-fill"></i></h4>
-                    <h5 style="font-weight: bold;text-align:center;color:rgb(0,50,120)">@anual MWh/año</h5>
+                    <h4 style="font-weight: bold;text-align:center;color:rgb(80,90,0)"><i class="bi bi-lightning-charge"></i></h4>
+                    <h5 style="font-weight: bold;text-align:center;color:rgb(80,90,0)">@media kWh/mes</h5>
+
                 </div>
             </div>
         </div>
         <div class="col-sm-4">
-            <BarChart @ref="chartBateria" Class="mt-4 mb-3"></BarChart>
+            <BarChart @ref="chartBateria"></BarChart>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4 style="font-weight: bold;text-align:center;color:rgb(0,50,120)"><i class="bi bi-lightning-charge-fill"></i></h4>
+                    <h5 style="font-weight: bold;text-align:center;color:rgb(0,50,120)">@anual MWh/año</h5>
+                </div>
+
+            </div>
+
         </div>
+
     </div>
 }
 
@@ -77,6 +91,8 @@
     private HttpClient client { get; set; }
 
     private Terreno? Instalacion { get; set; }
+
+    public double PotenciaCargador { get; set; }
 
     private Bateria? Bateria { get; set; }
 
@@ -106,6 +122,8 @@
 
     double[] displaycarga = null;
 
+    double[] displayconsumo = null;
+
     protected override void OnInitialized()
     {
         client = new HttpClient()
@@ -115,10 +133,12 @@
         Instalacion = (Terreno)ObjectTransporter.RetrieveData("Resultado");
         var bateriaSeleccionada = (Bateria)ObjectTransporter.RetrieveData("Bateria");
         string patronSelecionado = (string)ObjectTransporter.RetrieveData("Patron");
+        PotenciaCargador = (double)ObjectTransporter.RetrieveData("PotenciaCargador");
         PatronConsumo = BateriaService.GetPatron(patronSelecionado);
         Bateria = BateriaService.GetBateria(bateriaSeleccionada.Id);
         displayExcedente = CalculoExcedente(bateriaSeleccionada.ConsumoMensual);
-        displaycarga = CargaBateria(displayExcedente, Bateria.Capacidad,ConsumosHorarios(bateriaSeleccionada.ConsumoMensual));
+        displaycarga = CargaBateria(displayExcedente, Bateria.Capacidad,ConsumosHorarios(bateriaSeleccionada.ConsumoMensual,PotenciaCargador));
+        displayconsumo = ConsumosHorarios(bateriaSeleccionada.ConsumoMensual, PotenciaCargador);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -131,9 +151,9 @@
             Instalacion.PotenciaTotal = double.Parse(potencia.Replace(".", ","));
         }
         var datos = TerrenoService.GetDataPVGIS(Instalacion);
-        await RenderizarGraficaEnergia(graficaEnergia, datos, "rgb(0,40,0)", 0, false);
+        await RenderizarGraficaEnergia(graficaEnergia, datos, "rgb(0,180,0)", 0, false);
         await RenderizarGraficaIrradiacion(graficaIrradiacion, datos, "rgb(0,255,0)", false);
-        await RenderizarGraficaBateria(chartBateria, displayExcedente, displaycarga, 175);
+        await RenderizarGraficaBateria(chartBateria, displayExcedente, displaycarga,displayconsumo,175);
         await base.OnAfterRenderAsync(firstRender);
     }
 
@@ -176,11 +196,6 @@
         {
             var json = JObject.Parse(datos);
             var valores = json.SelectToken("outputs").SelectToken("monthly").SelectTokens("fixed").Cast<JArray>();
-
-            //Cuál de las dos variables es la correcta?
-            //Uno de los cálculos es el correcto de media,anual,co2 y árboles, de estos
-            //Qué bloque tiene los cálculos correctos?
-            //
 
             media = (double)json.SelectToken("outputs").SelectToken("totals").SelectToken("fixed").SelectToken("E_m");
             anual = Math.Round(((double)json.SelectToken("outputs").SelectToken("totals").SelectToken("fixed").SelectToken("E_y")) / 1000, 2);
@@ -313,7 +328,7 @@
         }
     }
 
-    private async Task RenderizarGraficaBateria(BarChart chartObjetivo, double[] excedente, double[] carga, int yColor)
+    private async Task RenderizarGraficaBateria(BarChart chartObjetivo, double[] excedente, double[] carga,double[] consumo, int yColor)
     {
         var data = new ChartData
             {
@@ -335,7 +350,15 @@
             {
                 Label = "Carga Batería (kWh)",
                 Data = carga.ToList(),
-                BackgroundColor = new List<string>{ "rgb(0,0,"+33+")" },
+                BackgroundColor = new List<string>{ "rgb(0,220,0)" },
+                CategoryPercentage = 0.8,
+                BarPercentage = 1,
+            },
+            new BarChartDataset()
+            {
+                Label = "Consumo (kWh)",
+                Data = consumo.ToList(),
+                BackgroundColor = new List<string>{ "rgb("+220+",0,0)" },
                 CategoryPercentage = 0.8,
                 BarPercentage = 1,
             }
@@ -426,14 +449,21 @@
         }
         return PorcentajesCarga;
     }
-    private double[] ConsumosHorarios(double ConsumoMensual)
+    private double[] ConsumosHorarios(double ConsumoMensual, double PotenciaCargador)
     {
         double[] ArrayConsumo = PatronConsumo;
         double[] ConsumoHorario = new double[24];
 
         for (int i = 0; i < ArrayConsumo.Length; i++)
         {
-            ConsumoHorario[i] = ArrayConsumo[i] * (ConsumoMensual / 30);
+
+            if(i<6 || i > 22)
+            {
+                ConsumoHorario[i] = ArrayConsumo[i] * (ConsumoMensual / 30) + PotenciaCargador;
+            }
+            else
+                ConsumoHorario[i] = ArrayConsumo[i] * (ConsumoMensual / 30);
+            
         }
         return ConsumoHorario;
     }

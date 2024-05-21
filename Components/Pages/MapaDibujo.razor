@@ -1,4 +1,4 @@
-﻿@page "/mapaPrueba"
+﻿@* @page "/mapaDibujo"
 @rendermode InteractiveServer
 
 <PageTitle>Mapa</PageTitle>
@@ -20,11 +20,16 @@
                 var map, searchManager, dragManager, pin, tools, currentShape, panelSeleccionado;
                 var rotacion = 0;
                 var añadido = false;
+                var anchoReal = 999;
+                var altoReal = 999;
+                var panelesValidos = [];
+
                 function GetMap() {
                     map = new Microsoft.Maps.Map('#myMap', {
                         center: new Microsoft.Maps.Location(42.23282, -8.72264),
                         mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-                        zoom: 12
+                        zoom: 12,
+                        disableStreetside: true
                     });
                     Microsoft.Maps.loadModule(['Microsoft.Maps.AutoSuggest', 'Microsoft.Maps.Search'], function () {
                         //Create instances of the Autosuggest and Search managers.
@@ -57,7 +62,7 @@
                     });
 
                     Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
-                        tools = new Microsoft.Maps.DrawingTools(map);
+                        tools = new Microsoft.Maps.DrawingTools(map);                        
                     });
 
                     Microsoft.Maps.registerModule('DraggableShapesModule', 'DraggableShapesModule.js');
@@ -65,7 +70,7 @@
                         dragManager = new DraggableShapesManager(map);
                         dragManager.makeDraggable(polygon);
                     });
-                }
+                }                
 
                 function setDragMethod(elm) {
                     if (elm.value === 'Pixel') {
@@ -104,57 +109,140 @@
                 }
 
                 $("#generador").bind("click", function () {
-                    var coordenadas = $('#area').val();
-                    var latitud = coordenadas.split(',')[0];
-                    var longitud = coordenadas.split(',')[1];
-                    var width = $("#paneles").find(":selected").attr('w') / 111320 * 1000;
-                    var height = ($("#paneles").find(":selected").attr('h') / 10000) / (111320 * Math.cos(latitud));
-                    console.log(width);
-                    console.log(height);
-                    var polygon = new Microsoft.Maps.Polygon([
-                        [new Microsoft.Maps.Location(latitud - 0.00004, longitud),
-                        new Microsoft.Maps.Location(latitud - 0.000050, longitud),
-                        new Microsoft.Maps.Location(latitud - 0.000050, longitud - 0.000010),
-                        new Microsoft.Maps.Location(latitud - 0.00004, longitud - 0.000010)]]);
-                    Microsoft.Maps.Events.addHandler(polygon, 'mouseup', function (e) {
-                        panelSeleccionado = polygon;
+                    var locations = currentShape.getLocations();
+                    
+                    var minLat = 1000;
+                    var minLon = 1000;
+                    var maxLat = -1000;
+                    var maxLon = -1000;
+                    
+                    locations.forEach(function (location) {
+                        if (location.latitude < minLat) {
+                            minLat = location.latitude;
+                        }
+                        if (location.longitude < minLon) {
+                            minLon = location.longitude;
+                        }                        
+                        if (location.latitude > maxLat) {
+                            maxLat = location.latitude;
+                        }                       
+                        if (location.longitude > maxLon) {
+                            maxLon = location.longitude;
+                        }
                     });
-                    var style = {
-                        fillColor: 'yellow',
-                        strokeColor: 'orange',
-                        strokeThickness: 2
-                    };
-                    polygon.setOptions(style);
-                    dragManager.makeDraggable(polygon);
-                    map.entities.push(polygon);
-                });
+                    
+                    panelesValidos = [];
 
-                $("#marcaArea").bind("click", function () {
-                    if (currentShape != null) {
-                        map.entities.remove(currentShape);
-                        currentShape = null;
+                    var azimuth = Microsoft.Maps.SpatialMath.getHeading(locations[0], locations[1]);
+
+                    var width = $("#paneles").find(":selected").attr('w') / 111111.111111;
+                    var height = $("#paneles").find(":selected").attr('h') / 111111.111111;
+
+                    var offsetLat = minLat+height;
+                    var offsetLon = minLon+width;
+
+                    var polygon = new Microsoft.Maps.Polygon([
+                        [new Microsoft.Maps.Location(offsetLat, offsetLon),
+                        new Microsoft.Maps.Location(offsetLat - height, offsetLon),
+                        new Microsoft.Maps.Location(offsetLat - height, offsetLon - width),
+                        new Microsoft.Maps.Location(offsetLat, offsetLon - width)]]);
+                    Microsoft.Maps.SpatialMath.Geometry.rotate(polygon, azimuth);
+                    ObtenerOffsetReales(polygon);
+                    
+                    offsetLat = minLat+altoReal;
+                    offsetLon = minLon+anchoReal;
+
+                    while (offsetLat <= maxLat) {                        
+                        DibujaPoligono(offsetLat, offsetLon, width, height, azimuth)                       
+                        offsetLon += anchoReal;
+                        if (offsetLon >= maxLon) { 
+                            offsetLon = minLon+anchoReal;
+                            offsetLat += altoReal;
+                        }
                     }
-                    drawPolygon();
-                    añadido = false;
-                    $(this).text('Finalizar (ESC)');
-                    $(this).css('color', 'red');
                 });
 
-                $(document).keyup(function (e) {
-                    if (e.key === "Escape") {
+                function DibujaPoligono(latitud,longitud,width,height,azimuth) {
+                                        var polygon = new Microsoft.Maps.Polygon([
+                        [new Microsoft.Maps.Location(latitud, longitud),
+                        new Microsoft.Maps.Location(latitud - height, longitud),
+                        new Microsoft.Maps.Location(latitud - height, longitud - width),
+                        new Microsoft.Maps.Location(latitud, longitud - width)]]);               
+                        Microsoft.Maps.SpatialMath.Geometry.rotate(polygon, azimuth);
+                    if (Microsoft.Maps.SpatialMath.Geometry.contains(currentShape, polygon)) {
+                        Microsoft.Maps.Events.addHandler(polygon, 'mouseup', function (e) {
+                            panelSeleccionado = polygon;
+                        });
+                        var style = {
+                            fillColor: 'yellow',
+                            strokeColor: 'orange',
+                            strokeThickness: 2
+                        };
+                        polygon.setOptions(style);
+                        dragManager.makeDraggable(polygon);
+                        map.entities.push(polygon);
+                        panelesValidos.push(polygon);
+                    }                    
+                }
+
+                function ObtenerOffsetReales(polygon){                  
+                        var minLatPanel = 1000;
+                        var minLonPanel = 1000;
+                        var maxLatPanel = -1000;
+                        var maxLonPanel = -1000;
+                        var locations = polygon.getLocations();
+                        locations.forEach(function (location) {
+                            if (location.latitude < minLatPanel) {
+                                minLatPanel = location.latitude;
+                            }
+                            if (location.longitude < minLonPanel) {
+                                minLonPanel = location.longitude;
+                            }                        
+                            if (location.latitude > maxLatPanel) {
+                                maxLatPanel = location.latitude;
+                            }                       
+                            if (location.longitude > maxLonPanel) {
+                                maxLonPanel = location.longitude;
+                            }
+                        });
+                       
+                        anchoReal = Math.abs(maxLonPanel - minLonPanel);
+                        altoReal = Math.abs(maxLatPanel - minLatPanel);                                      
+                }
+
+                 $("#marcaArea").bind("click", function () {
+                     if (currentShape != null) {
+                         map.entities.remove(currentShape);
+                         currentShape = null;
+                     }
+                     drawPolygon();
+                     añadido = false;
+                     $(this).text('Finalizar (ESC)');                     
+                     $(this).css('color','red');
+                 });
+
+                $(document).keyup(function(e) {
+                    if (e.key === "Escape") {  
                         if (!añadido) {
-                            tools.finish(currentShape);
-                            map.entities.push(currentShape);
+                            tools.finish(currentShape);  
+                            map.entities.push(currentShape);                                                                                     
                             $("#marcaArea").text('Marcar área');
-                            $("#marcaArea").css('color', 'black');
+                            $("#marcaArea").css('color','black');
 
                             var area = Microsoft.Maps.SpatialMath.Geometry.area(currentShape, Microsoft.Maps.SpatialMath.AreaUnits.SquareMeters);
                             var perimetro = Microsoft.Maps.SpatialMath.Geometry.calculateLength(currentShape, Microsoft.Maps.SpatialMath.DistanceUnits.Kilometers);
                             area = Math.round(area * 100) / 100;
                             perimetro = Math.round(perimetro * 100) / 100;
 
-                            $('#areaTotal').val(area + ' m²');
-                            $('#perimetro').val(perimetro + ' km');
+                            $('#areaTotal').val(area+' m²');
+                            $('#perimetro').val(perimetro+' km');
+
+                            var locations = currentShape.getLocations();
+                            //El azimuth se calcula con la primera y última - 1 localización
+                            console.log(locations);
+
+                            var azimuth = Microsoft.Maps.SpatialMath.getHeading(locations[0], locations[1]);
+                            $('#azimuth').val(azimuth);                            
 
                             añadido = true;
                         }
@@ -173,17 +261,17 @@
                     });
                 }
 
-                $('#rotacionPanel').on('input', function () {
+                $('#rotacionPanel').on('input', function() {
                     Microsoft.Maps.SpatialMath.Geometry.rotate(panelSeleccionado, (Math.ceil($('#rotacionPanel').val() * Math.PI) / 180));
-                });
+                });                   
             </script>
         }
         <button id="generador">Generar forma</button            
         <button id="marcaArea">Marcar área</button>
         <select id="paneles">
-            <option w="20" h="20">Panel 1</option>
-            <option w="25" h="30">Panel 2</option>
-            <option w="30" h="40">Panel 3</option>
+            <option w="2" h="3">Panel 1</option>
+            <option w="2.5" h="3.5">Panel 2</option>
+            <option w="3" h="4">Panel 3</option>
         </select>
 
         <div class="ui-widget">
@@ -204,25 +292,14 @@
         <input type="text" id="perimetro" />
         
         Rotación
-        <input type="range" id="rotacionPanel" min="0" max="360"/>
+        <input type="range" id="rotacionPanel" min="-365" max="365"/>
+        
+        <br/>
+        Azimuth
+        <input type="text" id="azimuth"/>
 
         <div id="myMap" style="height:85vh;width:auto">
         </div>
     </div>
 </div>
-    @code {
-    private bool HaCargado { get; set; } = false;
-
-    protected override Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            HaCargado = true;
-            StateHasChanged();
-        }
-        return base.OnAfterRenderAsync(firstRender);
-    }
-
-
-
-}
+ *@

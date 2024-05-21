@@ -148,6 +148,13 @@
                 <br>
                 <ValidationMessage For="(()=> Instalacion.Azimuth)" />
             </div>
+            <div class="mb-2">
+                <InputCheckbox id="Cargador" name="CargadorEV" class="form-checkbox" @bind-Value="Instalacion.CargadorSeleccionado" />
+                <label class="custom-control-label" for="Estructura">Incluir cargador EV</label>
+            </div>
+            <div class="mb-2">
+                <InputNumber class="form-control" style="background-color:rgba(255, 255, 255, 0.5)" placeholder="Potencia del cargador" id="PotenciaCargador" @bind-Value="PotenciaCargador" />
+            </div>
 
             <div class="mb-2">
                 <InputCheckbox id="Estructura" name="Montaje" class="form-checkbox" @bind-Value="Instalacion.InstalacionEstructura" />
@@ -168,6 +175,9 @@
 
     [SupplyParameterFromForm]
     public Terreno? Instalacion { get; set; }
+
+    [SupplyParameterFromForm]
+    public double PotenciaCargador { get; set; }
 
     [SupplyParameterFromForm]
     private string Patron { get; set; }
@@ -196,7 +206,6 @@
     {
         Instalacion ??= new() { Id = 0, };
         Bateria ??= new() { };
-
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -222,6 +231,7 @@
                 ObjectTransporter.AddData("Resultado", resultado);
                 ObjectTransporter.AddData("Bateria", Bateria);
                 ObjectTransporter.AddData("Patron", Patron);
+                ObjectTransporter.AddData("PotenciaCargador", PotenciaCargador);
                 Redireccionador.NavigateTo($"/graficoEnergia");
             }
             else

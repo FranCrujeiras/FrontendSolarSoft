@@ -1,0 +1,316 @@
+﻿@page "/mapaPrueba"
+@rendermode InteractiveServer
+<PageTitle>Mapa</PageTitle>
+<div class="row" style="height:100%">
+    <div class="col-sm-3">
+        <input class="form-control" type="text" readonly id="latitud" placeholder="Latitud" /><br /><br />
+        <input class="form-control" type="text" readonly id="longitud" placeholder="Longitud" /><br /><br />
+    </div>
+    <div class="col-sm-9">
+        @if (HaCargado)
+        {
+            <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=release&key=ApNN4MSIAG4iPTpntUVuk5AmyX8sE7jdwBGJVgpgixS02SQ36__RTZ6Aope431YN&setLang=es-ES&setMkt=es-ES' async defer></script>
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
+            <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+            <script type="text/javascript">
+                var map, searchManager, dragManager, pin, tools, currentShape, panelSeleccionado;
+                var rotacion = 0;
+                var añadido = false;
+                var anchoReal = 999;
+                var altoReal = 999;
+                var panelesValidos = [];
+
+                function GetMap() {
+                    map = new Microsoft.Maps.Map('#myMap', {
+                        center: new Microsoft.Maps.Location(42.23282, -8.72264),
+                        mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+                        zoom: 12,
+                        disableStreetside: true
+                    });
+                    Microsoft.Maps.loadModule(['Microsoft.Maps.AutoSuggest', 'Microsoft.Maps.Search'], function () {
+                        //Create instances of the Autosuggest and Search managers.
+                        var autosuggestManager = new Microsoft.Maps.AutosuggestManager({ map: map });
+                        searchManager = new Microsoft.Maps.Search.SearchManager(map);
+
+                        //Create a jQuery autocomplete UI widget.
+                        $("#queryTbx").autocomplete({
+                            minLength: 3,   //Don't ask for suggestions until atleast 3 characters have been typed.
+                            source: function (request, response) {
+                                //Get suggestions from the AutosuggestManager.
+                                autosuggestManager.getSuggestions(request.term, response);
+                            },
+                            select: function (event, ui) {
+                                //When a suggestion has been selected.
+
+                                //Check to see if the suggestion has a location value.
+                                if (ui.item.location) {
+                                    suggestionSelected(ui.item);
+                                } else {
+                                    geocodeSuggestion(ui.item);
+                                }
+                            }
+                        }).autocomplete("instance")._renderItem = function (ul, item) {
+                            //Format the displayed suggestion to show the formatted suggestion string.
+                            return $("<li>")
+                                .append("<a>" + item.formattedSuggestion + "</a>")
+                                .appendTo(ul);
+                        };
+                    });
+
+                    Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+                        tools = new Microsoft.Maps.DrawingTools(map);                        
+                    });
+
+                    Microsoft.Maps.registerModule('DraggableShapesModule', 'DraggableShapesModule.js');
+                    Microsoft.Maps.loadModule('DraggableShapesModule', function () {
+                        dragManager = new DraggableShapesManager(map);
+                        dragManager.makeDraggable(polygon);
+                    });
+                }                
+
+                function setDragMethod(elm) {
+                    if (elm.value === 'Pixel') {
+                        dragManager.setDragMethod(DragMethod.pixel);
+                    } else {
+                        dragManager.setDragMethod(DragMethod.geo);
+                    }
+                }
+                function geocodeSuggestion(suggestion) {
+                    var searchRequest = {
+                        where: suggestion.formattedSuggestion,
+                        callback: function (r) {
+                            if (r && r.results && r.results.length > 0) {
+                                suggestion.location = r.results[0].location;
+                                suggestion.bestView = r.results[0].bestView;
+
+                                suggestionSelected(suggestion);
+                            }
+                        },
+                        errorCallback: function (e) {
+                            alert("Sin resultados");
+                        }
+                    };
+                    searchManager.geocode(searchRequest);
+                }
+
+                function suggestionSelected(suggestion) {
+                    map.entities.clear();
+
+                    //Show the suggestion as a pushpin and center map over it.
+                    //pin = new Microsoft.Maps.Pushpin(suggestion.location);
+                    //map.entities.push(pin);
+
+                    $('#area').val(suggestion.location.latitude + ',' + suggestion.location.longitude);
+                    map.setView({ center: suggestion.location, zoom: 20 });
+                }
+
+                $("#generador").bind("click", function () {
+                    var locations = currentShape.getLocations();
+                    
+                    var minLat = 1000;
+                    var minLon = 1000;
+                    var maxLat = -1000;
+                    var maxLon = -1000;
+                    
+                    locations.forEach(function (location) {
+                        if (location.latitude < minLat) {
+                            minLat = location.latitude;
+                        }
+                        if (location.longitude < minLon) {
+                            minLon = location.longitude;
+                        }                        
+                        if (location.latitude > maxLat) {
+                            maxLat = location.latitude;
+                        }                       
+                        if (location.longitude > maxLon) {
+                            maxLon = location.longitude;
+                        }
+                    });
+                    
+                    panelesValidos = [];
+
+                    var azimuth = Microsoft.Maps.SpatialMath.getHeading(locations[0], locations[1]);
+
+                    var width = $("#paneles").find(":selected").attr('w') / 111111.111111;
+                    var height = $("#paneles").find(":selected").attr('h') / 111111.111111;
+
+                    var offsetLat = minLat+height;
+                    var offsetLon = minLon+width;
+
+                    var polygon = new Microsoft.Maps.Polygon([
+                        [new Microsoft.Maps.Location(offsetLat, offsetLon),
+                        new Microsoft.Maps.Location(offsetLat - height, offsetLon),
+                        new Microsoft.Maps.Location(offsetLat - height, offsetLon - width),
+                        new Microsoft.Maps.Location(offsetLat, offsetLon - width)]]);
+                    Microsoft.Maps.SpatialMath.Geometry.rotate(polygon, azimuth);
+                    ObtenerOffsetReales(polygon);
+                    
+                    offsetLat = minLat+altoReal;
+                    offsetLon = minLon+anchoReal;
+
+                    while (offsetLat <= maxLat) {                        
+                        DibujaPoligono(offsetLat, offsetLon, width, height, azimuth)                       
+                        offsetLon += anchoReal;
+                        if (offsetLon >= maxLon) { 
+                            offsetLon = minLon+anchoReal;
+                            offsetLat += altoReal;
+                        }
+                    }
+                });
+
+                function DibujaPoligono(latitud,longitud,width,height,azimuth) {
+                                        var polygon = new Microsoft.Maps.Polygon([
+                        [new Microsoft.Maps.Location(latitud, longitud),
+                        new Microsoft.Maps.Location(latitud - height, longitud),
+                        new Microsoft.Maps.Location(latitud - height, longitud - width),
+                        new Microsoft.Maps.Location(latitud, longitud - width)]]);               
+                        Microsoft.Maps.SpatialMath.Geometry.rotate(polygon, azimuth);
+                    if (Microsoft.Maps.SpatialMath.Geometry.contains(currentShape, polygon)) {
+                        Microsoft.Maps.Events.addHandler(polygon, 'mouseup', function (e) {
+                            panelSeleccionado = polygon;
+                        });
+                        var style = {
+                            fillColor: 'yellow',
+                            strokeColor: 'orange',
+                            strokeThickness: 2
+                        };
+                        polygon.setOptions(style);
+                        dragManager.makeDraggable(polygon);
+                        map.entities.push(polygon);
+                        panelesValidos.push(polygon);
+                    }                    
+                }
+
+                function ObtenerOffsetReales(polygon){                  
+                        var minLatPanel = 1000;
+                        var minLonPanel = 1000;
+                        var maxLatPanel = -1000;
+                        var maxLonPanel = -1000;
+                        var locations = polygon.getLocations();
+                        locations.forEach(function (location) {
+                            if (location.latitude < minLatPanel) {
+                                minLatPanel = location.latitude;
+                            }
+                            if (location.longitude < minLonPanel) {
+                                minLonPanel = location.longitude;
+                            }                        
+                            if (location.latitude > maxLatPanel) {
+                                maxLatPanel = location.latitude;
+                            }                       
+                            if (location.longitude > maxLonPanel) {
+                                maxLonPanel = location.longitude;
+                            }
+                        });
+                       
+                        anchoReal = Math.abs(maxLonPanel - minLonPanel);
+                        altoReal = Math.abs(maxLatPanel - minLatPanel);                                      
+                }
+
+                 $("#marcaArea").bind("click", function () {
+                     if (currentShape != null) {
+                         map.entities.remove(currentShape);
+                         currentShape = null;
+                     }
+                     drawPolygon();
+                     añadido = false;
+                     $(this).text('Finalizar (ESC)');                     
+                     $(this).css('color','red');
+                 });
+
+                $(document).keyup(function(e) {
+                    if (e.key === "Escape") {  
+                        if (!añadido) {
+                            tools.finish(currentShape);  
+                            map.entities.push(currentShape);                                                                                     
+                            $("#marcaArea").text('Marcar área');
+                            $("#marcaArea").css('color','black');
+
+                            var area = Microsoft.Maps.SpatialMath.Geometry.area(currentShape, Microsoft.Maps.SpatialMath.AreaUnits.SquareMeters);
+                            var perimetro = Microsoft.Maps.SpatialMath.Geometry.calculateLength(currentShape, Microsoft.Maps.SpatialMath.DistanceUnits.Kilometers);
+                            area = Math.round(area * 100) / 100;
+                            perimetro = Math.round(perimetro * 100) / 100;
+
+                            $('#areaTotal').val(area+' m²');
+                            $('#perimetro').val(perimetro+' km');
+
+                            var locations = currentShape.getLocations();
+                            //El azimuth se calcula con la primera y última - 1 localización
+                            console.log(locations);
+
+                            var azimuth = Microsoft.Maps.SpatialMath.getHeading(locations[0], locations[1]);
+                            $('#azimuth').val(azimuth);                            
+
+                            añadido = true;
+                        }
+                    }
+                });
+
+                function drawPolygon() {
+                    var style = {
+                        fillColor: 'rgba(231,56,29,0.5)',
+                        strokeColor: 'red',
+                        strokeThickness: 1
+                    };
+                    tools.create(Microsoft.Maps.DrawingTools.ShapeType.polygon, function (s) {
+                        s.setOptions(style);
+                        currentShape = s;
+                    });
+                }
+
+                $('#rotacionPanel').on('input', function() {
+                    Microsoft.Maps.SpatialMath.Geometry.rotate(panelSeleccionado, (Math.ceil($('#rotacionPanel').val() * Math.PI) / 180));
+                });                   
+            </script>
+        }
+        <button id="generador">Generar forma</button            
+        <button id="marcaArea">Marcar área</button>
+        <select id="paneles">
+            <option w="2" h="3">Panel 1</option>
+            <option w="2.5" h="3.5">Panel 2</option>
+            <option w="3" h="4">Panel 3</option>
+        </select>
+
+        <div class="ui-widget">
+            <label for="queryTbx">Your query: </label>
+            <input id="queryTbx">
+        </div>
+
+        <input type="text" id="area" />
+
+        Drag Method:
+        <input type="radio" name="DragMethodRadio" value="Pixel" checked="checked" onchange="setDragMethod(this)" /> Pixel
+        <input type="radio" name="DragMethodRadio" value="Geo" onchange="setDragMethod(this)" /> Geo
+
+        Área
+        <input type="text" id="areaTotal" />
+        
+        Perímetro
+        <input type="text" id="perimetro" />
+        
+        Rotación
+        <input type="range" id="rotacionPanel" min="-365" max="365"/>
+        
+        <br/>
+        Azimuth
+        <input type="text" id="azimuth"/>
+
+        <div id="myMap" style="height:85vh;width:auto">
+        </div>
+    </div>
+</div>
+@code{
+        private bool HaCargado { get; set; } = false;
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            HaCargado = true;
+            StateHasChanged();
+        }
+        return base.OnAfterRenderAsync(firstRender);
+    }
+}

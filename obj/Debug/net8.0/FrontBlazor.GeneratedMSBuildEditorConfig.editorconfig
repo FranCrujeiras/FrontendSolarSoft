@@ -46,8 +46,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xNYXBhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Bubi/Desktop/SolarSoft/FrontBlazor/FrontendSolarSoft/Components/Pages/MapaPrueba.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xNYXBhUHJ1ZWJhLnJhem9y
+[C:/Users/Bubi/Desktop/SolarSoft/FrontBlazor/FrontendSolarSoft/Components/Pages/MapaDibujo.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xNYXBhRGlidWpvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Bubi/Desktop/SolarSoft/FrontBlazor/FrontendSolarSoft/Components/Pages/MapaPrueba 3.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xNYXBhUHJ1ZWJhIDMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Bubi/Desktop/SolarSoft/FrontBlazor/FrontendSolarSoft/Components/Pages/NuevaBateria.razor]

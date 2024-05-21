@@ -44,6 +44,10 @@ namespace FrontBlazor.Components.Models
 
         public int? TotalPaneles { get; set; }
 
+        public double PotenciaCargador { get; set; }
+
+        public bool CargadorSeleccionado { get; set; }
+
         public Terreno() { }
     }
 
